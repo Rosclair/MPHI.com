@@ -35,13 +35,33 @@ function decoderEntites(texte) {
   });
 }
 
+/* Retire un <div id="..."> et son contenu en respectant l'imbrication
+   (contrairement à un regex non-gourmand, s'arrête au bon </div> même si
+   des <div> enfants existent à l'intérieur). */
+function retirerDivParId(corps, id) {
+  var debut = corps.search(new RegExp('<div\\b[^>]*\\bid="' + id + '"[^>]*>', "i"));
+  if (debut === -1) { return corps; }
+  var re = /<div\b[^>]*>|<\/div\s*>/gi;
+  re.lastIndex = debut;
+  var profondeur = 0;
+  var m;
+  while ((m = re.exec(corps))) {
+    profondeur += m[0].charAt(1).toLowerCase() === "d" ? 1 : -1;
+    if (profondeur === 0) { return corps.slice(0, debut) + corps.slice(re.lastIndex); }
+  }
+  return corps;
+}
+
 /* Extrait le texte visible : retire <head>, <script>, <style>, commentaires,
    toutes les balises, normalise les espaces. Ne capture pas ce qui est
    injecté par JS au runtime (catalogue, fiche, grilles) puisqu'on compare
    du HTML statique des deux côtés - c'est cohérent, ces deux zones sont
-   vides dans le HTML brut avant comme après. */
+   vides dans le HTML brut avant comme après. Retire aussi l'écran de
+   chargement (chrome ajouté après la migration, absent de "avant" par
+   construction, comme le sont déjà nav/footer restructurés). */
 function texteVisible(html, options) {
   var corps = html.replace(/^[\s\S]*?<body[^>]*>/i, "").replace(/<\/body>[\s\S]*$/i, "");
+  corps = retirerDivParId(corps, "chargement");
   if (options && options.retirerNavPiedDePage) {
     corps = corps.replace(/<header\b[\s\S]*?<\/header>/i, "");
     corps = corps.replace(/<footer\b[\s\S]*?<\/footer>/i, "");

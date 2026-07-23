@@ -156,6 +156,7 @@ function buildHead(p) {
 /* ---- Page complète -------------------------------------------------- */
 
 function buildPage(pages, p) {
+  var chargement = read(path.join(SRC, "partials", "chargement.html"));
   var annonce = read(path.join(SRC, "partials", "annonce.html"));
   var headerTpl = read(path.join(SRC, "partials", "header.html"));
   var footerTpl = read(path.join(SRC, "partials", "footer.html"));
@@ -180,6 +181,7 @@ function buildPage(pages, p) {
     head,
     "</head>",
     '<body data-page="' + p.id + '">',
+    chargement,
     annonce,
     "",
     header,
@@ -201,6 +203,29 @@ function ensureDir(p) {
   if (!fs.existsSync(p)) { fs.mkdirSync(p, { recursive: true }); }
 }
 
+/* Copie récursive de src/assets/ vers dist/assets/ (images statiques :
+   fond du hero, futures photos de campus, Open Graph...). Pas de
+   dépendance npm : parcours manuel, à l'image du reste de build.js. */
+function copierAssets() {
+  var srcAssets = path.join(SRC, "assets");
+  if (!fs.existsSync(srcAssets)) { return; }
+  var distAssets = path.join(DIST, "assets");
+
+  var copierDossier = function (depuis, vers) {
+    ensureDir(vers);
+    fs.readdirSync(depuis, { withFileTypes: true }).forEach(function (entree) {
+      var depuisChemin = path.join(depuis, entree.name);
+      var versChemin = path.join(vers, entree.name);
+      if (entree.isDirectory()) {
+        copierDossier(depuisChemin, versChemin);
+      } else {
+        fs.copyFileSync(depuisChemin, versChemin);
+      }
+    });
+  };
+  copierDossier(srcAssets, distAssets);
+}
+
 function build() {
   var pages = loadPages();
 
@@ -214,6 +239,7 @@ function build() {
 
   fs.copyFileSync(path.join(SRC, "styles.css"), path.join(DIST, "styles.css"));
   fs.copyFileSync(path.join(SRC, "app.js"), path.join(DIST, "app.js"));
+  copierAssets();
 
   ["formations", "frais", "calendrier"].forEach(function (name) {
     fs.copyFileSync(path.join(SRC, "data", name + ".js"), path.join(DIST, "data", name + ".js"));

@@ -1,4 +1,51 @@
 /* MPHI - comportements partagés (toutes les pages) */
+
+/* Écran de chargement : barre de progression simulée jusqu'à l'événement
+   "load", puis fondu. Filet de sécurité à 4s pour ne jamais bloquer l'accès
+   au contenu (déjà présent et accessible dans le DOM sous l'écran). */
+(function () {
+  "use strict";
+
+  var ecran = document.getElementById("chargement");
+  var barre = document.getElementById("chargementRemplissage");
+  if (!ecran || !barre) { return; }
+
+  var reduireMouvement = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var termine = false;
+
+  function masquer() {
+    if (termine) { return; }
+    termine = true;
+    barre.style.width = "100%";
+    window.setTimeout(function () {
+      ecran.classList.add("masque");
+      window.setTimeout(function () { ecran.hidden = true; }, reduireMouvement ? 0 : 460);
+    }, reduireMouvement ? 0 : 150);
+  }
+
+  if (document.readyState === "complete") { masquer(); return; }
+
+  var progres = 0;
+  var minuteur = window.setInterval(function () {
+    progres += (92 - progres) / 8;
+    barre.style.width = Math.min(progres, 92).toFixed(0) + "%";
+  }, 130);
+
+  window.addEventListener("load", function () {
+    window.clearInterval(minuteur);
+    masquer();
+  });
+  window.setTimeout(masquer, 4000);
+
+  /* Retour avant/arrière (bfcache) : jamais réafficher un écran déjà passé. */
+  window.addEventListener("pageshow", function (e) {
+    if (e.persisted) {
+      window.clearInterval(minuteur);
+      ecran.hidden = true;
+    }
+  });
+})();
+
 (function () {
   "use strict";
 
@@ -41,28 +88,45 @@
     });
   }
 
-  /* Ombre de l'en-tête au défilement */
+  var reduireMouvement = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* Ombre de l'en-tête au défilement, cadencée par requestAnimationFrame
+     (un seul rappel par image, jamais un par événement scroll). */
   var entete = document.querySelector(".entete");
+  var planifie = false;
+  var majDefilement = function () {
+    planifie = false;
+    if (entete) { entete.classList.toggle("ombre", window.scrollY > 8); }
+  };
   if (entete) {
-    var majOmbre = function () {
-      entete.classList.toggle("ombre", window.scrollY > 8);
-    };
-    window.addEventListener("scroll", majOmbre, { passive: true });
-    majOmbre();
+    window.addEventListener("scroll", function () {
+      if (!planifie) {
+        planifie = true;
+        window.requestAnimationFrame(majDefilement);
+      }
+    }, { passive: true });
+    majDefilement();
   }
 
-  /* Apparitions au défilement */
-  var reduireMouvement = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var elements = document.querySelectorAll(".apparait");
+  /* Apparitions au défilement : légèrement anticipées (rootMargin) et mises
+     en cascade entre éléments voisins d'un même conteneur (grilles de cartes,
+     chiffres clés...) pour un effet de vague plutôt qu'un déclenchement
+     groupé, tout en restant un seul déclenchement par élément. */
+  var elements = Array.prototype.slice.call(document.querySelectorAll(".apparait"));
   if (!reduireMouvement && "IntersectionObserver" in window) {
+    var rangsParConteneur = new WeakMap();
     var observateur = new IntersectionObserver(function (entrees) {
       entrees.forEach(function (entree) {
-        if (entree.isIntersecting) {
-          entree.target.classList.add("visible");
-          observateur.unobserve(entree.target);
-        }
+        if (!entree.isIntersecting) { return; }
+        var cible = entree.target;
+        var parent = cible.parentElement;
+        var rang = rangsParConteneur.get(parent) || 0;
+        rangsParConteneur.set(parent, rang + 1);
+        cible.style.transitionDelay = Math.min(rang, 5) * 70 + "ms";
+        cible.classList.add("visible");
+        observateur.unobserve(cible);
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
     elements.forEach(function (el) { observateur.observe(el); });
   } else {
     elements.forEach(function (el) { el.classList.add("visible"); });

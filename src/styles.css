@@ -108,12 +108,37 @@ mark{background:var(--or-300);color:var(--encre);padding:.03em .14em;box-decorat
   .annonce-piste{animation:none;padding-left:0}
 }
 
+/* ---------- Écran de chargement ---------- */
+.chargement{
+  position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;
+  background:#fff;
+  opacity:1;visibility:visible;transition:opacity .45s ease,visibility .45s ease;
+}
+.chargement.masque{opacity:0;visibility:hidden;pointer-events:none}
+.chargement-contenu{display:flex;flex-direction:column;align-items:center;gap:.15rem}
+.chargement-logo{width:56px;height:56px;flex:none;object-fit:contain;animation:chargement-pulse 1.6s ease-in-out infinite}
+.chargement-marque{
+  margin:.75rem 0 0;font-family:var(--f-display);font-weight:800;font-size:1.3rem;
+  letter-spacing:.12em;color:var(--vert-700);
+}
+.chargement-barre{width:180px;height:5px;margin-top:1.1rem;border-radius:999px;background:var(--ligne);overflow:hidden}
+.chargement-remplissage{height:100%;width:0%;background:var(--or-500);border-radius:inherit;transition:width .25s ease}
+@keyframes chargement-pulse{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.08);opacity:.85}
+}
+@media (prefers-reduced-motion:reduce){
+  .chargement{transition:opacity .01s linear}
+  .chargement-logo{animation:none}
+  .chargement-remplissage{transition:none}
+}
+
 /* ---------- En-tête ---------- */
-.entete{position:sticky;top:0;z-index:50;background:rgba(250,249,244,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--ligne)}
+.entete{position:sticky;top:0;z-index:50;background:rgba(250,249,244,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--ligne);transition:box-shadow .25s ease}
 .entete.ombre{box-shadow:0 2px 14px rgba(14,59,33,.08)}
 .entete .conteneur{display:flex;align-items:center;gap:1rem;min-height:72px}
 .marque{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--encre);margin-right:auto}
-.marque svg{width:42px;height:42px;flex:none}
+.marque img{width:42px;height:42px;flex:none;object-fit:contain}
 .marque b{font-family:var(--f-display);font-weight:800;font-size:1.5rem;letter-spacing:.04em;line-height:1;text-transform:uppercase}
 .marque small{display:block;font-size:.64rem;letter-spacing:.06em;color:var(--encre-2);font-weight:600;line-height:1.15;font-family:var(--f-texte)}
 .nav-principale > ul{display:flex;gap:1.4rem;list-style:none;margin:0;padding:0;align-items:center}
@@ -133,8 +158,13 @@ mark{background:var(--or-300);color:var(--encre);padding:.03em .14em;box-decorat
 .menu-deroulant a:hover{background:var(--or-050)}
 .menu-deroulant a[aria-current="page"]{color:var(--vert-700)}
 .entete .btn{padding:.6rem 1rem;font-size:.92rem}
-.bouton-menu{display:none;background:none;border:2px solid var(--vert-700);border-radius:10px;padding:.45rem .55rem;cursor:pointer;color:var(--vert-700)}
+.bouton-menu{display:none;background:none;border:2px solid var(--vert-700);border-radius:10px;padding:.45rem .55rem;cursor:pointer;color:var(--vert-700);transition:background .15s,border-color .15s}
 .bouton-menu svg{width:22px;height:22px}
+.icone-menu .ligne{transform-box:fill-box;transform-origin:50% 50%;transition:transform .28s cubic-bezier(.4,0,.2,1),opacity .2s ease}
+.bouton-menu[aria-expanded="true"] .ligne-haut{transform:translateY(5px) rotate(45deg)}
+.bouton-menu[aria-expanded="true"] .ligne-milieu{opacity:0}
+.bouton-menu[aria-expanded="true"] .ligne-bas{transform:translateY(-5px) rotate(-45deg)}
+@media (prefers-reduced-motion:reduce){.icone-menu .ligne{transition:none}}
 @media (max-width:919px){
   .bouton-menu{display:inline-flex}
   .entete .btn-cta-haut{display:none}
@@ -291,7 +321,8 @@ ol.etapes{list-style:none;counter-reset:etape;margin:2.2rem 0 0;padding:0;displa
 .pied-bas ul{display:flex;gap:1.4rem}
 
 /* ---------- Apparitions ---------- */
-.apparait{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+/* transition-delay posé en ligne par app.js (mise en cascade par conteneur) */
+.apparait{opacity:0;transform:translateY(22px) scale(.98);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
 .apparait.visible{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
   .apparait{opacity:1;transform:none;transition:none}
@@ -336,6 +367,9 @@ ol.etapes{list-style:none;counter-reset:etape;margin:2.2rem 0 0;padding:0;displa
 .carte-info .actions-info{margin-top:auto;padding-top:1rem;display:flex;flex-wrap:wrap;gap:.7rem}
 
 /* ---------- index ---------- */
+/* Fond blanc (par défaut, comme le reste du site) : pas de photo posée en
+   fond du hero. src/assets/hero.jpg reste dans le projet si besoin de la
+   remettre plus tard - il suffira de réintroduire background-image ici. */
 .hero{padding-block:clamp(2.75rem,7vw,5rem);overflow:hidden}
 .hero-grille{display:grid;gap:2.75rem}
 @media (min-width:960px){.hero-grille{grid-template-columns:1.12fr .88fr;align-items:center;gap:3.5rem}}
