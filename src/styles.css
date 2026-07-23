@@ -152,7 +152,7 @@ mark{background:var(--or-300);color:var(--encre);padding:.03em .14em;box-decorat
   .nav-dropdown-bouton{pointer-events:none}
   .nav-dropdown-bouton .chevron{display:none}
   .menu-deroulant{display:block;position:static;border:0;box-shadow:none;background:none;padding:0;margin:.3rem 0 0;min-width:0}
-  .menu-deroulant a{padding:.6rem .15rem .6rem 1.1rem;font-size:1rem}
+  .menu-deroulant a{padding:.6rem .15rem .6rem 1.1rem;font-size:1rem;white-space:normal}
 }
 
 /* ---------- Puces de sélection ---------- */
