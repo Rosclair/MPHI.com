@@ -297,3 +297,14 @@ ol.etapes{list-style:none;counter-reset:etape;margin:2.2rem 0 0;padding:0;displa
 .reseaux{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:.4rem}
 .sans-formulaire{margin-top:1.9rem;color:var(--encre-2);font-size:.95rem;max-width:70ch}
 .sans-formulaire a{font-weight:700}
+
+/* ---------- admissions ---------- */
+@media (min-width:700px){ol.etapes.etapes-quatre{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1040px){ol.etapes.etapes-quatre{grid-template-columns:repeat(4,1fr)}}
+.section-adm{margin-top:clamp(2.75rem,6vw,4.25rem)}
+.section-adm h2{font-size:clamp(1.6rem,3.6vw,2.3rem)}
+.grille-infos{display:grid;gap:1.1rem;margin-top:1.6rem}
+@media (min-width:900px){.grille-infos{grid-template-columns:1fr 1fr}}
+.carte-info h3{font-size:1.25rem;margin-bottom:.4rem}
+.carte-info p{color:var(--encre-2);font-size:.97rem}
+.carte-info .actions-info{margin-top:auto;padding-top:1rem;display:flex;flex-wrap:wrap;gap:.7rem}

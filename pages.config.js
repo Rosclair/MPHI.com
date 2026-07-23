@@ -39,5 +39,23 @@ module.exports = [
     navSectionKey: "contact",
     inHeaderNav: true,
     dataScripts: []
+  },
+  {
+    id: "admissions",
+    out: "admissions.html",
+    title: "Admissions — MPHI · Bafoussam",
+    description: "Rejoindre MPHI à Bafoussam : DQP dès le BEPC, BTS dès le BAC, HND après le GCE A/L, Licence et Master en poursuite. Conditions, dossier en 7 pièces, bourse jusqu'à −50 %.",
+    og: {
+      title: "Admissions — rejoindre MPHI",
+      description: "BEPC ou BAC : vous pouvez vous inscrire. Conditions par diplôme, dossier en 7 pièces, inscription en 4 temps, bourse jusqu'à −50 %.",
+      image: "assets/og/accueil.jpg"
+    },
+    robots: null,
+    jsonld: [],
+    navGroup: "admissions",
+    navLabel: "Vue d'ensemble",
+    navSectionKey: "admissions",
+    inHeaderNav: true,
+    dataScripts: []
   }
 ];
