@@ -669,3 +669,57 @@ body[data-page="frais-et-bourses"] .maj-grille{margin-top:.8rem}
 .evenement .corps h3 .badge{font-size:.68rem}
 .evenement .corps p{margin:0;color:var(--encre-2);font-size:.93rem}
 body[data-page="calendrier"] .maj-grille{margin-top:.9rem}
+
+/* ---------- preinscription ---------- */
+.grille-pre{display:grid;gap:2rem;margin-top:2.2rem}
+@media (min-width:960px){.grille-pre{grid-template-columns:1.1fr .9fr;align-items:start}}
+.formulaire{background:#fff;border:1px solid var(--ligne);border-radius:var(--rayon);padding:clamp(1.3rem,3vw,1.8rem)}
+.obligatoire-note{margin:0 0 1.2rem;font-size:.88rem;color:var(--encre-2)}
+.champ{margin-bottom:1.15rem}
+.champ label{display:block;font-weight:700;font-size:.95rem;margin-bottom:.4rem}
+.champ .indice{display:block;font-weight:400;font-size:.82rem;color:var(--encre-2);margin-top:.15rem}
+.champ input,.champ textarea,.champ select{
+  width:100%;font:inherit;color:var(--encre);background:var(--papier);
+  border:1.5px solid var(--ligne);border-radius:12px;padding:.72rem .95rem;
+}
+.champ textarea{resize:vertical;min-height:84px}
+.champ input::placeholder,.champ textarea::placeholder{color:#8A968D}
+.champ input:focus-visible,.champ textarea:focus-visible,.champ select:focus-visible{outline:3px solid var(--or-500);outline-offset:0;border-color:var(--vert-600)}
+.champ [aria-invalid="true"]{border-color:#B4231F}
+.erreur-champ{margin:.35rem 0 0;font-size:.85rem;font-weight:600;color:#B4231F}
+.deux-colonnes{display:grid;gap:1.15rem}
+@media (min-width:620px){.deux-colonnes{grid-template-columns:1fr 1fr}}
+.deux-colonnes .champ{margin-bottom:0}
+.consentement{display:flex;gap:.7rem;align-items:flex-start;font-size:.9rem;color:var(--encre-2);margin:.3rem 0 1.2rem}
+.consentement input{width:20px;height:20px;flex:none;margin-top:.1rem;accent-color:var(--vert-700)}
+.consentement a{font-weight:700}
+.piege{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.bouton-envoi{width:100%}
+.mode-note{margin:.8rem 0 0;font-size:.85rem;color:var(--encre-2);text-align:center}
+.etat{padding:clamp(1.6rem,4vw,2.4rem);text-align:center}
+.etat h2{font-size:clamp(1.5rem,3.4vw,2.1rem)}
+.etat p{color:var(--encre-2);max-width:52ch;margin-inline:auto}
+.etat .hero-actions{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;margin-top:1.2rem}
+.etat-succes{border-color:var(--vert-500)}
+.etat-erreur{border-color:#B4231F}
+/* .pastille-ok : base commune ici ; taille scopée par page car elle
+   diverge entre preinscription.html (56/28px) et merci.html (64/32px). */
+.pastille-ok{border-radius:50%;background:var(--vert-700);color:#fff;display:inline-flex;align-items:center;justify-content:center}
+body[data-page="preinscription"] .pastille-ok{width:56px;height:56px;margin-bottom:.9rem}
+body[data-page="preinscription"] .pastille-ok svg{width:28px;height:28px}
+.lien-retour{margin-top:1rem;font-size:.9rem}
+.lien-retour button{font:inherit;font-weight:700;color:var(--vert-600);background:none;border:none;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.aparte h2{font-size:1.35rem}
+.apres{list-style:none;counter-reset:pas;margin:1rem 0 0;padding:0;display:grid;gap:.85rem}
+.apres li{counter-increment:pas;display:flex;gap:.85rem;align-items:flex-start}
+.apres li::before{
+  content:counter(pas);flex:none;width:30px;height:30px;border-radius:50%;
+  background:var(--or-500);color:var(--encre);font-family:var(--f-display);font-weight:800;
+  display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem;
+}
+.apres b{display:block}
+.apres p{margin:0;color:var(--encre-2);font-size:.93rem}
+.apres p a{font-weight:700}
+.rassurance{margin-top:1.4rem;border-top:1px dashed var(--ligne);padding-top:1.1rem;display:grid;gap:.55rem}
+.rassurance p{margin:0;display:flex;gap:.55rem;align-items:flex-start;font-size:.92rem;color:var(--encre-2)}
+.rassurance svg{width:18px;height:18px;flex:none;margin-top:.15rem;color:var(--vert-600)}

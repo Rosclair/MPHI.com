@@ -1,0 +1,148 @@
+<main id="contenu">
+  <div class="entete-page">
+    <div class="conteneur">
+      <nav class="fil" aria-label="Fil d'Ariane">
+        <a href="admissions.html">Admissions</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">Préinscription</span>
+      </nav>
+
+      <p class="sur-titre">Rentrée 2026-2027</p>
+      <h1>Se préinscrire en deux minutes</h1>
+      <p class="intro">Nom, téléphone, formation visée — c'est tout. Aucun document à joindre, aucun paiement en ligne&nbsp;: le secrétariat vous recontacte, et le dossier se dépose au campus.</p>
+
+      <div class="grille-pre">
+        <div>
+          <form class="formulaire" id="formulairePre" novalidate>
+            <p class="obligatoire-note">Les champs marqués d'un astérisque (*) sont obligatoires.</p>
+
+            <div class="deux-colonnes" style="margin-bottom:1.15rem">
+              <div class="champ">
+                <label for="nom">Nom complet *</label>
+                <input type="text" id="nom" name="nom" required autocomplete="name" placeholder="Ex. : Kamga Fotso Arielle">
+                <p class="erreur-champ" id="err-nom" hidden>Indiquez votre nom complet.</p>
+              </div>
+              <div class="champ">
+                <label for="telephone">Téléphone / WhatsApp *</label>
+                <input type="tel" id="telephone" name="telephone" required autocomplete="tel" inputmode="tel" placeholder="6XX XX XX XX">
+                <span class="indice">De préférence votre numéro WhatsApp.</span>
+                <p class="erreur-champ" id="err-telephone" hidden>Indiquez un numéro valide (au moins 9 chiffres).</p>
+              </div>
+            </div>
+
+            <div class="champ">
+              <label for="formation">Formation visée *</label>
+              <input type="text" id="formation" name="formation" list="listeFormations" required placeholder="Tapez pour chercher : génie logiciel, sage-femme…">
+              <datalist id="listeFormations"></datalist>
+              <span class="indice">106 spécialités proposées — ou décrivez librement si vous hésitez.</span>
+              <p class="erreur-champ" id="err-formation" hidden>Indiquez la formation qui vous intéresse.</p>
+            </div>
+
+            <div class="deux-colonnes" style="margin-bottom:1.15rem">
+              <div class="champ">
+                <label for="diplome">Diplôme visé</label>
+                <select id="diplome" name="diplome" class="selecteur" style="width:100%">
+                  <option value="Je ne sais pas encore" selected>Je ne sais pas encore</option>
+                  <option value="DQP">DQP — dès le BEPC</option>
+                  <option value="BTS">BTS — dès le BAC</option>
+                  <option value="HND">HND — after A/L or BAC</option>
+                  <option value="Licence / Master">Licence / Master</option>
+                </select>
+              </div>
+              <div class="champ">
+                <label for="campus">Campus souhaité</label>
+                <select id="campus" name="campus" class="selecteur" style="width:100%">
+                  <option value="Indifférent" selected>Indifférent</option>
+                  <option value="A — Carrefour Saint-Thomas">A — Carrefour Saint-Thomas</option>
+                  <option value="B — Bocom Marché B">B — Bocom Marché B</option>
+                  <option value="C — Entrée de la ville">C — Entrée de la ville</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="champ">
+              <label for="email">Email <span class="indice" style="display:inline">(facultatif)</span></label>
+              <input type="email" id="email" name="email" autocomplete="email" placeholder="vous@exemple.com">
+            </div>
+
+            <div class="champ">
+              <label for="message">Une question, une précision&nbsp;? <span class="indice" style="display:inline">(facultatif)</span></label>
+              <textarea id="message" name="message" placeholder="Ex. : je termine mon BAC cette année…"></textarea>
+            </div>
+
+            <input type="text" name="_gotcha" class="piege" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <!-- Mode Web3Forms : décommenter et renseigner la clé
+            <input type="hidden" name="access_key" value="VOTRE_CLE_WEB3FORMS">
+            -->
+
+            <label class="consentement">
+              <input type="checkbox" id="consentement" required>
+              <span>J'accepte que MPHI me recontacte au sujet de ma préinscription. Mes informations ne servent qu'à cela — <a href="confidentialite.html">confidentialité</a>. *</span>
+            </label>
+            <p class="erreur-champ" id="err-consentement" hidden style="margin:-.6rem 0 1rem">Cochez la case pour que nous puissions vous recontacter.</p>
+
+            <button type="submit" class="btn btn-or bouton-envoi" id="boutonEnvoyer" data-lead="preinscription-envoi">Envoyer via WhatsApp</button>
+            <p class="mode-note" id="modeNote">Votre demande s'ouvre dans WhatsApp, prête à envoyer — le secrétariat vous répond pour confirmer.</p>
+          </form>
+
+          <div class="carte etat etat-succes" id="etatSucces" hidden>
+            <span class="pastille-ok" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+            <h2 id="succesTitre">Votre message est prêt dans WhatsApp</h2>
+            <p id="succesTexte">Appuyez sur «&nbsp;Envoyer&nbsp;» dans WhatsApp pour transmettre votre préinscription — le secrétariat vous répond pour confirmer.</p>
+            <div class="hero-actions">
+              <a class="btn btn-plein" id="succesRouvrir" rel="noopener" data-lead="preinscription-rouvrir-whatsapp" href="https://wa.me/237655996913">Rouvrir WhatsApp</a>
+              <a class="btn btn-contour" href="dossier.html" data-lead="preinscription-vers-dossier">Préparer mon dossier</a>
+            </div>
+            <p class="lien-retour"><button type="button" id="retourFormulaire">Modifier ma demande</button></p>
+          </div>
+
+          <div class="carte etat etat-erreur" id="etatErreur" hidden>
+            <h2>L'envoi n'a pas abouti</h2>
+            <p>Le réseau a peut-être flanché — rien n'est perdu&nbsp;: votre demande est prête à partir sur WhatsApp.</p>
+            <div class="hero-actions">
+              <a class="btn btn-plein" id="erreurWhatsApp" rel="noopener" data-lead="preinscription-secours-whatsapp" href="https://wa.me/237655996913">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg>
+                Envoyer sur WhatsApp
+              </a>
+            </div>
+            <p class="lien-retour"><button type="button" id="retourFormulaire2">Revenir au formulaire</button></p>
+          </div>
+        </div>
+
+        <aside class="carte aparte" aria-labelledby="titre-apres">
+          <h2 id="titre-apres">Ce qui se passe ensuite</h2>
+          <ol class="apres">
+            <li>
+              <span><b>Le secrétariat vous recontacte</b>
+              <p>Par WhatsApp ou par appel, pour confirmer votre formation et répondre à vos questions.</p></span>
+            </li>
+            <li>
+              <span><b>Vous préparez le dossier</b>
+              <p>Sept pièces — <a href="dossier.html">la checklist</a> se coche et s'imprime.</p></span>
+            </li>
+            <li>
+              <span><b>Vous déposez au campus</b>
+              <p>Frais d'inscription réglés sur place, <a href="frais-et-bourses.html">bourse jusqu'à −50&nbsp;%</a> appliquée*.</p></span>
+            </li>
+          </ol>
+          <div class="rassurance">
+            <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Aucun document à joindre — tout se dépose au secrétariat.</p>
+            <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Aucun paiement en ligne — tout règlement se fait au campus.</p>
+            <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Vos informations ne servent qu'à vous recontacter.</p>
+          </div>
+          <p class="asterisque">* Selon conditions en vigueur au secrétariat.</p>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" aria-hidden="true"></div>
+</main>
+
+<noscript>
+  <div class="conteneur" style="padding-block:2rem">
+    <p>Le formulaire nécessite JavaScript. Préinscrivez-vous directement sur WhatsApp au 655 99 69 13 en indiquant votre nom, votre téléphone et la formation visée — ou appelez le 697 63 65 86.</p>
+  </div>
+</noscript>

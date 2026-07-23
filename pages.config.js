@@ -245,5 +245,23 @@ module.exports = [
     navSectionKey: "admissions",
     inHeaderNav: true,
     dataScripts: ["calendrier"]
+  },
+  {
+    id: "preinscription",
+    out: "preinscription.html",
+    title: "Préinscription 2026-2027 — MPHI · Bafoussam",
+    description: "Préinscrivez-vous chez MPHI en deux minutes : nom, téléphone, formation visée. Aucun document à joindre, aucun paiement en ligne — le secrétariat vous recontacte.",
+    og: {
+      title: "Préinscription 2026-2027 — MPHI",
+      description: "Deux minutes, aucun document : réservez votre place pour la rentrée, le secrétariat vous recontacte.",
+      image: "assets/og/accueil.jpg"
+    },
+    robots: null,
+    jsonld: [],
+    navGroup: "admissions",
+    navLabel: "Préinscription",
+    navSectionKey: "admissions",
+    inHeaderNav: true,
+    dataScripts: ["formations"]
   }
 ];

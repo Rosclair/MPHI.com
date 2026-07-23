@@ -920,3 +920,184 @@
   datesAttente.hidden = true;
   datesListe.hidden = false;
 })();
+
+/* preinscription.html — validation, message WhatsApp structuré, envoi */
+(function () {
+  "use strict";
+
+  var formulaire = document.getElementById("formulairePre");
+  if (!formulaire) { return; }
+
+  /* ================================================================
+     CONFIGURATION D'ENVOI
+     "" (vide) -> mode WhatsApp : la demande s'ouvre dans WhatsApp.
+     URL Formspree (https://formspree.io/f/XXXX) ou Web3Forms
+     (https://api.web3forms.com/submit + champ access_key) -> envoi
+     direct, avec WhatsApp en secours si le réseau échoue.
+     ================================================================ */
+  var POINT_ENVOI = "";
+
+  var NUMERO_WHATSAPP = "237655996913";
+  var donnees = window.MPHI_FORMATIONS;
+
+  var champNom = document.getElementById("nom");
+  var champTel = document.getElementById("telephone");
+  var champFormation = document.getElementById("formation");
+  var champDiplome = document.getElementById("diplome");
+  var champCampus = document.getElementById("campus");
+  var champEmail = document.getElementById("email");
+  var champMessage = document.getElementById("message");
+  var caseConsentement = document.getElementById("consentement");
+  var bouton = document.getElementById("boutonEnvoyer");
+  var modeNote = document.getElementById("modeNote");
+  var etatSucces = document.getElementById("etatSucces");
+  var etatErreur = document.getElementById("etatErreur");
+
+  var modeEndpoint = POINT_ENVOI !== "";
+
+  /* ----- Libellés selon le mode ----- */
+  if (modeEndpoint) {
+    bouton.textContent = "Envoyer ma préinscription";
+    modeNote.textContent = "Envoi direct au secrétariat — vous êtes recontacté rapidement.";
+  }
+
+  /* ----- Datalist des 106 formations + préremplissage ?f= ----- */
+  function libelleSpec(spec) { return spec.nom + " — " + spec.diplomeNom; }
+
+  if (donnees) {
+    var liste = document.getElementById("listeFormations");
+    donnees.specialites.forEach(function (spec) {
+      var option = document.createElement("option");
+      option.value = libelleSpec(spec);
+      liste.appendChild(option);
+    });
+
+    var slug = new URLSearchParams(window.location.search).get("f");
+    if (slug) {
+      donnees.specialites.forEach(function (spec) {
+        if (spec.slug === slug) {
+          champFormation.value = libelleSpec(spec);
+          champDiplome.value = spec.diplomeNom;
+        }
+      });
+    }
+
+    champFormation.addEventListener("change", function () {
+      var valeur = champFormation.value.trim();
+      donnees.specialites.forEach(function (spec) {
+        if (libelleSpec(spec) === valeur) { champDiplome.value = spec.diplomeNom; }
+      });
+    });
+  }
+
+  /* ----- Validation ----- */
+  function poserErreur(champ, idErreur, invalide) {
+    document.getElementById(idErreur).hidden = !invalide;
+    champ.setAttribute("aria-invalid", invalide ? "true" : "false");
+    return invalide;
+  }
+  function valider() {
+    var premierInvalide = null;
+    if (poserErreur(champNom, "err-nom", champNom.value.trim() === "")) { premierInvalide = premierInvalide || champNom; }
+    var chiffres = champTel.value.replace(/\D/g, "");
+    if (poserErreur(champTel, "err-telephone", chiffres.length < 9)) { premierInvalide = premierInvalide || champTel; }
+    if (poserErreur(champFormation, "err-formation", champFormation.value.trim() === "")) { premierInvalide = premierInvalide || champFormation; }
+    var sansConsentement = !caseConsentement.checked;
+    document.getElementById("err-consentement").hidden = !sansConsentement;
+    if (sansConsentement) { premierInvalide = premierInvalide || caseConsentement; }
+    if (premierInvalide) { premierInvalide.focus(); return false; }
+    return true;
+  }
+
+  /* ----- Message WhatsApp structuré ----- */
+  function composerMessage() {
+    var sautDeLigne = String.fromCharCode(10);
+    var lignes = [
+      "Préinscription MPHI — rentrée 2026-2027",
+      "Nom : " + champNom.value.trim(),
+      "Téléphone : " + champTel.value.trim(),
+      "Formation visée : " + champFormation.value.trim(),
+      "Diplôme : " + champDiplome.value,
+      "Campus souhaité : " + champCampus.value
+    ];
+    if (champEmail.value.trim() !== "") { lignes.push("Email : " + champEmail.value.trim()); }
+    if (champMessage.value.trim() !== "") { lignes.push("Message : " + champMessage.value.trim()); }
+    return lignes.join(sautDeLigne);
+  }
+  function lienWhatsApp() {
+    return "https://wa.me/" + NUMERO_WHATSAPP + "?text=" + encodeURIComponent(composerMessage());
+  }
+  function cibleMerci(via) {
+    var f = "", d = "";
+    var valeur = champFormation.value.trim();
+    if (donnees) {
+      donnees.specialites.forEach(function (spec) {
+        if (libelleSpec(spec) === valeur) { f = spec.slug; d = spec.diplome; }
+      });
+    }
+    if (!d) {
+      d = { "DQP": "dqp", "BTS": "bts", "HND": "hnd", "Licence / Master": "lm" }[champDiplome.value] || "";
+    }
+    var parametres = new URLSearchParams();
+    parametres.set("via", via);
+    if (f) { parametres.set("f", f); }
+    if (d) { parametres.set("d", d); }
+    return "merci.html?" + parametres.toString();
+  }
+  function memoriserLien(lien) {
+    try { window.sessionStorage.setItem("mphi_pre_wa", lien); } catch (e) { /* stockage indisponible */ }
+  }
+
+  /* ----- Bascule des états ----- */
+  function montrerEtat(etat) {
+    formulaire.hidden = etat !== null;
+    etatSucces.hidden = etat !== "succes";
+    etatErreur.hidden = etat !== "erreur";
+    if (etat) { window.scrollTo({ top: 0, behavior: "smooth" }); }
+  }
+  function revenir() { montrerEtat(null); champNom.focus(); }
+  document.getElementById("retourFormulaire").addEventListener("click", revenir);
+  document.getElementById("retourFormulaire2").addEventListener("click", revenir);
+
+  /* ----- Envoi ----- */
+  formulaire.addEventListener("submit", function (evenement) {
+    evenement.preventDefault();
+    if (formulaire.querySelector(".piege").value !== "") { return; } /* anti-spam */
+    if (!valider()) { return; }
+
+    var lien = lienWhatsApp();
+    document.getElementById("succesRouvrir").href = lien;
+    document.getElementById("erreurWhatsApp").href = lien;
+
+    if (!modeEndpoint) {
+      var fenetre = window.open(lien, "_blank", "noopener");
+      try { console.info("[MPHI lead]", "preinscription-whatsapp", champFormation.value.trim()); } catch (e) {}
+      if (fenetre) {
+        memoriserLien(lien);
+        window.location.href = cibleMerci("wa");
+      } else {
+        montrerEtat("succes"); /* fenêtre bloquée : confirmation sur place, lien exact conservé */
+      }
+      return;
+    }
+
+    bouton.disabled = true;
+    bouton.textContent = "Envoi en cours…";
+    var donneesFormulaire = new FormData(formulaire);
+    fetch(POINT_ENVOI, {
+      method: "POST",
+      body: donneesFormulaire,
+      headers: { "Accept": "application/json" }
+    }).then(function (reponse) {
+      if (!reponse.ok) { throw new Error("HTTP " + reponse.status); }
+      memoriserLien(lien);
+      try { console.info("[MPHI lead]", "preinscription-endpoint", champFormation.value.trim()); } catch (e) {}
+      window.location.href = cibleMerci("direct");
+    }).catch(function () {
+      montrerEtat("erreur");
+    }).finally(function () {
+      bouton.disabled = false;
+      bouton.textContent = "Envoyer ma préinscription";
+    });
+  });
+})();
