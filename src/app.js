@@ -805,3 +805,118 @@
   maj.textContent = texteMaj;
   maj.hidden = false;
 })();
+
+/* calendrier.html — rendu automatique dès que data/calendrier.js est rempli */
+(function () {
+  "use strict";
+
+  var datesAttente = document.getElementById("datesAttente");
+  var datesListe = document.getElementById("datesListe");
+  var zoneAVenir = document.getElementById("listeAVenir");
+  var zonePasses = document.getElementById("listePasses");
+  if (!datesAttente || !datesListe || !zoneAVenir || !zonePasses) { return; }
+
+  /* Rendu automatique des dates officielles dès que data/calendrier.js
+     est rempli (MPHI_CALENDRIER non nul). Sinon : état d'attente. */
+  var calendrier = window.MPHI_CALENDRIER;
+  if (!calendrier || !Array.isArray(calendrier.evenements) || calendrier.evenements.length === 0) { return; }
+
+  var MOIS_COURTS = ["jan", "fév", "mar", "avr", "mai", "juin", "juil", "août", "sep", "oct", "nov", "déc"];
+  var CATEGORIES = {
+    inscriptions: { texte: "Inscriptions", classe: "badge badge-en" },
+    rentree: { texte: "Rentrée", classe: "badge badge-dip" },
+    paiement: { texte: "Paiement", classe: "badge" },
+    examen: { texte: "Examens", classe: "badge" }
+  };
+
+  function versDate(chaine) {
+    var d = new Date(chaine + "T00:00:00");
+    return isNaN(d.getTime()) ? null : d;
+  }
+  function dateLongue(d) {
+    try {
+      return d.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+    } catch (e) { return d.toISOString().slice(0, 10); }
+  }
+
+  var evenements = calendrier.evenements.map(function (e) {
+    var debut = versDate(e.date);
+    if (!debut) { return null; }
+    return {
+      debut: debut,
+      fin: e.dateFin ? versDate(e.dateFin) : null,
+      titre: e.titre || "Événement",
+      description: e.description || "",
+      categorie: e.categorie || ""
+    };
+  }).filter(Boolean).sort(function (a, b) { return a.debut - b.debut; });
+
+  if (evenements.length === 0) { return; }
+
+  var aujourdhui = new Date();
+  aujourdhui.setHours(0, 0, 0, 0);
+
+  function carteEvenement(e, passe) {
+    var article = document.createElement("article");
+    article.className = "evenement" + (passe ? " passe" : "");
+
+    var temps = document.createElement("time");
+    temps.setAttribute("datetime", e.debut.toISOString().slice(0, 10));
+    var jour = document.createElement("b");
+    jour.textContent = String(e.debut.getDate());
+    var mois = document.createElement("span");
+    mois.textContent = MOIS_COURTS[e.debut.getMonth()] + " " + e.debut.getFullYear();
+    temps.appendChild(jour);
+    temps.appendChild(mois);
+
+    var corps = document.createElement("div");
+    corps.className = "corps";
+    var titre = document.createElement("h3");
+    titre.textContent = e.titre;
+    var cat = CATEGORIES[e.categorie];
+    if (cat || e.categorie) {
+      var badge = document.createElement("span");
+      badge.className = cat ? cat.classe : "badge";
+      badge.textContent = cat ? cat.texte : e.categorie;
+      titre.appendChild(badge);
+    }
+    corps.appendChild(titre);
+
+    var details = [];
+    if (e.fin) { details.push("Jusqu'au " + dateLongue(e.fin) + "."); }
+    if (e.description) { details.push(e.description); }
+    if (details.length) {
+      var p = document.createElement("p");
+      p.textContent = details.join(" ");
+      corps.appendChild(p);
+    }
+
+    article.appendChild(temps);
+    article.appendChild(corps);
+    return article;
+  }
+
+  var aVenir = [], passes = [];
+  evenements.forEach(function (e) {
+    var reference = e.fin || e.debut;
+    (reference >= aujourdhui ? aVenir : passes).push(e);
+  });
+
+  aVenir.forEach(function (e) { zoneAVenir.appendChild(carteEvenement(e, false)); });
+  passes.forEach(function (e) { zonePasses.appendChild(carteEvenement(e, true)); });
+  document.getElementById("titreAVenir").hidden = aVenir.length === 0;
+  document.getElementById("titrePasses").hidden = passes.length === 0;
+
+  var maj = document.getElementById("majCalendrier");
+  var texteMaj = "Calendrier officiel";
+  if (calendrier.valideLe) {
+    var v = versDate(calendrier.valideLe);
+    if (v) { texteMaj += " — validé le " + dateLongue(v); }
+  }
+  if (calendrier.note) { texteMaj += ". " + calendrier.note; }
+  maj.textContent = texteMaj;
+  maj.hidden = false;
+
+  datesAttente.hidden = true;
+  datesListe.hidden = false;
+})();

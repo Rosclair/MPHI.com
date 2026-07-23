@@ -227,5 +227,23 @@ module.exports = [
     navSectionKey: "admissions",
     inHeaderNav: true,
     dataScripts: ["frais"]
+  },
+  {
+    id: "calendrier",
+    out: "calendrier.html",
+    title: "Calendrier 2026-2027 — MPHI · Bafoussam",
+    description: "Le parcours d'inscription MPHI étape par étape, et les dates officielles de la rentrée 2026-2027 publiées dès leur validation. Demandez les dates sur WhatsApp.",
+    og: {
+      title: "Calendrier 2026-2027 — MPHI",
+      description: "De la préparation du dossier à la rentrée : votre chronologie d'inscription, et les dates officielles dès leur publication.",
+      image: "assets/og/accueil.jpg"
+    },
+    robots: null,
+    jsonld: [],
+    navGroup: "admissions",
+    navLabel: "Calendrier",
+    navSectionKey: "admissions",
+    inHeaderNav: true,
+    dataScripts: ["calendrier"]
   }
 ];

@@ -634,3 +634,38 @@ body[data-page="frais-et-bourses"] .maj-grille{margin-top:.8rem}
 .faq-frais summary::after{content:"+";font-family:var(--f-display);font-weight:800;font-size:1.3rem;color:var(--or-500);line-height:1}
 .faq-frais details[open] summary::after{content:"–"}
 .faq-frais details p{margin:.6rem 0 0;color:var(--encre-2);font-size:.95rem}
+
+/* ---------- calendrier ---------- */
+.chrono{list-style:none;margin:2.2rem 0 0;padding:0;position:relative;max-width:640px}
+.chrono::before{content:"";position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:var(--ligne)}
+.chrono li{position:relative;padding:0 0 1.7rem 2.5rem}
+.chrono li:last-child{padding-bottom:0}
+.chrono li::before{
+  content:"";position:absolute;left:4px;top:3px;width:16px;height:16px;border-radius:50%;
+  background:var(--or-500);border:3px solid var(--papier);box-shadow:0 0 0 1px var(--ligne);
+}
+.chrono li.maintenant::before{background:var(--vert-700)}
+.chrono .quand{display:block;font-size:.76rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--vert-600);margin-bottom:.1rem}
+.chrono h3{font-size:1.15rem;margin:0 0 .15rem}
+.chrono p{margin:0;color:var(--encre-2);font-size:.95rem}
+.chrono p a{font-weight:700}
+.section-cal{margin-top:clamp(2.75rem,6vw,4.25rem);scroll-margin-top:96px}
+.section-cal h2{font-size:clamp(1.6rem,3.6vw,2.3rem)}
+/* .grille-attente de base déjà fusionnée (cf. section frais-et-bourses) ;
+   .actions-attente est l'enfant propre à calendrier.html. */
+.grille-attente .actions-attente{margin-top:1rem;display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
+.titre-groupe-dates{margin:1.6rem 0 .1rem;font-size:.82rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--encre-2)}
+.liste-dates{display:grid;gap:.7rem;margin-top:.7rem}
+.evenement{display:flex;gap:1rem;align-items:flex-start;background:#fff;border:1px solid var(--ligne);border-radius:12px;padding:1rem 1.15rem}
+.evenement.passe{opacity:.55}
+.evenement time{
+  flex:none;min-width:88px;text-align:center;background:var(--papier);
+  border:1px solid var(--ligne);border-radius:10px;padding:.5rem .55rem;
+  font-family:var(--f-display);font-weight:800;line-height:1;
+}
+.evenement time b{display:block;font-size:1.7rem;color:var(--vert-700)}
+.evenement time span{display:block;font-family:var(--f-texte);font-weight:700;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;color:var(--encre-2);margin-top:.2rem}
+.evenement .corps h3{font-size:1.08rem;margin:0 0 .2rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.evenement .corps h3 .badge{font-size:.68rem}
+.evenement .corps p{margin:0;color:var(--encre-2);font-size:.93rem}
+body[data-page="calendrier"] .maj-grille{margin-top:.9rem}
