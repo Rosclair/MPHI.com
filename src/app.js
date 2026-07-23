@@ -83,3 +83,28 @@
   var annee = document.getElementById("annee");
   if (annee) { annee.textContent = String(new Date().getFullYear()); }
 })();
+
+/* campus.html — cartes Google Maps à la demande */
+(function () {
+  "use strict";
+
+  /* Cartes Google Maps à la demande : on ne charge l'iframe qu'au clic. */
+  document.querySelectorAll(".btn-carte").forEach(function (bouton) {
+    bouton.addEventListener("click", function () {
+      var zone = bouton.closest(".zone-carte");
+      var requete = bouton.getAttribute("data-requete");
+      var campus = bouton.getAttribute("data-campus");
+      if (!zone || !requete) { return; }
+
+      var cadre = document.createElement("iframe");
+      cadre.src = "https://maps.google.com/maps?q=" + encodeURIComponent(requete) + "&z=16&output=embed";
+      cadre.title = "Carte — Campus " + campus + " MPHI, Bafoussam";
+      cadre.loading = "lazy";
+      cadre.referrerPolicy = "no-referrer-when-downgrade";
+      cadre.setAttribute("allowfullscreen", "");
+
+      zone.innerHTML = "";
+      zone.appendChild(cadre);
+    });
+  });
+})();

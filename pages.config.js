@@ -90,5 +90,23 @@ module.exports = [
     navSectionKey: null,
     inHeaderNav: false,
     dataScripts: []
+  },
+  {
+    id: "campus",
+    out: "campus.html",
+    title: "Nos campus à Bafoussam — MPHI",
+    description: "Les trois campus MPHI à Bafoussam : Carrefour Saint-Thomas, Bocom Marché B et l'entrée de la ville. Itinéraires, cartes et dépôt des dossiers d'inscription.",
+    og: {
+      title: "Nos campus à Bafoussam — MPHI",
+      description: "Trois adresses dans Bafoussam, un secrétariat sur chaque site pour vos renseignements et le dépôt du dossier d'inscription.",
+      image: "assets/og/accueil.jpg"
+    },
+    robots: null,
+    jsonld: [],
+    navGroup: "principal",
+    navLabel: "Campus",
+    navSectionKey: "campus",
+    inHeaderNav: true,
+    dataScripts: []
   }
 ];

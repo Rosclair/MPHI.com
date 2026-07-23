@@ -407,3 +407,27 @@ ol.etapes{list-style:none;counter-reset:etape;margin:2.2rem 0 0;padding:0;displa
 .cta-finale h2{color:#fff}
 .cta-finale p{color:#DCE6DA;font-size:1.08rem}
 .cta-finale .hero-actions{justify-content:center}
+
+/* ---------- campus ---------- */
+.sauts{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.4rem}
+.campus-bloc{border-top:1px solid var(--ligne);padding-block:clamp(2.75rem,6vw,4.5rem);scroll-margin-top:96px}
+.campus-grille{display:grid;gap:2rem}
+@media (min-width:900px){
+  .campus-grille{grid-template-columns:1fr 1fr;gap:2.75rem;align-items:start}
+  .campus-bloc.inverse .campus-visuel-colonne{order:2}
+}
+.campus-visuel.grand{aspect-ratio:4/3;border:1px solid var(--ligne);border-radius:var(--rayon)}
+.campus-infos h2{font-size:clamp(1.8rem,4vw,2.6rem)}
+.campus-infos .description{color:var(--encre-2)}
+.actions-campus{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.3rem}
+.zone-carte{margin-top:1.5rem;border:1px solid var(--ligne);border-radius:var(--rayon);overflow:hidden;background:#fff}
+.zone-carte .facade{aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;padding:1.25rem;text-align:center}
+.facade p{margin:0;color:var(--encre-2);font-size:.92rem;max-width:40ch}
+.zone-carte iframe{display:block;width:100%;aspect-ratio:16/9;border:0}
+.apropos-carte{margin:.55rem 0 0;font-size:.82rem;color:var(--encre-2)}
+.note-acces{margin-top:.5rem;color:var(--encre-2);font-size:.95rem}
+/* .entete-page{padding-bottom:...} local à campus.html supprimé : redondant
+   avec .entete-page{padding-block:...} de la base commune, même valeur. */
+/* .bande-aide{margin-block:...} local à campus.html : divergent de l'usage
+   de .bande-aide sur contact.html (qui n'a pas cette marge) → scopé. */
+body[data-page="campus"] .bande-aide{margin-block:clamp(2.75rem,6vw,4.5rem)}
