@@ -43,10 +43,21 @@ function loadPages() {
   return require(PAGES_CONFIG_PATH);
 }
 
+/* Utilisés uniquement en secours pendant la migration incrémentale (une page
+   à la fois) : le header/footer référencent toutes les pages "principal"/
+   "admissions" quelle que soit la page en cours de build. Une fois les 13
+   pages migrées, pages.config.js contient tout et ce secours ne sert plus. */
+var NAV_LABEL_FALLBACK = {
+  index: "Accueil", formations: "Formations", campus: "Campus", contact: "Contact",
+  admissions: "Vue d'ensemble", dossier: "Constitution du dossier",
+  "frais-et-bourses": "Frais et bourses", calendrier: "Calendrier",
+  preinscription: "Préinscription", faq: "Questions fréquentes"
+};
+
 function findPage(pages, id) {
   var p = pages.filter(function (x) { return x.id === id; })[0];
-  if (!p) { throw new Error("pages.config.js : entrée manquante pour id=\"" + id + "\""); }
-  return p;
+  if (p) { return p; }
+  return { id: id, out: id + ".html", navLabel: NAV_LABEL_FALLBACK[id] || id, navSectionKey: null };
 }
 
 function navAttr(active) {

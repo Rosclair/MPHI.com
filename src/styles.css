@@ -271,3 +271,29 @@ ol.etapes{list-style:none;counter-reset:etape;margin:2.2rem 0 0;padding:0;displa
   .apparait{opacity:1;transform:none;transition:none}
   .carte,.btn,.carte-filiere h3 span{transition:none}
 }
+
+/* ============================================================
+   Règles spécifiques par page (issues des <style> locaux fusionnés).
+   Sans collision : fusionnées telles quelles. En cas de collision de
+   sélecteur entre pages, la règle commune reste ci-dessus et seule la
+   valeur divergente est scopée sous body[data-page="…"].
+   ============================================================ */
+
+/* ---------- contact ---------- */
+.canaux{display:grid;gap:1.1rem;margin-top:2.2rem}
+@media (min-width:900px){
+  .canaux{grid-template-columns:1.15fr .85fr}
+  .canal-wa{grid-row:span 2}
+}
+.canal h2{font-size:1.3rem;display:flex;align-items:center;gap:.55rem;margin-bottom:.2rem}
+.canal h2 svg{width:20px;height:20px;flex:none;color:var(--vert-600)}
+.gros-numero{font-family:var(--f-display);font-weight:800;font-size:clamp(1.9rem,4.5vw,2.6rem);line-height:1;letter-spacing:.02em;color:var(--vert-700);margin:.35rem 0 .55rem}
+.canal .note{color:var(--encre-2);font-size:.93rem;margin:0 0 1.05rem}
+.tels{list-style:none;margin:.3rem 0 .9rem;padding:0;display:grid;gap:.5rem}
+.tels a{font-weight:700;font-size:1.12rem;text-decoration:none}
+.canal .mail{font-weight:700;font-size:1.02rem;word-break:break-all}
+.intents{margin-top:1.4rem;border-top:1px dashed var(--ligne);padding-top:1.1rem}
+.intents > p{font-size:.9rem;font-weight:700;margin:0 0 .6rem}
+.reseaux{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:.4rem}
+.sans-formulaire{margin-top:1.9rem;color:var(--encre-2);font-size:.95rem;max-width:70ch}
+.sans-formulaire a{font-weight:700}
