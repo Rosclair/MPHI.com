@@ -453,3 +453,30 @@ body[data-page="campus"] .bande-aide{margin-block:clamp(2.75rem,6vw,4.5rem)}
 .faq-vide.visible{display:block}
 .faq-vide h2{margin-bottom:.3rem}
 .faq-vide p{color:var(--encre-2);max-width:44ch;margin-inline:auto}
+
+/* ---------- 404 ---------- */
+.bloc-404{max-width:680px;margin-inline:auto;padding-block:clamp(2.75rem,7vw,5rem);text-align:center}
+.code-404{font-family:var(--f-display);font-weight:800;font-size:clamp(5.5rem,20vw,9rem);line-height:.9;color:var(--vert-700);letter-spacing:.02em}
+.code-404 span{color:var(--or-500)}
+.pilule{margin:1.1rem 0 0}
+.bloc-404 h1{font-size:clamp(1.9rem,5vw,2.8rem);margin-top:.6rem}
+.bloc-404 .intro{margin-inline:auto}
+.actions-404{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;margin-top:1.7rem}
+.recherche-404{margin-top:2.6rem;text-align:left;background:#fff;border:1px solid var(--ligne);border-radius:var(--rayon);padding:1.3rem}
+.recherche-404 label{display:block;font-weight:700;font-size:.95rem;margin-bottom:.55rem}
+.recherche-404 input{
+  width:100%;font:inherit;color:var(--encre);background:var(--papier);
+  border:1.5px solid var(--ligne);border-radius:12px;padding:.72rem 1rem;
+}
+.recherche-404 input::placeholder{color:#8A968D}
+.recherche-404 input:focus-visible{outline:3px solid var(--or-500);outline-offset:0;border-color:var(--vert-600)}
+.suggestions{margin-top:.75rem;display:grid;gap:.45rem}
+.suggestion{display:block;padding:.7rem .85rem;border:1px solid var(--ligne);border-radius:10px;text-decoration:none;transition:border-color .15s,background .15s}
+.suggestion:hover{border-color:var(--vert-600);background:var(--papier)}
+.suggestion b{display:block;color:var(--encre)}
+.suggestion small{color:var(--encre-2);font-size:.84rem}
+.aucune{margin:.75rem 0 0;font-size:.92rem;color:var(--encre-2)}
+.aucune a{font-weight:700}
+.tout-catalogue{margin:.9rem 0 0;font-size:.95rem}
+.tout-catalogue a{font-weight:700;text-decoration:none}
+.tout-catalogue a::after{content:" →"}

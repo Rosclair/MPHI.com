@@ -141,5 +141,19 @@ module.exports = [
     navSectionKey: "admissions",
     inHeaderNav: true,
     dataScripts: []
+  },
+  {
+    id: "404",
+    out: "404.html",
+    title: "Page introuvable — MPHI · Bafoussam",
+    description: "Cette page n'existe pas ou n'est pas encore en ligne. Retrouvez votre formation dans le catalogue MPHI ou écrivez-nous sur WhatsApp.",
+    og: null,
+    robots: "noindex",
+    jsonld: [],
+    navGroup: null,
+    navLabel: null,
+    navSectionKey: null,
+    inHeaderNav: false,
+    dataScripts: ["formations"]
   }
 ];

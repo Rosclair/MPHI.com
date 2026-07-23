@@ -208,3 +208,95 @@
 
   filtrer();
 })();
+
+/* 404.html — page prévue reconnue depuis l'URL + recherche instantanée */
+(function () {
+  "use strict";
+
+  var titre404 = document.getElementById("titre404");
+  if (!titre404) { return; }
+
+  /* ----- Pages prévues (Lots 2-3) : retirer chaque entrée à sa livraison ----- */
+  var PAGES_PREVUES = {
+    "orienteur": {
+      titre: "Le test d'orientation arrive",
+      texte: "En attendant, parcourez le catalogue : filtres par diplôme, par filière et recherche par nom.",
+      cta: { texte: "Explorer le catalogue", href: "formations.html" }
+    },
+    "institut": {
+      titre: "La présentation de l'institut arrive",
+      texte: "Autorisation MINESUP, campus, chiffres clés : l'essentiel est déjà sur la page d'accueil.",
+      cta: { texte: "Retour à l'accueil", href: "index.html" }
+    },
+    "mentions-legales": {
+      titre: "Les mentions légales arrivent",
+      texte: "Cette page sera publiée avec la mise en ligne officielle du site.",
+      cta: { texte: "Retour à l'accueil", href: "index.html" }
+    },
+    "confidentialite": {
+      titre: "La politique de confidentialité arrive",
+      texte: "Cette page sera publiée avec la mise en ligne officielle du site.",
+      cta: { texte: "Retour à l'accueil", href: "index.html" }
+    }
+  };
+
+  /* ----- Détecter la page demandée (fonctionne une fois hébergé) ----- */
+  var segments = window.location.pathname.split("/").filter(function (s) { return s !== ""; });
+  var dernier = segments.length ? segments[segments.length - 1] : "";
+  var nomPage = dernier.replace(/\.html?$/i, "").toLowerCase();
+  var prevue = Object.prototype.hasOwnProperty.call(PAGES_PREVUES, nomPage) ? PAGES_PREVUES[nomPage] : null;
+
+  if (prevue) {
+    document.getElementById("pilule").hidden = false;
+    titre404.textContent = prevue.titre;
+    document.getElementById("texte404").textContent = prevue.texte;
+    var cta = document.getElementById("cta404");
+    cta.textContent = prevue.cta.texte;
+    cta.href = prevue.cta.href;
+    if (prevue.cta.href.indexOf("https://wa.me/") === 0) { cta.setAttribute("rel", "noopener"); }
+    cta.setAttribute("data-lead", "404-prevu-" + nomPage);
+    document.title = prevue.titre + " — MPHI · Bafoussam";
+  }
+
+  /* ----- Recherche instantanée dans les formations ----- */
+  var donnees = window.MPHI_FORMATIONS;
+  var bloc = document.getElementById("blocRecherche");
+  if (donnees && bloc) {
+    bloc.hidden = false;
+    var champ = document.getElementById("recherche404");
+    var zone = document.getElementById("suggestions404");
+    var aucune = document.getElementById("aucune404");
+
+    var marquesDiacritiques404 = new RegExp("[" + String.fromCharCode(0x0300) + "-" + String.fromCharCode(0x036f) + "]", "g");
+    function normaliser(texte) {
+      return String(texte).normalize("NFD").replace(marquesDiacritiques404, "").toLowerCase();
+    }
+
+    champ.addEventListener("input", function () {
+      var q = normaliser(champ.value.trim());
+      zone.innerHTML = "";
+      aucune.hidden = true;
+      if (q.length < 2) { return; }
+
+      var resultats = donnees.specialites.filter(function (s) {
+        return normaliser(s.nom + " " + s.filiereNom).indexOf(q) !== -1;
+      }).slice(0, 6);
+
+      if (resultats.length === 0) { aucune.hidden = false; return; }
+
+      resultats.forEach(function (s) {
+        var lien = document.createElement("a");
+        lien.className = "suggestion";
+        lien.href = "fiche.html?f=" + encodeURIComponent(s.slug);
+        lien.setAttribute("data-lead", "404-suggestion");
+        var nom = document.createElement("b");
+        nom.textContent = s.nom;
+        var meta = document.createElement("small");
+        meta.textContent = s.diplomeNom + " · " + s.filiereNom;
+        lien.appendChild(nom);
+        lien.appendChild(meta);
+        zone.appendChild(lien);
+      });
+    });
+  }
+})();
