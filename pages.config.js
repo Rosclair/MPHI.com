@@ -5,7 +5,12 @@
    Ajouter une page = ajouter une entrée ici + un fichier dans src/pages/. */
 "use strict";
 
-module.exports = [
+/* URL absolue de production (sans slash final), utilisée pour og:url,
+   og:image, twitter:image et le sitemap - les crawlers WhatsApp/Facebook
+   exigent des URLs absolues. À remplacer avant mise en ligne. */
+var SITE_URL = "<URL_A_REMPLACER>";
+
+var pages = [
   {
     id: "contact",
     out: "contact.html",
@@ -279,3 +284,6 @@ module.exports = [
     dataScripts: ["formations"]
   }
 ];
+
+pages.SITE_URL = SITE_URL;
+module.exports = pages;

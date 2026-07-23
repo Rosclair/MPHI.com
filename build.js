@@ -122,18 +122,28 @@ function buildFooterAdmissions(pages) {
 
 /* ---- <head> ------------------------------------------------------- */
 
-function buildHead(p) {
+function absolutiser(siteUrl, chemin) {
+  return /^https?:\/\//i.test(chemin) ? chemin : siteUrl + "/" + chemin;
+}
+
+function buildHead(p, siteUrl) {
   var robots = p.robots ? '<meta name="robots" content="' + escAttr(p.robots) + '">' : "";
 
   var og = "";
   if (p.og) {
+    var image = absolutiser(siteUrl, p.og.image);
     og = [
       '<meta property="og:type" content="website">',
       '<meta property="og:locale" content="fr_FR">',
       '<meta property="og:site_name" content="MPHI - Monga Polytechnic Higher Institute">',
       '<meta property="og:title" content="' + escAttr(p.og.title) + '">',
       '<meta property="og:description" content="' + escAttr(p.og.description) + '">',
-      '<meta property="og:image" content="' + escAttr(p.og.image) + '">'
+      '<meta property="og:image" content="' + escAttr(image) + '">',
+      '<meta property="og:url" content="' + escAttr(absolutiser(siteUrl, p.out)) + '">',
+      '<meta name="twitter:card" content="summary_large_image">',
+      '<meta name="twitter:title" content="' + escAttr(p.og.title) + '">',
+      '<meta name="twitter:description" content="' + escAttr(p.og.description) + '">',
+      '<meta name="twitter:image" content="' + escAttr(image) + '">'
     ].join("\n");
   }
 
@@ -166,7 +176,7 @@ function buildPage(pages, p) {
     FOOTER_LE_SITE: buildFooterLeSite(pages),
     FOOTER_ADMISSIONS: buildFooterAdmissions(pages)
   });
-  var head = buildHead(p);
+  var head = buildHead(p, pages.SITE_URL);
 
   var scripts = (p.dataScripts || [])
     .map(function (s) { return '<script src="data/' + s + '.js"></script>'; })
