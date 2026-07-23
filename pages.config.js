@@ -155,5 +155,23 @@ module.exports = [
     navSectionKey: null,
     inHeaderNav: false,
     dataScripts: ["formations"]
+  },
+  {
+    id: "dossier",
+    out: "dossier.html",
+    title: "Constitution du dossier d'inscription — MPHI · Bafoussam",
+    description: "Les 7 pièces du dossier d'inscription MPHI : demande d'admission, fiche d'inscription, CNI et acte de naissance, diplôme, photos 4×4, reçu, carton. Cochez, imprimez, déposez au campus.",
+    og: {
+      title: "Constituer votre dossier d'inscription — MPHI",
+      description: "Sept pièces, aucune surprise. La checklist officielle à cocher et à imprimer avant de déposer votre dossier au campus.",
+      image: "assets/og/accueil.jpg"
+    },
+    robots: null,
+    jsonld: [],
+    navGroup: "admissions",
+    navLabel: "Constitution du dossier",
+    navSectionKey: "admissions",
+    inHeaderNav: true,
+    dataScripts: []
   }
 ];

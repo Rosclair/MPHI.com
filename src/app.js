@@ -300,3 +300,124 @@
     });
   }
 })();
+
+/* dossier.html — checklist persistée (localStorage) + impression */
+(function () {
+  "use strict";
+
+  var CLE_STOCKAGE = "mphi_dossier_v1";
+  var cases = Array.prototype.slice.call(document.querySelectorAll(".piece input[type=checkbox]"));
+  var puces = Array.prototype.slice.call(document.querySelectorAll(".profil .chip"));
+  var compte = document.getElementById("comptePieces");
+  var barre = document.getElementById("jaugeBarre");
+  var toutDecocher = document.getElementById("toutDecocher");
+  var titreDiplome = document.getElementById("pieceDiplomeTitre");
+  var noteDiplome = document.getElementById("pieceDiplomeNote");
+  var boutonImprimer = document.getElementById("imprimer");
+  var dateImpression = document.getElementById("dateImpression");
+  if (!compte || !barre || !toutDecocher || !boutonImprimer) { return; }
+
+  var TEXTES_DIPLOME = {
+    dqp:     { titre: "Photocopie du BEPC", note: "Le parcours DQP est accessible dès le BEPC." },
+    bts:     { titre: "Photocopie du BAC", note: "Le BTS est accessible dès le BAC." },
+    hnd:     { titre: "Photocopie du GCE A/L ou du BAC", note: "Cursus anglophone HND." },
+    indecis: { titre: "Photocopie du diplôme requis", note: "Selon la formation visée : BEPC (DQP), BAC (BTS) ou GCE A/L (HND)." }
+  };
+
+  var etat = { profil: "indecis", pieces: [] };
+
+  /* ----- Stockage local, toujours protégé ----- */
+  function lireStockage() {
+    try {
+      var brut = window.localStorage.getItem(CLE_STOCKAGE);
+      return brut ? JSON.parse(brut) : null;
+    } catch (e) { return null; }
+  }
+  function ecrireStockage() {
+    try {
+      window.localStorage.setItem(CLE_STOCKAGE, JSON.stringify(etat));
+    } catch (e) { /* stockage indisponible : la page reste fonctionnelle */ }
+  }
+
+  /* ----- État initial : stockage puis paramètre d'URL ----- */
+  (function initialiser() {
+    var sauvegarde = lireStockage();
+    if (sauvegarde) {
+      if (TEXTES_DIPLOME[sauvegarde.profil]) { etat.profil = sauvegarde.profil; }
+      if (Array.isArray(sauvegarde.pieces)) { etat.pieces = sauvegarde.pieces; }
+    }
+    var profilURL = new URLSearchParams(window.location.search).get("profil");
+    if (profilURL && TEXTES_DIPLOME[profilURL]) { etat.profil = profilURL; }
+  })();
+
+  function synchroniserURL() {
+    var url = window.location.pathname
+      + (etat.profil !== "indecis" ? "?profil=" + etat.profil : "");
+    window.history.replaceState(null, "", url);
+  }
+
+  /* ----- Rendu ----- */
+  function rendre() {
+    puces.forEach(function (puce) {
+      puce.setAttribute("aria-pressed", puce.getAttribute("data-profil") === etat.profil ? "true" : "false");
+    });
+    var textes = TEXTES_DIPLOME[etat.profil];
+    titreDiplome.textContent = textes.titre;
+    noteDiplome.textContent = textes.note;
+
+    var total = cases.length;
+    var prets = 0;
+    cases.forEach(function (caseCoche) {
+      var cochee = etat.pieces.indexOf(caseCoche.getAttribute("data-piece")) !== -1;
+      caseCoche.checked = cochee;
+      caseCoche.closest(".piece").classList.toggle("prete", cochee);
+      if (cochee) { prets += 1; }
+    });
+
+    compte.innerHTML = "<b>" + prets + "</b>/" + total + " pièces prêtes";
+    barre.style.width = (prets / total * 100) + "%";
+    toutDecocher.hidden = prets === 0;
+  }
+
+  /* ----- Écouteurs ----- */
+  cases.forEach(function (caseCoche) {
+    caseCoche.addEventListener("change", function () {
+      var id = caseCoche.getAttribute("data-piece");
+      var position = etat.pieces.indexOf(id);
+      if (caseCoche.checked && position === -1) { etat.pieces.push(id); }
+      if (!caseCoche.checked && position !== -1) { etat.pieces.splice(position, 1); }
+      rendre();
+      ecrireStockage();
+    });
+  });
+
+  puces.forEach(function (puce) {
+    puce.addEventListener("click", function () {
+      etat.profil = puce.getAttribute("data-profil");
+      rendre();
+      ecrireStockage();
+      synchroniserURL();
+    });
+  });
+
+  toutDecocher.addEventListener("click", function () {
+    etat.pieces = [];
+    rendre();
+    ecrireStockage();
+  });
+
+  boutonImprimer.addEventListener("click", function () { window.print(); });
+
+  /* ----- Date sur la version imprimée ----- */
+  if (dateImpression) {
+    try {
+      dateImpression.textContent = new Date().toLocaleDateString("fr-FR",
+        { day: "numeric", month: "long", year: "numeric" });
+    } catch (e) {
+      dateImpression.textContent = new Date().toISOString().slice(0, 10);
+    }
+  }
+
+  rendre();
+  synchroniserURL();
+})();

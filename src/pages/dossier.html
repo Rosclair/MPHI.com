@@ -1,0 +1,143 @@
+<main id="contenu">
+  <div class="entete-page">
+    <div class="conteneur">
+      <nav class="fil" aria-label="Fil d'Ariane">
+        <a href="admissions.html">Admissions</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">Constitution du dossier</span>
+      </nav>
+
+      <p class="sur-titre">Admissions</p>
+      <h1>Constituer votre dossier</h1>
+      <p class="intro">Sept pièces, aucune surprise. Cochez ce que vous avez déjà, imprimez la liste, puis déposez le tout au secrétariat du campus de votre choix — <b>rien ne s'envoie en ligne</b>.</p>
+
+      <div class="imprime-entete imprime-seulement">
+        <p><b>MPHI — Monga Polytechnic Higher Institute · Bafoussam</b></p>
+        <p>Dossier d'inscription · Rentrée 2026-2027 — liste préparée le <span id="dateImpression"></span></p>
+      </div>
+
+      <div class="profil" role="group" aria-label="Adapter la liste à votre profil">
+        <span>Vous visez&nbsp;:</span>
+        <button type="button" class="chip" data-profil="dqp" aria-pressed="false">DQP · avec le BEPC</button>
+        <button type="button" class="chip" data-profil="bts" aria-pressed="false">BTS · avec le BAC</button>
+        <button type="button" class="chip" data-profil="hnd" aria-pressed="false">HND · GCE A/L ou BAC</button>
+        <button type="button" class="chip" data-profil="indecis" aria-pressed="true">Je verrai sur place</button>
+      </div>
+
+      <div class="avancement">
+        <p class="compte-pieces" id="comptePieces" aria-live="polite"><b>0</b>/7 pièces prêtes</p>
+        <div class="jauge" aria-hidden="true"><i id="jaugeBarre"></i></div>
+        <button type="button" class="btn-tout" id="toutDecocher" hidden>Tout décocher</button>
+      </div>
+
+      <ul class="liste-pieces" id="listePieces">
+        <li class="piece">
+          <label>
+            <input type="checkbox" data-piece="demande-admission">
+            <span class="piece-texte">
+              <b>Demande d'admission</b>
+              <small>Adressée au directeur de MPHI.</small>
+            </span>
+          </label>
+        </li>
+        <li class="piece">
+          <label>
+            <input type="checkbox" data-piece="fiche-inscription">
+            <span class="piece-texte">
+              <b>Fiche d'inscription</b>
+              <small>À retirer au secrétariat de l'un des trois campus.</small>
+            </span>
+          </label>
+        </li>
+        <li class="piece">
+          <label>
+            <input type="checkbox" data-piece="cni-acte">
+            <span class="piece-texte">
+              <b>CNI et acte de naissance</b>
+              <small>Photocopies des deux documents.</small>
+            </span>
+          </label>
+        </li>
+        <li class="piece">
+          <label>
+            <input type="checkbox" data-piece="diplome">
+            <span class="piece-texte">
+              <b id="pieceDiplomeTitre">Photocopie du diplôme requis</b>
+              <small id="pieceDiplomeNote">Selon la formation visée&nbsp;: BEPC (DQP), BAC (BTS) ou GCE A/L (HND).</small>
+            </span>
+          </label>
+        </li>
+        <li class="piece">
+          <label>
+            <input type="checkbox" data-piece="photos">
+            <span class="piece-texte">
+              <b>Deux photos 4×4</b>
+              <small>Format identité, récentes.</small>
+            </span>
+          </label>
+        </li>
+        <li class="piece">
+          <label>
+            <input type="checkbox" data-piece="recu">
+            <span class="piece-texte">
+              <b>Reçu de paiement des frais d'inscription</b>
+              <small>Le paiement s'effectue au campus — bourse jusqu'à −50&nbsp;% à l'inscription, selon conditions au secrétariat.</small>
+            </span>
+          </label>
+        </li>
+        <li class="piece">
+          <label>
+            <input type="checkbox" data-piece="carton">
+            <span class="piece-texte">
+              <b>Un carton de format</b>
+              <small>Chemise cartonnée — format précisé au secrétariat.</small>
+            </span>
+          </label>
+        </li>
+      </ul>
+
+      <div class="encadre">
+        <p><b>Bon à savoir.</b> La bourse de formation (jusqu'à −50&nbsp;% à l'inscription) et le bonus permis de conduire s'activent au moment du dépôt, dès le paiement de la première tranche — selon conditions en vigueur au secrétariat.</p>
+        <p class="lien-ecran">Une pièce vous manque ou un doute sur votre diplôme&nbsp;?
+          <a href="https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20j%27ai%20une%20question%20sur%20la%20constitution%20de%20mon%20dossier%20d%27inscription."
+             data-lead="dossier-whatsapp" rel="noopener">Posez la question sur WhatsApp</a> avant de vous déplacer.</p>
+      </div>
+
+      <section class="depot" aria-labelledby="titre-depot">
+        <h2 id="titre-depot">Où déposer le dossier</h2>
+        <ul>
+          <li><b>A</b><span>Carrefour Saint-Thomas</span>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Carrefour+Saint+Thomas+Bafoussam" rel="noopener" data-lead="dossier-campus-a">Itinéraire</a></li>
+          <li><b>B</b><span>Bocom Marché B</span>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Bocom+March%C3%A9+B+Bafoussam" rel="noopener" data-lead="dossier-campus-b">Itinéraire</a></li>
+          <li><b>C</b><span>Entrée de la ville (Borne fontaine)</span>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Bafoussam+entr%C3%A9e+de+la+ville" rel="noopener" data-lead="dossier-campus-c">Itinéraire</a></li>
+        </ul>
+        <p class="horaires">Dépôt au secrétariat, aux heures d'ouverture. Le campus vous sera confirmé selon votre spécialité.</p>
+      </section>
+
+      <div class="actions-page">
+        <button type="button" class="btn btn-contour" id="imprimer" data-lead="dossier-imprimer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></svg>
+          Imprimer la liste
+        </button>
+        <a class="btn btn-or" href="preinscription.html" data-lead="dossier-preinscription">Se préinscrire en ligne</a>
+        <a class="btn btn-plein" href="https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20j%27ai%20une%20question%20sur%20mon%20dossier%20d%27inscription."
+           data-lead="dossier-whatsapp-bas" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg>
+          Poser une question
+        </a>
+      </div>
+
+      <p class="imprime-pied imprime-seulement">MPHI · 697 63 65 86 · WhatsApp 655 99 69 13 · mongahigherpolytechnicinstitute@gmail.com · Campus A Carrefour Saint-Thomas · Campus B Bocom Marché B · Campus C Entrée de la ville</p>
+    </div>
+  </div>
+
+  <div class="section" aria-hidden="true"></div>
+</main>
+
+<noscript>
+  <div class="conteneur" style="padding-block:2rem">
+    <p>La checklist interactive nécessite JavaScript, mais la liste des sept pièces ci-dessus reste lisible et imprimable telle quelle.</p>
+  </div>
+</noscript>

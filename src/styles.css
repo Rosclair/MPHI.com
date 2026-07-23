@@ -480,3 +480,60 @@ body[data-page="campus"] .bande-aide{margin-block:clamp(2.75rem,6vw,4.5rem)}
 .tout-catalogue{margin:.9rem 0 0;font-size:.95rem}
 .tout-catalogue a{font-weight:700;text-decoration:none}
 .tout-catalogue a::after{content:" →"}
+
+/* ---------- dossier ---------- */
+.profil{margin-top:2rem;display:flex;flex-wrap:wrap;gap:.6rem .9rem;align-items:center}
+.profil > span{font-weight:700;font-size:.95rem}
+.avancement{display:flex;flex-wrap:wrap;gap:.6rem 1.1rem;align-items:center;margin-top:1.6rem}
+.compte-pieces{margin:0;font-size:.98rem;color:var(--encre-2)}
+.compte-pieces b{color:var(--encre);font-size:1.05rem}
+.jauge{flex:1;min-width:150px;height:8px;background:var(--ligne);border-radius:999px;overflow:hidden}
+.jauge i{display:block;height:100%;width:0;background:var(--or-500);transition:width .25s}
+.btn-tout{font:inherit;font-size:.9rem;font-weight:700;color:var(--vert-600);background:none;border:none;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.btn-tout:hover{color:var(--vert-900)}
+.liste-pieces{list-style:none;margin:1.5rem 0 0;padding:0;display:grid;gap:.8rem}
+.piece label{
+  display:flex;gap:.95rem;align-items:flex-start;cursor:pointer;
+  background:#fff;border:1px solid var(--ligne);border-radius:12px;padding:1.05rem 1.15rem;
+  transition:border-color .15s,background .15s;
+}
+.piece label:hover{border-color:var(--vert-600)}
+.piece input{width:22px;height:22px;flex:none;margin-top:.15rem;accent-color:var(--vert-700);cursor:pointer}
+.piece.prete label{background:#F1F6EF;border-color:var(--vert-500)}
+.piece-texte b{display:block;font-weight:700;font-size:1.02rem}
+.piece-texte small{display:block;color:var(--encre-2);font-size:.9rem;line-height:1.55;margin-top:.15rem}
+.actions-page{margin-top:2.4rem;display:flex;flex-wrap:wrap;gap:.9rem}
+.imprime-seulement{display:none}
+/* Styles d'impression : propres à dossier.html (version imprimable de la
+   checklist) — scopés pour ne pas changer le rendu d'impression des
+   autres pages, qui n'avaient pas cette feuille @media print. */
+@media print{
+  body[data-page="dossier"] .skip,
+  body[data-page="dossier"] .annonce,
+  body[data-page="dossier"] .entete,
+  body[data-page="dossier"] .pied,
+  body[data-page="dossier"] .fil,
+  body[data-page="dossier"] .profil,
+  body[data-page="dossier"] .avancement,
+  body[data-page="dossier"] .actions-page,
+  body[data-page="dossier"] .encadre .lien-ecran{display:none !important}
+  body[data-page="dossier"] .imprime-seulement{display:block}
+  body[data-page="dossier"]{background:#fff;color:#000}
+  body[data-page="dossier"] .entete-page{padding-top:0}
+  body[data-page="dossier"] .entete-page h1{font-size:26pt}
+  body[data-page="dossier"] .sur-titre{color:#000}
+  body[data-page="dossier"] .sur-titre::before{background:#000}
+  body[data-page="dossier"] a{color:#000 !important;text-decoration:none}
+  body[data-page="dossier"] .imprime-entete{border-bottom:2px solid #000;padding-bottom:.5rem;margin-bottom:1rem}
+  body[data-page="dossier"] .imprime-entete p{margin:.1rem 0;font-size:10.5pt}
+  body[data-page="dossier"] .imprime-entete b{font-size:13pt}
+  body[data-page="dossier"] .liste-pieces{gap:.45rem;margin-top:.8rem}
+  body[data-page="dossier"] .piece label{border:1px solid #888;border-radius:6px;padding:.6rem .8rem;break-inside:avoid;background:#fff !important}
+  body[data-page="dossier"] .piece-texte small{color:#333}
+  body[data-page="dossier"] .encadre{background:#fff;border:1px solid #888;color:#000;break-inside:avoid}
+  body[data-page="dossier"] .encadre b{color:#000}
+  body[data-page="dossier"] .depot li{border:1px solid #888;break-inside:avoid;background:#fff}
+  body[data-page="dossier"] .depot li b{color:#000}
+  body[data-page="dossier"] .depot li a{display:none}
+  body[data-page="dossier"] .imprime-pied{margin-top:1.2rem;border-top:1px solid #888;padding-top:.5rem;font-size:9.5pt;color:#000}
+}
