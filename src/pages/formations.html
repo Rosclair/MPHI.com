@@ -1,0 +1,72 @@
+<main id="contenu">
+
+  <div class="entete-page">
+    <div class="conteneur">
+      <p class="sur-titre">Le catalogue</p>
+      <h1>Trouver ma formation</h1>
+      <p class="intro">Une centaine de spécialités en BTS et HND. Filtrez, cherchez, puis posez vos questions directement sur WhatsApp — la demande arrive au secrétariat avec le nom exact de la formation.</p>
+    </div>
+  </div>
+
+  <div class="barre">
+    <div class="conteneur">
+      <div class="barre-int">
+        <div class="champ-recherche">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <label class="sr-only" for="recherche">Rechercher une spécialité</label>
+          <input type="search" id="recherche" placeholder="Rechercher : logiciel, sage-femme, bâtiment…" autocomplete="off">
+        </div>
+
+        <div class="chips" role="group" aria-label="Filtrer par diplôme">
+          <button type="button" class="chip" data-diplome="tous" aria-pressed="true">Tous</button>
+          <button type="button" class="chip" data-diplome="bts" aria-pressed="false">BTS</button>
+          <button type="button" class="chip" data-diplome="hnd" aria-pressed="false">HND</button>
+          <button type="button" class="chip" data-diplome="dqp" aria-pressed="false">DQP</button>
+          <button type="button" class="chip" data-diplome="licence-master" aria-pressed="false">Licence · Master</button>
+        </div>
+
+        <label class="sr-only" for="filiere">Filtrer par filière</label>
+        <select class="selecteur" id="filiere">
+          <option value="toutes">Toutes les filières</option>
+        </select>
+      </div>
+
+      <div class="barre-bas">
+        <p class="compte" id="compte" aria-live="polite"></p>
+        <button type="button" class="btn-raz" id="raz">Réinitialiser les filtres</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="conteneur">
+    <div class="avis" id="avis" role="status"></div>
+
+    <div class="grille-specs" id="grille"></div>
+
+    <div class="carte vide" id="vide">
+      <h3>Aucune spécialité trouvée</h3>
+      <p>Elle existe peut-être quand même — le catalogue évolue chaque année. Demandez directement au secrétariat.</p>
+      <a class="btn btn-plein" id="vide-wa" data-lead="catalogue-vide-whatsapp" rel="noopener"
+         href="https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20proposez-vous%20une%20formation%20en%20...%20%3F">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg>
+        Demander sur WhatsApp
+      </a>
+    </div>
+
+    <p class="note-catalogue">Le campus d'enseignement de chaque spécialité, les frais et le calendrier vous sont confirmés au secrétariat.
+      Titulaire du BEPC&nbsp;? Le parcours DQP suit les mêmes filières — voir <a href="admissions.html">les admissions</a>.</p>
+
+    <div class="bande-aide">
+      <p><b>Vous hésitez&nbsp;?</b> Répondez à deux questions, on vous suggère des cursus.</p>
+      <a class="btn btn-or" href="orienteur.html" data-lead="catalogue-orienteur">Faire le test d'orientation</a>
+    </div>
+  </div>
+
+  <div class="section" aria-hidden="true"></div>
+</main>
+
+<noscript>
+  <div class="conteneur" style="padding-block:2rem">
+    <p>Le catalogue interactif nécessite JavaScript. Contactez-nous sur WhatsApp au 655 99 69 13 ou appelez le 697 63 65 86 pour recevoir la liste des formations.</p>
+  </div>
+</noscript>

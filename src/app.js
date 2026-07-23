@@ -421,3 +421,181 @@
   rendre();
   synchroniserURL();
 })();
+
+/* formations.html — catalogue filtrable (recherche, diplôme, filière) */
+(function () {
+  "use strict";
+
+  var donnees = window.MPHI_FORMATIONS;
+  var grille = document.getElementById("grille");
+  var vide = document.getElementById("vide");
+  var avis = document.getElementById("avis");
+  var compte = document.getElementById("compte");
+  var champRecherche = document.getElementById("recherche");
+  var selectFiliere = document.getElementById("filiere");
+  var boutonRaz = document.getElementById("raz");
+  var chips = Array.prototype.slice.call(document.querySelectorAll(".chip"));
+
+  if (!donnees || !grille) { return; }
+
+  var etat = { q: "", diplome: "tous", filiere: "toutes" };
+
+  /* ----- Utilitaires ----- */
+  var marquesDiacritiquesCatalogue = new RegExp("[" + String.fromCharCode(0x0300) + "-" + String.fromCharCode(0x036f) + "]", "g");
+  function normaliser(texte) {
+    return String(texte).normalize("NFD").replace(marquesDiacritiquesCatalogue, "").toLowerCase();
+  }
+  function lienWhatsApp(spec) {
+    var message = "Bonjour MPHI, je souhaite des informations sur la spécialité "
+      + spec.nom + " (" + spec.diplomeNom + ", filière " + spec.filiereNom + ").";
+    return "https://wa.me/237655996913?text=" + encodeURIComponent(message);
+  }
+
+  /* ----- Remplir le sélecteur de filières ----- */
+  (function remplirFilieres() {
+    var groupeFr = document.createElement("optgroup");
+    groupeFr.label = "Filières BTS (francophone)";
+    var groupeEn = document.createElement("optgroup");
+    groupeEn.label = "HND fields (anglophone)";
+    donnees.filieres.forEach(function (f) {
+      var option = document.createElement("option");
+      option.value = f.slug;
+      option.textContent = f.nom;
+      (f.langue === "fr" ? groupeFr : groupeEn).appendChild(option);
+    });
+    selectFiliere.appendChild(groupeFr);
+    selectFiliere.appendChild(groupeEn);
+  })();
+
+  /* ----- Lecture des paramètres d'URL (liens depuis l'accueil) ----- */
+  (function lireURL() {
+    var params = new URLSearchParams(window.location.search);
+    var d = params.get("diplome");
+    var f = params.get("filiere") || params.get("domaine");
+    var q = params.get("q");
+    if (d && ["tous", "bts", "hnd", "dqp", "licence-master"].indexOf(d) !== -1) { etat.diplome = d; }
+    if (f && donnees.filieres.some(function (x) { return x.slug === f; })) { etat.filiere = f; }
+    if (q) { etat.q = q; }
+  })();
+
+  /* ----- Synchroniser l'interface avec l'état ----- */
+  function synchroniserUI() {
+    champRecherche.value = etat.q;
+    selectFiliere.value = etat.filiere;
+    chips.forEach(function (chip) {
+      chip.setAttribute("aria-pressed", chip.getAttribute("data-diplome") === etat.diplome ? "true" : "false");
+    });
+  }
+
+  function synchroniserURL() {
+    var params = new URLSearchParams();
+    if (etat.q) { params.set("q", etat.q); }
+    if (etat.diplome !== "tous") { params.set("diplome", etat.diplome); }
+    if (etat.filiere !== "toutes") { params.set("filiere", etat.filiere); }
+    var chaine = params.toString();
+    var url = window.location.pathname + (chaine ? "?" + chaine : "");
+    window.history.replaceState(null, "", url);
+  }
+
+  /* ----- Avis contextuels (DQP, Licence/Master) ----- */
+  function majAvis() {
+    if (etat.diplome === "dqp") {
+      avis.innerHTML = "<p><strong>Parcours DQP</strong> — accessible dès le BEPC, il suit les mêmes filières que le BTS ci-dessous, et se combine en «&nbsp;DQP&nbsp;+&nbsp;BTS en 2&nbsp;ans&nbsp;». La liste exacte des spécialités DQP est confirmée au secrétariat. <a href=\"admissions.html\">Voir les admissions</a></p>";
+      avis.classList.add("visible");
+    } else if (etat.diplome === "licence-master") {
+      avis.innerHTML = "<p><strong>Licence et Master professionnels</strong> — ils prolongent les BTS et HND ci-dessous. Programme détaillé et conditions d'accès au secrétariat, ou <a href=\"https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20je%20souhaite%20des%20informations%20sur%20vos%20Licences%20et%20Masters%20professionnels.\" data-lead=\"avis-lm-whatsapp\" rel=\"noopener\">sur WhatsApp</a>.</p>";
+      avis.classList.add("visible");
+    } else {
+      avis.innerHTML = "";
+      avis.classList.remove("visible");
+    }
+  }
+
+  /* ----- Filtrage ----- */
+  function filtrer() {
+    var q = normaliser(etat.q.trim());
+    return donnees.specialites.filter(function (spec) {
+      if (etat.diplome === "bts" || etat.diplome === "dqp") {
+        if (spec.diplome !== "bts") { return false; }
+      } else if (etat.diplome === "hnd") {
+        if (spec.diplome !== "hnd") { return false; }
+      }
+      /* "tous" et "licence-master" : pas de restriction de diplôme */
+      if (etat.filiere !== "toutes" && spec.filiere !== etat.filiere) { return false; }
+      if (q) {
+        var cible = normaliser(spec.nom + " " + spec.filiereNom + " " + spec.diplomeNom);
+        if (cible.indexOf(q) === -1) { return false; }
+      }
+      return true;
+    });
+  }
+
+  /* ----- Rendu ----- */
+  function carteHTML(spec) {
+    var badgeLangue = spec.langue === "en"
+      ? "<li class=\"badge badge-en\">English</li>"
+      : "<li class=\"badge\">Français</li>";
+    return "<article class=\"carte carte-spec\">"
+      + "<p class=\"filiere-nom\">" + spec.filiereNom + "</p>"
+      + "<h3>" + spec.nom + "</h3>"
+      + "<ul class=\"badges\">"
+      + "<li class=\"badge badge-dip\">" + spec.diplomeNom + "</li>"
+      + "<li class=\"badge\">" + spec.admission + "</li>"
+      + badgeLangue
+      + "</ul>"
+      + "<p class=\"actions\">"
+      + "<a class=\"details\" href=\"fiche.html?f=" + spec.slug + "\">Détails</a>"
+      + "<a class=\"btn btn-plein btn-wa\" rel=\"noopener\" data-lead=\"catalogue-wa-" + spec.slug + "\" href=\"" + lienWhatsApp(spec) + "\">"
+      + "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z\"/></svg>"
+      + "WhatsApp</a>"
+      + "</p>"
+      + "</article>";
+  }
+
+  function rendre() {
+    var resultats = filtrer();
+    grille.innerHTML = resultats.map(carteHTML).join("");
+    vide.classList.toggle("visible", resultats.length === 0);
+
+    if (resultats.length === 0) {
+      compte.innerHTML = "Aucune spécialité ne correspond à vos critères.";
+    } else if (resultats.length === 1) {
+      compte.innerHTML = "<b>1</b> spécialité affichée.";
+    } else {
+      compte.innerHTML = "<b>" + resultats.length + "</b> spécialités affichées.";
+    }
+
+    var actif = etat.q.trim() !== "" || etat.diplome !== "tous" || etat.filiere !== "toutes";
+    boutonRaz.classList.toggle("visible", actif);
+
+    majAvis();
+    synchroniserURL();
+  }
+
+  /* ----- Écouteurs ----- */
+  champRecherche.addEventListener("input", function () {
+    etat.q = champRecherche.value;
+    rendre();
+  });
+  selectFiliere.addEventListener("change", function () {
+    etat.filiere = selectFiliere.value;
+    rendre();
+  });
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      etat.diplome = chip.getAttribute("data-diplome");
+      synchroniserUI();
+      rendre();
+    });
+  });
+  boutonRaz.addEventListener("click", function () {
+    etat = { q: "", diplome: "tous", filiere: "toutes" };
+    synchroniserUI();
+    rendre();
+    champRecherche.focus();
+  });
+
+  /* ----- Démarrage ----- */
+  synchroniserUI();
+  rendre();
+})();

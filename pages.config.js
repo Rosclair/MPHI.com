@@ -173,5 +173,23 @@ module.exports = [
     navSectionKey: "admissions",
     inHeaderNav: true,
     dataScripts: []
+  },
+  {
+    id: "formations",
+    out: "formations.html",
+    title: "Formations et spécialités — MPHI · Bafoussam",
+    description: "Le catalogue MPHI : une centaine de spécialités en BTS et HND à Bafoussam — génie civil, informatique, santé, gestion, hôtellerie, agriculture… Filtrez par diplôme et par filière.",
+    og: {
+      title: "Formations et spécialités — MPHI",
+      description: "Une centaine de spécialités en BTS et HND à Bafoussam. Trouvez la vôtre et posez vos questions sur WhatsApp.",
+      image: "assets/og/accueil.jpg"
+    },
+    robots: null,
+    jsonld: [],
+    navGroup: "principal",
+    navLabel: "Formations",
+    navSectionKey: "formations",
+    inHeaderNav: true,
+    dataScripts: ["formations"]
   }
 ];
