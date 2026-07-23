@@ -57,5 +57,38 @@ module.exports = [
     navSectionKey: "admissions",
     inHeaderNav: true,
     dataScripts: []
+  },
+  {
+    id: "index",
+    out: "index.html",
+    title: "MPHI — Monga Polytechnic Higher Institute · Bafoussam",
+    description: "Institut supérieur privé à Bafoussam : DQP, BTS, HND, Licence et Master professionnels. Une centaine de spécialités, 3 campus, inscriptions 2026-2027 ouvertes dès le BEPC ou le BAC.",
+    og: {
+      title: "MPHI · Former aujourd'hui, bâtir demain",
+      description: "DQP, BTS, HND, Licence et Master professionnels à Bafoussam. Une centaine de spécialités, 3 campus. Inscriptions 2026-2027 ouvertes.",
+      image: "assets/og/accueil.jpg"
+    },
+    robots: null,
+    jsonld: [
+      {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        name: "Monga Polytechnic Higher Institute",
+        alternateName: "MPHI",
+        slogan: "Former aujourd'hui, bâtir demain",
+        email: "mongahigherpolytechnicinstitute@gmail.com",
+        telephone: "+237697636586",
+        address: [
+          { "@type": "PostalAddress", streetAddress: "Campus A — Carrefour Saint-Thomas", addressLocality: "Bafoussam", addressRegion: "Ouest", addressCountry: "CM" },
+          { "@type": "PostalAddress", streetAddress: "Campus B — Bocom Marché B", addressLocality: "Bafoussam", addressRegion: "Ouest", addressCountry: "CM" },
+          { "@type": "PostalAddress", streetAddress: "Campus C — Entrée de la ville (Borne fontaine)", addressLocality: "Bafoussam", addressRegion: "Ouest", addressCountry: "CM" }
+        ]
+      }
+    ],
+    navGroup: "principal",
+    navLabel: "Accueil",
+    navSectionKey: null,
+    inHeaderNav: false,
+    dataScripts: []
   }
 ];
