@@ -86,27 +86,10 @@ mark{background:var(--or-300);color:var(--encre);padding:.03em .14em;box-decorat
    restent des enfants flex directs de .conteneur, comportement inchangé. */
 .annonce-piste{display:contents}
 
-/* ---------- Bandeau annonce : défilement en boucle sur mobile ---------- */
+/* ---------- Bandeau annonce : bloc statique et centré sur mobile ---------- */
 @media (max-width:919px){
-  .annonce .conteneur{display:block;overflow:hidden;padding-block:.6rem;text-align:left}
-  .annonce-piste{
-    display:inline-flex;
-    flex-wrap:nowrap;
-    white-space:nowrap;
-    align-items:center;
-    gap:.6rem;
-    padding-left:100%;
-    animation:annonce-defile 16s linear infinite;
-  }
-  .annonce-piste p{white-space:nowrap}
-  .annonce-piste:hover,.annonce-piste:focus-within{animation-play-state:paused}
-}
-@keyframes annonce-defile{
-  from{transform:translateX(0)}
-  to{transform:translateX(-100%)}
-}
-@media (prefers-reduced-motion:reduce){
-  .annonce-piste{animation:none;padding-left:0}
+  .annonce-piste{display:flex;flex-direction:column;align-items:center;gap:.35rem}
+  .annonce-piste p{white-space:normal;font-size:.86rem}
 }
 
 /* ---------- En-tête ---------- */
