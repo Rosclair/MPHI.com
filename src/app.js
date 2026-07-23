@@ -1101,3 +1101,66 @@
     });
   });
 })();
+
+/* merci.html — point d'atterrissage unique après préinscription */
+(function () {
+  "use strict";
+
+  var titre = document.getElementById("titreMerci");
+  var texte = document.getElementById("texteMerci");
+  var boutonRouvrir = document.getElementById("boutonRouvrir");
+  var noteNeutre = document.getElementById("noteNeutre");
+  var boutonDossier = document.getElementById("boutonDossier");
+  if (!titre || !texte || !boutonRouvrir || !noteNeutre || !boutonDossier) { return; }
+
+  var parametres = new URLSearchParams(window.location.search);
+  var via = parametres.get("via");
+  var slug = parametres.get("f");
+  var profil = parametres.get("d");
+
+  /* ----- Variante selon le mode d'envoi ----- */
+  if (via === "wa") {
+    titre.textContent = "Votre message est prêt !";
+    texte.textContent = "Appuyez sur « Envoyer » dans WhatsApp pour transmettre votre préinscription — le secrétariat vous répond pour confirmer.";
+    boutonRouvrir.hidden = false;
+    var lienExact = null;
+    try { lienExact = window.sessionStorage.getItem("mphi_pre_wa"); } catch (e) { /* stockage indisponible */ }
+    if (lienExact) { boutonRouvrir.href = lienExact; }
+  } else if (via !== "direct") {
+    /* Visite sans paramètres : variante neutre */
+    titre.textContent = "Merci !";
+    texte.textContent = "Si vous venez d'envoyer votre préinscription, le secrétariat vous recontacte rapidement.";
+    noteNeutre.hidden = false;
+  }
+
+  /* ----- Rappel de la formation reconnue ----- */
+  var donnees = window.MPHI_FORMATIONS;
+  if (slug && donnees) {
+    donnees.specialites.forEach(function (spec) {
+      if (spec.slug === slug) {
+        document.getElementById("recapNom").textContent = spec.nom;
+        document.getElementById("recapDiplome").textContent = spec.diplomeNom;
+        document.getElementById("recapFormation").hidden = false;
+        if (!profil) { profil = spec.diplome; }
+      }
+    });
+  }
+
+  /* ----- Checklist pré-adaptée + pièce diplôme ----- */
+  if (profil === "bts" || profil === "hnd" || profil === "dqp") {
+    boutonDossier.href = "dossier.html?profil=" + profil;
+    var LIBELLES = {
+      dqp: "Photocopie du BEPC<small>parcours DQP</small>",
+      bts: "Photocopie du BAC<small>cursus BTS</small>",
+      hnd: "Photocopie du GCE A/L ou du BAC<small>cursus HND</small>"
+    };
+    document.getElementById("pieceDiplomeMerci").innerHTML = LIBELLES[profil];
+  }
+
+  /* ----- Balise de conversion (point de branchement analytics) ----- */
+  if (via === "wa" || via === "direct") {
+    try {
+      console.info("[MPHI conversion]", "preinscription", via, slug || "formation-libre");
+    } catch (e) {}
+  }
+})();

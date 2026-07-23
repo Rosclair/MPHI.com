@@ -263,5 +263,19 @@ module.exports = [
     navSectionKey: "admissions",
     inHeaderNav: true,
     dataScripts: ["formations"]
+  },
+  {
+    id: "merci",
+    out: "merci.html",
+    title: "Merci — préinscription reçue · MPHI Bafoussam",
+    description: "Votre préinscription MPHI est en route. Prochaine étape : préparer les sept pièces du dossier et le déposer au campus.",
+    og: null,
+    robots: "noindex",
+    jsonld: [],
+    navGroup: null,
+    navLabel: null,
+    navSectionKey: "admissions",
+    inHeaderNav: false,
+    dataScripts: ["formations"]
   }
 ];
