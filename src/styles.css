@@ -81,6 +81,32 @@ mark{background:var(--or-300);color:var(--encre);padding:.03em .14em;box-decorat
 .annonce .conteneur{display:flex;flex-wrap:wrap;gap:.35rem 1rem;align-items:center;justify-content:center;padding-block:.55rem;text-align:center}
 .annonce strong{color:var(--or-300);font-weight:700}
 .annonce a{color:#fff;font-weight:700;text-decoration-color:var(--or-500);text-underline-offset:3px;white-space:nowrap}
+/* Sur desktop, .annonce-piste s'efface de l'arbre de boîtes : <p> et <a>
+   restent des enfants flex directs de .conteneur, comportement inchangé. */
+.annonce-piste{display:contents}
+
+/* ---------- Bandeau annonce : défilement en boucle sur mobile ---------- */
+@media (max-width:919px){
+  .annonce .conteneur{display:block;overflow:hidden;padding-block:.6rem;text-align:left}
+  .annonce-piste{
+    display:inline-flex;
+    flex-wrap:nowrap;
+    white-space:nowrap;
+    align-items:center;
+    gap:.6rem;
+    padding-left:100%;
+    animation:annonce-defile 16s linear infinite;
+  }
+  .annonce-piste p{white-space:nowrap}
+  .annonce-piste:hover,.annonce-piste:focus-within{animation-play-state:paused}
+}
+@keyframes annonce-defile{
+  from{transform:translateX(0)}
+  to{transform:translateX(-100%)}
+}
+@media (prefers-reduced-motion:reduce){
+  .annonce-piste{animation:none;padding-left:0}
+}
 
 /* ---------- En-tête ---------- */
 .entete{position:sticky;top:0;z-index:50;background:rgba(250,249,244,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--ligne)}
