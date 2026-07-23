@@ -209,5 +209,23 @@ module.exports = [
     navSectionKey: "formations",
     inHeaderNav: false,
     dataScripts: ["formations"]
+  },
+  {
+    id: "frais-et-bourses",
+    out: "frais-et-bourses.html",
+    title: "Frais et bourse de formation — MPHI · Bafoussam",
+    description: "Frais d'inscription, scolarité en tranches, bourse jusqu'à −50 % et permis de conduire offert dès la première tranche : ce qui est sûr, et comment obtenir votre tarif en un message.",
+    og: {
+      title: "Frais et bourse de formation — MPHI",
+      description: "Bourse jusqu'à −50 % à l'inscription, permis de conduire dès la première tranche, paiement en tranches. Demandez le tarif de votre formation en un message.",
+      image: "assets/og/accueil.jpg"
+    },
+    robots: null,
+    jsonld: [],
+    navGroup: "admissions",
+    navLabel: "Frais et bourses",
+    navSectionKey: "admissions",
+    inHeaderNav: true,
+    dataScripts: ["frais"]
   }
 ];

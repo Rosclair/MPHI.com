@@ -602,3 +602,35 @@ body[data-page="fiche"] .entete-page h1{font-size:clamp(2.1rem,6vw,3.6rem)}
 .erreur.visible{display:flex;flex-direction:column;align-items:center;gap:.4rem}
 .erreur p{color:var(--encre-2);max-width:46ch;margin-bottom:1.1rem}
 .erreur .hero-actions{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
+
+/* ---------- frais-et-bourses ---------- */
+.grille-deux{display:grid;gap:1.1rem;margin-top:1.8rem}
+@media (min-width:840px){.grille-deux{grid-template-columns:1fr 1fr}}
+.carte-frais h3{font-size:1.25rem;display:flex;align-items:center;gap:.55rem;margin-bottom:.4rem}
+.carte-frais h3 svg{width:20px;height:20px;flex:none;color:var(--vert-600)}
+.carte-frais p{color:var(--encre-2);font-size:.97rem;margin:0}
+.carte-frais .quand{margin-top:.9rem;font-size:.8rem;font-weight:700;color:var(--vert-600);text-transform:uppercase;letter-spacing:.06em}
+.pouce{align-items:center}
+.pouce .remise{font-family:var(--f-display);font-weight:800;font-size:clamp(3rem,8vw,4.6rem);line-height:.95;color:var(--vert-700)}
+.pouce .remise small{display:block;font-family:var(--f-texte);font-weight:700;font-size:.85rem;letter-spacing:.05em;text-transform:uppercase;color:#7A5A08}
+.carte-pouce{background:var(--or-050);border-color:var(--or-300)}
+.section-frais{margin-top:clamp(2.75rem,6vw,4.25rem)}
+.section-frais h2{font-size:clamp(1.6rem,3.6vw,2.3rem)}
+/* .grille-attente : identique sur frais-et-bourses.html et calendrier.html
+   (cf. audit CSS) — fusionnée une seule fois ici. */
+.grille-attente{margin-top:1.6rem;background:#fff;border:1.5px dashed var(--vert-500);border-radius:var(--rayon);padding:clamp(1.6rem,4vw,2.5rem);text-align:center}
+.grille-attente .badge{margin-bottom:.9rem;display:inline-block}
+.grille-attente h3{margin-bottom:.35rem}
+.grille-attente p{color:var(--encre-2);max-width:52ch;margin-inline:auto}
+.grille-attente .btn{margin-top:.6rem}
+/* .maj-grille : base commune ici, "margin-top" scopé par page car il
+   diverge de .1rem entre frais-et-bourses.html et calendrier.html (audit). */
+.maj-grille{font-size:.85rem;color:var(--encre-2)}
+body[data-page="frais-et-bourses"] .maj-grille{margin-top:.8rem}
+.faq-frais{display:grid;gap:.7rem;margin-top:1.6rem}
+.faq-frais details{background:#fff;border:1px solid var(--ligne);border-radius:12px;padding:.9rem 1.1rem}
+.faq-frais summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:1rem;align-items:baseline}
+.faq-frais summary::-webkit-details-marker{display:none}
+.faq-frais summary::after{content:"+";font-family:var(--f-display);font-weight:800;font-size:1.3rem;color:var(--or-500);line-height:1}
+.faq-frais details[open] summary::after{content:"–"}
+.faq-frais details p{margin:.6rem 0 0;color:var(--encre-2);font-size:.95rem}

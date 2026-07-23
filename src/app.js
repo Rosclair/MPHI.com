@@ -742,3 +742,66 @@
     } catch (e) { confirmerCopie(false); }
   });
 })();
+
+/* frais-et-bourses.html — rendu automatique dès que data/frais.js est rempli */
+(function () {
+  "use strict";
+
+  var attente = document.getElementById("grilleAttente");
+  var cadre = document.getElementById("cadreGrille");
+  var corps = document.getElementById("corpsGrille");
+  var maj = document.getElementById("majGrille");
+  if (!attente || !cadre || !corps || !maj) { return; }
+
+  /* Rendu automatique de la grille officielle dès que data/frais.js
+     est rempli (MPHI_FRAIS non nul). Sinon : état d'attente. */
+  var grille = window.MPHI_FRAIS;
+  if (!grille || !Array.isArray(grille.lignes) || grille.lignes.length === 0) { return; }
+
+  var devise = grille.devise || "FCFA";
+  var espaceInsecable = String.fromCharCode(0x00A0);
+
+  function montant(valeur) {
+    if (typeof valeur !== "number") { return String(valeur); }
+    try {
+      return valeur.toLocaleString("fr-FR") + espaceInsecable + devise;
+    } catch (e) {
+      return valeur + " " + devise;
+    }
+  }
+
+  corps.innerHTML = "";
+  grille.lignes.forEach(function (ligne) {
+    var tr = document.createElement("tr");
+
+    var th = document.createElement("th");
+    th.setAttribute("scope", "row");
+    th.textContent = ligne.libelle;
+    tr.appendChild(th);
+
+    [["Frais d'inscription", montant(ligne.inscription)],
+     ["Scolarité", montant(ligne.scolarite)],
+     ["Paiement", ligne.tranches || "—"]].forEach(function (paire) {
+      var td = document.createElement("td");
+      td.setAttribute("data-label", paire[0]);
+      td.textContent = paire[1];
+      tr.appendChild(td);
+    });
+
+    corps.appendChild(tr);
+  });
+
+  attente.hidden = true;
+  cadre.hidden = false;
+
+  var texteMaj = "Grille officielle";
+  if (grille.valideLe) {
+    try {
+      texteMaj += " — validée le " + new Date(grille.valideLe + "T00:00:00")
+        .toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+    } catch (e) { texteMaj += " — validée le " + grille.valideLe; }
+  }
+  if (grille.note) { texteMaj += ". " + grille.note; }
+  maj.textContent = texteMaj;
+  maj.hidden = false;
+})();
