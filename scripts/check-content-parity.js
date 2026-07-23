@@ -2,7 +2,7 @@
 /* Compare le texte visible de chaque page avant/après restructuration.
    "Avant" = _avant/<page>.html si déjà archivé, sinon les fichiers encore
    à la racine du projet (état pré-migration). Les seuls écarts attendus
-   sont dans la nav (dropdown Admissions, colonne footer "Admissions") —
+   sont dans la nav (dropdown Admissions, colonne footer "Admissions") -
    tout écart en dehors du header/footer fait échouer le script. */
 "use strict";
 
@@ -38,7 +38,7 @@ function decoderEntites(texte) {
 /* Extrait le texte visible : retire <head>, <script>, <style>, commentaires,
    toutes les balises, normalise les espaces. Ne capture pas ce qui est
    injecté par JS au runtime (catalogue, fiche, grilles) puisqu'on compare
-   du HTML statique des deux côtés — c'est cohérent, ces deux zones sont
+   du HTML statique des deux côtés - c'est cohérent, ces deux zones sont
    vides dans le HTML brut avant comme après. */
 function texteVisible(html, options) {
   var corps = html.replace(/^[\s\S]*?<body[^>]*>/i, "").replace(/<\/body>[\s\S]*$/i, "");
@@ -72,11 +72,11 @@ function main() {
     if (avantComplet === distComplet) { return; }
 
     /* Écart détecté : retenter en excluant header/footer (nav a changé
-       volontairement — dropdown Admissions, colonne footer dédiée). */
+       volontairement - dropdown Admissions, colonne footer dédiée). */
     var avantSansNav = texteVisible(avantHTML, { retirerNavPiedDePage: true });
     var distSansNav = texteVisible(distHTML, { retirerNavPiedDePage: true });
     if (avantSansNav === distSansNav) {
-      console.log(page + " : écart uniquement dans header/footer (attendu — nav restructurée).");
+      console.log(page + " : écart uniquement dans header/footer (attendu - nav restructurée).");
       return;
     }
 
@@ -84,13 +84,13 @@ function main() {
     var a = avantSansNav, d = distSansNav;
     var i = 0;
     while (i < a.length && i < d.length && a[i] === d[i]) { i++; }
-    console.error("  " + page + " — divergence autour du caractère " + i + " :");
+    console.error("  " + page + " - divergence autour du caractère " + i + " :");
     console.error("    avant : ..." + a.slice(Math.max(0, i - 40), i + 40) + "...");
     console.error("    dist  : ..." + d.slice(Math.max(0, i - 40), i + 40) + "...");
   });
 
   if (echecs.length === 0) {
-    console.log("OK — " + PAGES.length + " page(s), contenu visible identique (hors nav restructurée). Référence \"avant\" : " + path.relative(ROOT, AVANT) + "/");
+    console.log("OK - " + PAGES.length + " page(s), contenu visible identique (hors nav restructurée). Référence \"avant\" : " + path.relative(ROOT, AVANT) + "/");
     process.exit(0);
   } else {
     console.error(echecs.length + " page(s) en écart :");

@@ -9,7 +9,7 @@
 
       <p class="sur-titre">Rentrée 2026-2027</p>
       <h1>Se préinscrire en deux minutes</h1>
-      <p class="intro">Nom, téléphone, formation visée — c'est tout. Aucun document à joindre, aucun paiement en ligne&nbsp;: le secrétariat vous recontacte, et le dossier se dépose au campus.</p>
+      <p class="intro">Nom, téléphone, formation visée - c'est tout. Aucun document à joindre, aucun paiement en ligne&nbsp;: le secrétariat vous recontacte, et le dossier se dépose au campus.</p>
 
       <div class="grille-pre">
         <div>
@@ -34,7 +34,7 @@
               <label for="formation">Formation visée *</label>
               <input type="text" id="formation" name="formation" list="listeFormations" required placeholder="Tapez pour chercher : génie logiciel, sage-femme…">
               <datalist id="listeFormations"></datalist>
-              <span class="indice">106 spécialités proposées — ou décrivez librement si vous hésitez.</span>
+              <span class="indice">106 spécialités proposées - ou décrivez librement si vous hésitez.</span>
               <p class="erreur-champ" id="err-formation" hidden>Indiquez la formation qui vous intéresse.</p>
             </div>
 
@@ -43,9 +43,9 @@
                 <label for="diplome">Diplôme visé</label>
                 <select id="diplome" name="diplome" class="selecteur" style="width:100%">
                   <option value="Je ne sais pas encore" selected>Je ne sais pas encore</option>
-                  <option value="DQP">DQP — dès le BEPC</option>
-                  <option value="BTS">BTS — dès le BAC</option>
-                  <option value="HND">HND — after A/L or BAC</option>
+                  <option value="DQP">DQP - dès le BEPC</option>
+                  <option value="BTS">BTS - dès le BAC</option>
+                  <option value="HND">HND - after A/L or BAC</option>
                   <option value="Licence / Master">Licence / Master</option>
                 </select>
               </div>
@@ -53,9 +53,9 @@
                 <label for="campus">Campus souhaité</label>
                 <select id="campus" name="campus" class="selecteur" style="width:100%">
                   <option value="Indifférent" selected>Indifférent</option>
-                  <option value="A — Carrefour Saint-Thomas">A — Carrefour Saint-Thomas</option>
-                  <option value="B — Bocom Marché B">B — Bocom Marché B</option>
-                  <option value="C — Entrée de la ville">C — Entrée de la ville</option>
+                  <option value="A - Carrefour Saint-Thomas">A - Carrefour Saint-Thomas</option>
+                  <option value="B - Bocom Marché B">B - Bocom Marché B</option>
+                  <option value="C - Entrée de la ville">C - Entrée de la ville</option>
                 </select>
               </div>
             </div>
@@ -77,12 +77,12 @@
 
             <label class="consentement">
               <input type="checkbox" id="consentement" required>
-              <span>J'accepte que MPHI me recontacte au sujet de ma préinscription. Mes informations ne servent qu'à cela — <a href="confidentialite.html">confidentialité</a>. *</span>
+              <span>J'accepte que MPHI me recontacte au sujet de ma préinscription. Mes informations ne servent qu'à cela - <a href="confidentialite.html">confidentialité</a>. *</span>
             </label>
             <p class="erreur-champ" id="err-consentement" hidden style="margin:-.6rem 0 1rem">Cochez la case pour que nous puissions vous recontacter.</p>
 
             <button type="submit" class="btn btn-or bouton-envoi" id="boutonEnvoyer" data-lead="preinscription-envoi">Envoyer via WhatsApp</button>
-            <p class="mode-note" id="modeNote">Votre demande s'ouvre dans WhatsApp, prête à envoyer — le secrétariat vous répond pour confirmer.</p>
+            <p class="mode-note" id="modeNote">Votre demande s'ouvre dans WhatsApp, prête à envoyer - le secrétariat vous répond pour confirmer.</p>
           </form>
 
           <div class="carte etat etat-succes" id="etatSucces" hidden>
@@ -90,7 +90,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
             </span>
             <h2 id="succesTitre">Votre message est prêt dans WhatsApp</h2>
-            <p id="succesTexte">Appuyez sur «&nbsp;Envoyer&nbsp;» dans WhatsApp pour transmettre votre préinscription — le secrétariat vous répond pour confirmer.</p>
+            <p id="succesTexte">Appuyez sur «&nbsp;Envoyer&nbsp;» dans WhatsApp pour transmettre votre préinscription - le secrétariat vous répond pour confirmer.</p>
             <div class="hero-actions">
               <a class="btn btn-plein" id="succesRouvrir" rel="noopener" data-lead="preinscription-rouvrir-whatsapp" href="https://wa.me/237655996913">Rouvrir WhatsApp</a>
               <a class="btn btn-contour" href="dossier.html" data-lead="preinscription-vers-dossier">Préparer mon dossier</a>
@@ -100,7 +100,7 @@
 
           <div class="carte etat etat-erreur" id="etatErreur" hidden>
             <h2>L'envoi n'a pas abouti</h2>
-            <p>Le réseau a peut-être flanché — rien n'est perdu&nbsp;: votre demande est prête à partir sur WhatsApp.</p>
+            <p>Le réseau a peut-être flanché - rien n'est perdu&nbsp;: votre demande est prête à partir sur WhatsApp.</p>
             <div class="hero-actions">
               <a class="btn btn-plein" id="erreurWhatsApp" rel="noopener" data-lead="preinscription-secours-whatsapp" href="https://wa.me/237655996913">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg>
@@ -120,7 +120,7 @@
             </li>
             <li>
               <span><b>Vous préparez le dossier</b>
-              <p>Sept pièces — <a href="dossier.html">la checklist</a> se coche et s'imprime.</p></span>
+              <p>Sept pièces - <a href="dossier.html">la checklist</a> se coche et s'imprime.</p></span>
             </li>
             <li>
               <span><b>Vous déposez au campus</b>
@@ -128,8 +128,8 @@
             </li>
           </ol>
           <div class="rassurance">
-            <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Aucun document à joindre — tout se dépose au secrétariat.</p>
-            <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Aucun paiement en ligne — tout règlement se fait au campus.</p>
+            <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Aucun document à joindre - tout se dépose au secrétariat.</p>
+            <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Aucun paiement en ligne - tout règlement se fait au campus.</p>
             <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Vos informations ne servent qu'à vous recontacter.</p>
           </div>
           <p class="asterisque">* Selon conditions en vigueur au secrétariat.</p>
@@ -143,6 +143,6 @@
 
 <noscript>
   <div class="conteneur" style="padding-block:2rem">
-    <p>Le formulaire nécessite JavaScript. Préinscrivez-vous directement sur WhatsApp au 655 99 69 13 en indiquant votre nom, votre téléphone et la formation visée — ou appelez le 697 63 65 86.</p>
+    <p>Le formulaire nécessite JavaScript. Préinscrivez-vous directement sur WhatsApp au 655 99 69 13 en indiquant votre nom, votre téléphone et la formation visée - ou appelez le 697 63 65 86.</p>
   </div>
 </noscript>

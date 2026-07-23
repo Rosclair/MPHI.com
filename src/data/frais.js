@@ -1,5 +1,5 @@
 /* ============================================================
-   MPHI — grille des frais (données)
+   MPHI - grille des frais (données)
    État actuel : AUCUN montant publié par MPHI (brochure muette).
    La page frais-et-bourses.html affiche donc un état d'attente.
 
@@ -23,19 +23,19 @@ window.MPHI_FRAIS = {
   note: "Paiement possible en 3 tranches. Bourse appliquée à l'inscription.",
   lignes: [
     {
-      libelle: "BTS — filières industrielles",   // formation ou catégorie
+      libelle: "BTS - filières industrielles",   // formation ou catégorie
       inscription: 0,                             // frais d'inscription
       scolarite: 0,                               // scolarité annuelle
       tranches: "3 tranches"                      // texte libre (échéancier)
     },
     {
-      libelle: "BTS — filières de gestion",
+      libelle: "BTS - filières de gestion",
       inscription: 0,
       scolarite: 0,
       tranches: "3 tranches"
     },
     {
-      libelle: "HND — all fields",
+      libelle: "HND - all fields",
       inscription: 0,
       scolarite: 0,
       tranches: "3 installments"

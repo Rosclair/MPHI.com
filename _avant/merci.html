@@ -2,11 +2,11 @@
 <html lang="fr">
 <head>
 <!--
-  MPHI — Merci (Lot 2 · confirmation post-préinscription)
+  MPHI - Merci (Lot 2 · confirmation post-préinscription)
   Dépend de : styles.css, site.js, data/formations.js. Fonctionne en file://.
 
   RÔLE : point d'atterrissage UNIQUE après une préinscription réussie,
-  quel que soit le mode d'envoi — c'est donc l'URL à configurer comme
+  quel que soit le mode d'envoi - c'est donc l'URL à configurer comme
   objectif de conversion dans l'outil d'analytics.
 
   PARAMÈTRES (sûrs, sans donnée personnelle) :
@@ -19,7 +19,7 @@
 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Merci — préinscription reçue · MPHI Bafoussam</title>
+<title>Merci - préinscription reçue · MPHI Bafoussam</title>
 <meta name="description" content="Votre préinscription MPHI est en route. Prochaine étape : préparer les sept pièces du dossier et le déposer au campus.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#14532D">
@@ -68,7 +68,7 @@
 
 <header class="entete" id="haut">
   <div class="conteneur">
-    <a class="marque" href="index.html" aria-label="MPHI — retour à l'accueil">
+    <a class="marque" href="index.html" aria-label="MPHI - retour à l'accueil">
       <svg viewBox="0 0 48 48" aria-hidden="true">
         <rect width="48" height="48" rx="10" fill="#14532D"/>
         <path d="M8 20.5 24 13l16 7.5-16 7.5z" fill="#E8A912"/>
@@ -159,7 +159,7 @@
         <li><b>C</b><span>Entrée de la ville (Borne fontaine)</span>
           <a href="https://www.google.com/maps/search/?api=1&amp;query=Bafoussam+entr%C3%A9e+de+la+ville" rel="noopener" data-lead="merci-campus-c">Itinéraire</a></li>
       </ul>
-      <p class="horaires" style="text-align:center">Aux heures d'ouverture du secrétariat — <a href="campus.html">voir les campus en détail</a>.</p>
+      <p class="horaires" style="text-align:center">Aux heures d'ouverture du secrétariat - <a href="campus.html">voir les campus en détail</a>.</p>
     </section>
 
     <div class="bande-aide" style="max-width:720px;margin-inline:auto">
@@ -184,7 +184,7 @@
         <span><b>MPHI</b><small>Monga Polytechnic<br>Higher Institute</small></span>
       </a>
       <p class="baseline">Former aujourd'hui, bâtir demain. Former, innover, transformer.</p>
-      <p class="autorisation">Institut privé d'enseignement supérieur autorisé par le MINESUP — arrêté du 1ᵉʳ août 2023.</p>
+      <p class="autorisation">Institut privé d'enseignement supérieur autorisé par le MINESUP - arrêté du 1ᵉʳ août 2023.</p>
     </div>
 
     <nav aria-label="Plan du site">
@@ -222,7 +222,7 @@
   </div>
 
   <div class="conteneur pied-bas">
-    <p style="margin:0">© <span id="annee">2026</span> Monga Polytechnic Higher Institute — Bafoussam, Cameroun</p>
+    <p style="margin:0">© <span id="annee">2026</span> Monga Polytechnic Higher Institute - Bafoussam, Cameroun</p>
     <ul>
       <li><a href="mentions-legales.html">Mentions légales</a></li>
       <li><a href="confidentialite.html">Confidentialité</a></li>
@@ -250,7 +250,7 @@
   /* ----- Variante selon le mode d'envoi ----- */
   if (via === "wa") {
     titre.textContent = "Votre message est prêt !";
-    texte.textContent = "Appuyez sur « Envoyer » dans WhatsApp pour transmettre votre préinscription — le secrétariat vous répond pour confirmer.";
+    texte.textContent = "Appuyez sur « Envoyer » dans WhatsApp pour transmettre votre préinscription - le secrétariat vous répond pour confirmer.";
     boutonRouvrir.hidden = false;
     var lienExact = null;
     try { lienExact = window.sessionStorage.getItem("mphi_pre_wa"); } catch (e) { /* stockage indisponible */ }

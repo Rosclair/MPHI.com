@@ -1,4 +1,4 @@
-/* MPHI — config centrale des pages.
+/* MPHI - config centrale des pages.
    Chaque entrée pilote : le fichier de sortie, le <head> (titre, description,
    OG, robots, JSON-LD), la nav (barre + dropdown Admissions) et le plan du
    site du footer, et les scripts de données à charger.
@@ -9,10 +9,10 @@ module.exports = [
   {
     id: "contact",
     out: "contact.html",
-    title: "Contact — MPHI · Bafoussam",
+    title: "Contact - MPHI · Bafoussam",
     description: "Contactez MPHI à Bafoussam : WhatsApp 655 99 69 13, téléphone 697 63 65 86, email et trois campus. Réponse rapide aux heures d'ouverture du secrétariat.",
     og: {
-      title: "Contacter MPHI — Bafoussam",
+      title: "Contacter MPHI - Bafoussam",
       description: "WhatsApp, téléphone, email et trois campus dans Bafoussam. Posez votre question, le secrétariat vous répond rapidement.",
       image: "assets/og/accueil.jpg"
     },
@@ -43,10 +43,10 @@ module.exports = [
   {
     id: "admissions",
     out: "admissions.html",
-    title: "Admissions — MPHI · Bafoussam",
+    title: "Admissions - MPHI · Bafoussam",
     description: "Rejoindre MPHI à Bafoussam : DQP dès le BEPC, BTS dès le BAC, HND après le GCE A/L, Licence et Master en poursuite. Conditions, dossier en 7 pièces, bourse jusqu'à −50 %.",
     og: {
-      title: "Admissions — rejoindre MPHI",
+      title: "Admissions - rejoindre MPHI",
       description: "BEPC ou BAC : vous pouvez vous inscrire. Conditions par diplôme, dossier en 7 pièces, inscription en 4 temps, bourse jusqu'à −50 %.",
       image: "assets/og/accueil.jpg"
     },
@@ -61,7 +61,7 @@ module.exports = [
   {
     id: "index",
     out: "index.html",
-    title: "MPHI — Monga Polytechnic Higher Institute · Bafoussam",
+    title: "MPHI - Monga Polytechnic Higher Institute · Bafoussam",
     description: "Institut supérieur privé à Bafoussam : DQP, BTS, HND, Licence et Master professionnels. Une centaine de spécialités, 3 campus, inscriptions 2026-2027 ouvertes dès le BEPC ou le BAC.",
     og: {
       title: "MPHI · Former aujourd'hui, bâtir demain",
@@ -79,9 +79,9 @@ module.exports = [
         email: "mongahigherpolytechnicinstitute@gmail.com",
         telephone: "+237697636586",
         address: [
-          { "@type": "PostalAddress", streetAddress: "Campus A — Carrefour Saint-Thomas", addressLocality: "Bafoussam", addressRegion: "Ouest", addressCountry: "CM" },
-          { "@type": "PostalAddress", streetAddress: "Campus B — Bocom Marché B", addressLocality: "Bafoussam", addressRegion: "Ouest", addressCountry: "CM" },
-          { "@type": "PostalAddress", streetAddress: "Campus C — Entrée de la ville (Borne fontaine)", addressLocality: "Bafoussam", addressRegion: "Ouest", addressCountry: "CM" }
+          { "@type": "PostalAddress", streetAddress: "Campus A - Carrefour Saint-Thomas", addressLocality: "Bafoussam", addressRegion: "Ouest", addressCountry: "CM" },
+          { "@type": "PostalAddress", streetAddress: "Campus B - Bocom Marché B", addressLocality: "Bafoussam", addressRegion: "Ouest", addressCountry: "CM" },
+          { "@type": "PostalAddress", streetAddress: "Campus C - Entrée de la ville (Borne fontaine)", addressLocality: "Bafoussam", addressRegion: "Ouest", addressCountry: "CM" }
         ]
       }
     ],
@@ -94,10 +94,10 @@ module.exports = [
   {
     id: "campus",
     out: "campus.html",
-    title: "Nos campus à Bafoussam — MPHI",
+    title: "Nos campus à Bafoussam - MPHI",
     description: "Les trois campus MPHI à Bafoussam : Carrefour Saint-Thomas, Bocom Marché B et l'entrée de la ville. Itinéraires, cartes et dépôt des dossiers d'inscription.",
     og: {
-      title: "Nos campus à Bafoussam — MPHI",
+      title: "Nos campus à Bafoussam - MPHI",
       description: "Trois adresses dans Bafoussam, un secrétariat sur chaque site pour vos renseignements et le dépôt du dossier d'inscription.",
       image: "assets/og/accueil.jpg"
     },
@@ -112,10 +112,10 @@ module.exports = [
   {
     id: "faq",
     out: "faq.html",
-    title: "Questions fréquentes — MPHI · Bafoussam",
+    title: "Questions fréquentes - MPHI · Bafoussam",
     description: "BEPC ou BAC, pièces du dossier, frais et bourse −50 %, permis offert, campus, rentrée : les réponses aux questions les plus posées sur MPHI Bafoussam.",
     og: {
-      title: "Questions fréquentes — MPHI",
+      title: "Questions fréquentes - MPHI",
       description: "Inscription dès le BEPC ou le BAC, dossier en 7 pièces, bourse jusqu'à −50 %, permis offert : toutes les réponses.",
       image: "assets/og/accueil.jpg"
     },
@@ -145,7 +145,7 @@ module.exports = [
   {
     id: "404",
     out: "404.html",
-    title: "Page introuvable — MPHI · Bafoussam",
+    title: "Page introuvable - MPHI · Bafoussam",
     description: "Cette page n'existe pas ou n'est pas encore en ligne. Retrouvez votre formation dans le catalogue MPHI ou écrivez-nous sur WhatsApp.",
     og: null,
     robots: "noindex",
@@ -159,10 +159,10 @@ module.exports = [
   {
     id: "dossier",
     out: "dossier.html",
-    title: "Constitution du dossier d'inscription — MPHI · Bafoussam",
+    title: "Constitution du dossier d'inscription - MPHI · Bafoussam",
     description: "Les 7 pièces du dossier d'inscription MPHI : demande d'admission, fiche d'inscription, CNI et acte de naissance, diplôme, photos 4×4, reçu, carton. Cochez, imprimez, déposez au campus.",
     og: {
-      title: "Constituer votre dossier d'inscription — MPHI",
+      title: "Constituer votre dossier d'inscription - MPHI",
       description: "Sept pièces, aucune surprise. La checklist officielle à cocher et à imprimer avant de déposer votre dossier au campus.",
       image: "assets/og/accueil.jpg"
     },
@@ -177,10 +177,10 @@ module.exports = [
   {
     id: "formations",
     out: "formations.html",
-    title: "Formations et spécialités — MPHI · Bafoussam",
-    description: "Le catalogue MPHI : une centaine de spécialités en BTS et HND à Bafoussam — génie civil, informatique, santé, gestion, hôtellerie, agriculture… Filtrez par diplôme et par filière.",
+    title: "Formations et spécialités - MPHI · Bafoussam",
+    description: "Le catalogue MPHI : une centaine de spécialités en BTS et HND à Bafoussam - génie civil, informatique, santé, gestion, hôtellerie, agriculture… Filtrez par diplôme et par filière.",
     og: {
-      title: "Formations et spécialités — MPHI",
+      title: "Formations et spécialités - MPHI",
       description: "Une centaine de spécialités en BTS et HND à Bafoussam. Trouvez la vôtre et posez vos questions sur WhatsApp.",
       image: "assets/og/accueil.jpg"
     },
@@ -195,10 +195,10 @@ module.exports = [
   {
     id: "fiche",
     out: "fiche.html",
-    title: "Fiche formation — MPHI · Bafoussam",
+    title: "Fiche formation - MPHI · Bafoussam",
     description: "Diplôme préparé, conditions d'admission, langue et inscription : la fiche complète de votre formation chez MPHI à Bafoussam.",
     og: {
-      title: "Fiche formation — MPHI",
+      title: "Fiche formation - MPHI",
       description: "Diplôme préparé, conditions d'admission et inscription en 3 étapes. Posez vos questions sur WhatsApp.",
       image: "assets/og/accueil.jpg"
     },
@@ -213,10 +213,10 @@ module.exports = [
   {
     id: "frais-et-bourses",
     out: "frais-et-bourses.html",
-    title: "Frais et bourse de formation — MPHI · Bafoussam",
+    title: "Frais et bourse de formation - MPHI · Bafoussam",
     description: "Frais d'inscription, scolarité en tranches, bourse jusqu'à −50 % et permis de conduire offert dès la première tranche : ce qui est sûr, et comment obtenir votre tarif en un message.",
     og: {
-      title: "Frais et bourse de formation — MPHI",
+      title: "Frais et bourse de formation - MPHI",
       description: "Bourse jusqu'à −50 % à l'inscription, permis de conduire dès la première tranche, paiement en tranches. Demandez le tarif de votre formation en un message.",
       image: "assets/og/accueil.jpg"
     },
@@ -231,10 +231,10 @@ module.exports = [
   {
     id: "calendrier",
     out: "calendrier.html",
-    title: "Calendrier 2026-2027 — MPHI · Bafoussam",
+    title: "Calendrier 2026-2027 - MPHI · Bafoussam",
     description: "Le parcours d'inscription MPHI étape par étape, et les dates officielles de la rentrée 2026-2027 publiées dès leur validation. Demandez les dates sur WhatsApp.",
     og: {
-      title: "Calendrier 2026-2027 — MPHI",
+      title: "Calendrier 2026-2027 - MPHI",
       description: "De la préparation du dossier à la rentrée : votre chronologie d'inscription, et les dates officielles dès leur publication.",
       image: "assets/og/accueil.jpg"
     },
@@ -249,10 +249,10 @@ module.exports = [
   {
     id: "preinscription",
     out: "preinscription.html",
-    title: "Préinscription 2026-2027 — MPHI · Bafoussam",
-    description: "Préinscrivez-vous chez MPHI en deux minutes : nom, téléphone, formation visée. Aucun document à joindre, aucun paiement en ligne — le secrétariat vous recontacte.",
+    title: "Préinscription 2026-2027 - MPHI · Bafoussam",
+    description: "Préinscrivez-vous chez MPHI en deux minutes : nom, téléphone, formation visée. Aucun document à joindre, aucun paiement en ligne - le secrétariat vous recontacte.",
     og: {
-      title: "Préinscription 2026-2027 — MPHI",
+      title: "Préinscription 2026-2027 - MPHI",
       description: "Deux minutes, aucun document : réservez votre place pour la rentrée, le secrétariat vous recontacte.",
       image: "assets/og/accueil.jpg"
     },
@@ -267,7 +267,7 @@ module.exports = [
   {
     id: "merci",
     out: "merci.html",
-    title: "Merci — préinscription reçue · MPHI Bafoussam",
+    title: "Merci - préinscription reçue · MPHI Bafoussam",
     description: "Votre préinscription MPHI est en route. Prochaine étape : préparer les sept pièces du dossier et le déposer au campus.",
     og: null,
     robots: "noindex",

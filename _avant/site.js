@@ -1,4 +1,4 @@
-/* MPHI — comportements partagés (toutes les pages) */
+/* MPHI - comportements partagés (toutes les pages) */
 (function () {
   "use strict";
 
@@ -45,7 +45,7 @@
     elements.forEach(function (el) { el.classList.add("visible"); });
   }
 
-  /* Traçage des leads (WhatsApp, téléphone, CTA) — délégué :
+  /* Traçage des leads (WhatsApp, téléphone, CTA) - délégué :
      couvre aussi les éléments injectés dynamiquement (catalogue).
      Point de branchement unique pour un futur outil d'analytics. */
   document.addEventListener("click", function (e) {

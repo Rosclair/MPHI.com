@@ -60,7 +60,7 @@ function main() {
   });
 
   if (total === 0) {
-    console.log("OK — " + fichiers.length + " page(s), balises équilibrées.");
+    console.log("OK - " + fichiers.length + " page(s), balises équilibrées.");
     process.exit(0);
   } else {
     console.error(total + " erreur(s) d'équilibrage.");

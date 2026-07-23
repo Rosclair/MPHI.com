@@ -74,7 +74,7 @@ function main() {
   });
 
   if (anomalies.length === 0) {
-    console.log("OK — liens internes de " + pages.length + " page(s) tous résolus (pages prévues 404 : " + PAGES_404_PREVUES.join(", ") + ").");
+    console.log("OK - liens internes de " + pages.length + " page(s) tous résolus (pages prévues 404 : " + PAGES_404_PREVUES.join(", ") + ").");
     process.exit(0);
   } else {
     console.error(anomalies.length + " anomalie(s) :");

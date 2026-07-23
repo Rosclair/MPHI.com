@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* MPHI — assembleur de site statique (Node natif, zéro dépendance).
+/* MPHI - assembleur de site statique (Node natif, zéro dépendance).
    Usage : node build.js [--watch]
    Lit pages.config.js + src/, écrit dist/. Voir README.md. */
 "use strict";
@@ -130,7 +130,7 @@ function buildHead(p) {
     og = [
       '<meta property="og:type" content="website">',
       '<meta property="og:locale" content="fr_FR">',
-      '<meta property="og:site_name" content="MPHI — Monga Polytechnic Higher Institute">',
+      '<meta property="og:site_name" content="MPHI - Monga Polytechnic Higher Institute">',
       '<meta property="og:title" content="' + escAttr(p.og.title) + '">',
       '<meta property="og:description" content="' + escAttr(p.og.description) + '">',
       '<meta property="og:image" content="' + escAttr(p.og.image) + '">'

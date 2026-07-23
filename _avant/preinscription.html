@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <!--
-  MPHI — Préinscription (Lot 2 · la page de conversion)
+  MPHI - Préinscription (Lot 2 · la page de conversion)
   Dépend de : styles.css, site.js, data/formations.js. Fonctionne en file://.
 
   DOUBLE MODE D'ENVOI (constante POINT_ENVOI dans le script) :
@@ -13,33 +13,33 @@
     états succès/erreur, et WhatsApp en secours si le réseau échoue.
     Alternative Web3Forms : POINT_ENVOI = "https://api.web3forms.com/submit"
     + décommenter le champ caché access_key dans le formulaire.
-  · Dans les deux modes, le succès redirige vers merci.html — le point
+  · Dans les deux modes, le succès redirige vers merci.html - le point
     UNIQUE de mesure des conversions (paramètres sûrs : via, f, d ;
     jamais de nom ni de téléphone en URL ; le lien WhatsApp exact
     transite par sessionStorage protégé).
 
   DONNÉES COLLECTÉES (minimisation volontaire) : nom, téléphone, formation
   visée, diplôme, campus souhaité, email et message facultatifs. AUCUN
-  document, AUCUN paiement en ligne — le dossier se dépose au campus.
+  document, AUCUN paiement en ligne - le dossier se dépose au campus.
 
   À VALIDER AVEC MPHI :
-  [TODO-1] Destinataire des préinscriptions (adresse email du secrétariat —
+  [TODO-1] Destinataire des préinscriptions (adresse email du secrétariat -
            lié à l'ambiguïté des deux emails de la brochure, cf. contact).
   [TODO-2] Choix du service (Formspree ~50 envois/mois gratuits,
            Web3Forms ~250) selon le volume attendu en période de rentrée.
   [TODO-3] Page confidentialite.html à rédiger avant le mode endpoint
-           (mentions de collecte) — le lien existe déjà sous le formulaire.
+           (mentions de collecte) - le lien existe déjà sous le formulaire.
 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Préinscription 2026-2027 — MPHI · Bafoussam</title>
-<meta name="description" content="Préinscrivez-vous chez MPHI en deux minutes : nom, téléphone, formation visée. Aucun document à joindre, aucun paiement en ligne — le secrétariat vous recontacte.">
+<title>Préinscription 2026-2027 - MPHI · Bafoussam</title>
+<meta name="description" content="Préinscrivez-vous chez MPHI en deux minutes : nom, téléphone, formation visée. Aucun document à joindre, aucun paiement en ligne - le secrétariat vous recontacte.">
 <meta name="theme-color" content="#14532D">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
-<meta property="og:site_name" content="MPHI — Monga Polytechnic Higher Institute">
-<meta property="og:title" content="Préinscription 2026-2027 — MPHI">
+<meta property="og:site_name" content="MPHI - Monga Polytechnic Higher Institute">
+<meta property="og:title" content="Préinscription 2026-2027 - MPHI">
 <meta property="og:description" content="Deux minutes, aucun document : réservez votre place pour la rentrée, le secrétariat vous recontacte.">
 <meta property="og:image" content="assets/og/accueil.jpg">
 
@@ -122,7 +122,7 @@
 
 <header class="entete" id="haut">
   <div class="conteneur">
-    <a class="marque" href="index.html" aria-label="MPHI — retour à l'accueil">
+    <a class="marque" href="index.html" aria-label="MPHI - retour à l'accueil">
       <svg viewBox="0 0 48 48" aria-hidden="true">
         <rect width="48" height="48" rx="10" fill="#14532D"/>
         <path d="M8 20.5 24 13l16 7.5-16 7.5z" fill="#E8A912"/>
@@ -171,7 +171,7 @@
 
       <p class="sur-titre">Rentrée 2026-2027</p>
       <h1>Se préinscrire en deux minutes</h1>
-      <p class="intro">Nom, téléphone, formation visée — c'est tout. Aucun document à joindre, aucun paiement en ligne&nbsp;: le secrétariat vous recontacte, et le dossier se dépose au campus.</p>
+      <p class="intro">Nom, téléphone, formation visée - c'est tout. Aucun document à joindre, aucun paiement en ligne&nbsp;: le secrétariat vous recontacte, et le dossier se dépose au campus.</p>
 
       <div class="grille-pre">
         <div>
@@ -196,7 +196,7 @@
               <label for="formation">Formation visée *</label>
               <input type="text" id="formation" name="formation" list="listeFormations" required placeholder="Tapez pour chercher : génie logiciel, sage-femme…">
               <datalist id="listeFormations"></datalist>
-              <span class="indice">106 spécialités proposées — ou décrivez librement si vous hésitez.</span>
+              <span class="indice">106 spécialités proposées - ou décrivez librement si vous hésitez.</span>
               <p class="erreur-champ" id="err-formation" hidden>Indiquez la formation qui vous intéresse.</p>
             </div>
 
@@ -205,9 +205,9 @@
                 <label for="diplome">Diplôme visé</label>
                 <select id="diplome" name="diplome" class="selecteur" style="width:100%">
                   <option value="Je ne sais pas encore" selected>Je ne sais pas encore</option>
-                  <option value="DQP">DQP — dès le BEPC</option>
-                  <option value="BTS">BTS — dès le BAC</option>
-                  <option value="HND">HND — after A/L or BAC</option>
+                  <option value="DQP">DQP - dès le BEPC</option>
+                  <option value="BTS">BTS - dès le BAC</option>
+                  <option value="HND">HND - after A/L or BAC</option>
                   <option value="Licence / Master">Licence / Master</option>
                 </select>
               </div>
@@ -215,9 +215,9 @@
                 <label for="campus">Campus souhaité</label>
                 <select id="campus" name="campus" class="selecteur" style="width:100%">
                   <option value="Indifférent" selected>Indifférent</option>
-                  <option value="A — Carrefour Saint-Thomas">A — Carrefour Saint-Thomas</option>
-                  <option value="B — Bocom Marché B">B — Bocom Marché B</option>
-                  <option value="C — Entrée de la ville">C — Entrée de la ville</option>
+                  <option value="A - Carrefour Saint-Thomas">A - Carrefour Saint-Thomas</option>
+                  <option value="B - Bocom Marché B">B - Bocom Marché B</option>
+                  <option value="C - Entrée de la ville">C - Entrée de la ville</option>
                 </select>
               </div>
             </div>
@@ -239,12 +239,12 @@
 
             <label class="consentement">
               <input type="checkbox" id="consentement" required>
-              <span>J'accepte que MPHI me recontacte au sujet de ma préinscription. Mes informations ne servent qu'à cela — <a href="confidentialite.html">confidentialité</a>. *</span>
+              <span>J'accepte que MPHI me recontacte au sujet de ma préinscription. Mes informations ne servent qu'à cela - <a href="confidentialite.html">confidentialité</a>. *</span>
             </label>
             <p class="erreur-champ" id="err-consentement" hidden style="margin:-.6rem 0 1rem">Cochez la case pour que nous puissions vous recontacter.</p>
 
             <button type="submit" class="btn btn-or bouton-envoi" id="boutonEnvoyer" data-lead="preinscription-envoi">Envoyer via WhatsApp</button>
-            <p class="mode-note" id="modeNote">Votre demande s'ouvre dans WhatsApp, prête à envoyer — le secrétariat vous répond pour confirmer.</p>
+            <p class="mode-note" id="modeNote">Votre demande s'ouvre dans WhatsApp, prête à envoyer - le secrétariat vous répond pour confirmer.</p>
           </form>
 
           <div class="carte etat etat-succes" id="etatSucces" hidden>
@@ -252,7 +252,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
             </span>
             <h2 id="succesTitre">Votre message est prêt dans WhatsApp</h2>
-            <p id="succesTexte">Appuyez sur «&nbsp;Envoyer&nbsp;» dans WhatsApp pour transmettre votre préinscription — le secrétariat vous répond pour confirmer.</p>
+            <p id="succesTexte">Appuyez sur «&nbsp;Envoyer&nbsp;» dans WhatsApp pour transmettre votre préinscription - le secrétariat vous répond pour confirmer.</p>
             <div class="hero-actions">
               <a class="btn btn-plein" id="succesRouvrir" rel="noopener" data-lead="preinscription-rouvrir-whatsapp" href="https://wa.me/237655996913">Rouvrir WhatsApp</a>
               <a class="btn btn-contour" href="dossier.html" data-lead="preinscription-vers-dossier">Préparer mon dossier</a>
@@ -262,7 +262,7 @@
 
           <div class="carte etat etat-erreur" id="etatErreur" hidden>
             <h2>L'envoi n'a pas abouti</h2>
-            <p>Le réseau a peut-être flanché — rien n'est perdu&nbsp;: votre demande est prête à partir sur WhatsApp.</p>
+            <p>Le réseau a peut-être flanché - rien n'est perdu&nbsp;: votre demande est prête à partir sur WhatsApp.</p>
             <div class="hero-actions">
               <a class="btn btn-plein" id="erreurWhatsApp" rel="noopener" data-lead="preinscription-secours-whatsapp" href="https://wa.me/237655996913">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg>
@@ -282,7 +282,7 @@
             </li>
             <li>
               <span><b>Vous préparez le dossier</b>
-              <p>Sept pièces — <a href="dossier.html">la checklist</a> se coche et s'imprime.</p></span>
+              <p>Sept pièces - <a href="dossier.html">la checklist</a> se coche et s'imprime.</p></span>
             </li>
             <li>
               <span><b>Vous déposez au campus</b>
@@ -290,8 +290,8 @@
             </li>
           </ol>
           <div class="rassurance">
-            <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Aucun document à joindre — tout se dépose au secrétariat.</p>
-            <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Aucun paiement en ligne — tout règlement se fait au campus.</p>
+            <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Aucun document à joindre - tout se dépose au secrétariat.</p>
+            <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Aucun paiement en ligne - tout règlement se fait au campus.</p>
             <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Vos informations ne servent qu'à vous recontacter.</p>
           </div>
           <p class="asterisque">* Selon conditions en vigueur au secrétariat.</p>
@@ -315,7 +315,7 @@
         <span><b>MPHI</b><small>Monga Polytechnic<br>Higher Institute</small></span>
       </a>
       <p class="baseline">Former aujourd'hui, bâtir demain. Former, innover, transformer.</p>
-      <p class="autorisation">Institut privé d'enseignement supérieur autorisé par le MINESUP — arrêté du 1ᵉʳ août 2023.</p>
+      <p class="autorisation">Institut privé d'enseignement supérieur autorisé par le MINESUP - arrêté du 1ᵉʳ août 2023.</p>
     </div>
 
     <nav aria-label="Plan du site">
@@ -353,7 +353,7 @@
   </div>
 
   <div class="conteneur pied-bas">
-    <p style="margin:0">© <span id="annee">2026</span> Monga Polytechnic Higher Institute — Bafoussam, Cameroun</p>
+    <p style="margin:0">© <span id="annee">2026</span> Monga Polytechnic Higher Institute - Bafoussam, Cameroun</p>
     <ul>
       <li><a href="mentions-legales.html">Mentions légales</a></li>
       <li><a href="confidentialite.html">Confidentialité</a></li>
@@ -398,11 +398,11 @@
   /* ----- Libellés selon le mode ----- */
   if (modeEndpoint) {
     bouton.textContent = "Envoyer ma préinscription";
-    modeNote.textContent = "Envoi direct au secrétariat — vous êtes recontacté rapidement.";
+    modeNote.textContent = "Envoi direct au secrétariat - vous êtes recontacté rapidement.";
   }
 
   /* ----- Datalist des 106 formations + préremplissage ?f= ----- */
-  function libelleSpec(spec) { return spec.nom + " — " + spec.diplomeNom; }
+  function libelleSpec(spec) { return spec.nom + " - " + spec.diplomeNom; }
 
   if (donnees) {
     var liste = document.getElementById("listeFormations");
@@ -452,7 +452,7 @@
   /* ----- Message WhatsApp structuré ----- */
   function composerMessage() {
     var lignes = [
-      "Préinscription MPHI — rentrée 2026-2027",
+      "Préinscription MPHI - rentrée 2026-2027",
       "Nom : " + champNom.value.trim(),
       "Téléphone : " + champTel.value.trim(),
       "Formation visée : " + champFormation.value.trim(),
@@ -544,7 +544,7 @@
 
 <noscript>
   <div class="conteneur" style="padding-block:2rem">
-    <p>Le formulaire nécessite JavaScript. Préinscrivez-vous directement sur WhatsApp au 655 99 69 13 en indiquant votre nom, votre téléphone et la formation visée — ou appelez le 697 63 65 86.</p>
+    <p>Le formulaire nécessite JavaScript. Préinscrivez-vous directement sur WhatsApp au 655 99 69 13 en indiquant votre nom, votre téléphone et la formation visée - ou appelez le 697 63 65 86.</p>
   </div>
 </noscript>
 

@@ -1,5 +1,5 @@
 /* ============================================================
-   MPHI — styles partagés (toutes les pages)
+   MPHI - styles partagés (toutes les pages)
    Tokens, base, typographie, boutons, annonce, en-tête, pied.
    Les styles propres à une page restent dans son <style>.
    ============================================================ */
@@ -149,9 +149,9 @@ mark{background:var(--or-300);color:var(--encre);padding:.03em .14em;box-decorat
   .nav-principale a{display:block;padding:.8rem .15rem;font-size:1.05rem}
   .nav-principale a[aria-current="page"]{box-shadow:none;color:var(--vert-600)}
   .nav-principale .btn{display:inline-flex;width:100%;}
-  .nav-dropdown-bouton{pointer-events:none}
-  .nav-dropdown-bouton .chevron{display:none}
-  .menu-deroulant{display:block;position:static;border:0;box-shadow:none;background:none;padding:0;margin:.3rem 0 0;min-width:0}
+  .nav-dropdown-bouton{display:flex;width:100%;justify-content:space-between;align-items:center;padding:.8rem .15rem;font-size:1.05rem}
+  .menu-deroulant{display:none;position:static;border:0;box-shadow:none;background:none;padding:0;margin:0;min-width:0}
+  .menu-deroulant.ouverte{display:block}
   .menu-deroulant a{padding:.6rem .15rem .6rem 1.1rem;font-size:1rem;white-space:normal}
 }
 
@@ -531,7 +531,7 @@ body[data-page="campus"] .bande-aide{margin-block:clamp(2.75rem,6vw,4.5rem)}
 .actions-page{margin-top:2.4rem;display:flex;flex-wrap:wrap;gap:.9rem}
 .imprime-seulement{display:none}
 /* Styles d'impression : propres à dossier.html (version imprimable de la
-   checklist) — scopés pour ne pas changer le rendu d'impression des
+   checklist) - scopés pour ne pas changer le rendu d'impression des
    autres pages, qui n'avaient pas cette feuille @media print. */
 @media print{
   body[data-page="dossier"] .skip,
@@ -643,7 +643,7 @@ body[data-page="fiche"] .entete-page h1{font-size:clamp(2.1rem,6vw,3.6rem)}
 .section-frais{margin-top:clamp(2.75rem,6vw,4.25rem)}
 .section-frais h2{font-size:clamp(1.6rem,3.6vw,2.3rem)}
 /* .grille-attente : identique sur frais-et-bourses.html et calendrier.html
-   (cf. audit CSS) — fusionnée une seule fois ici. */
+   (cf. audit CSS) - fusionnée une seule fois ici. */
 .grille-attente{margin-top:1.6rem;background:#fff;border:1.5px dashed var(--vert-500);border-radius:var(--rayon);padding:clamp(1.6rem,4vw,2.5rem);text-align:center}
 .grille-attente .badge{margin-bottom:.9rem;display:inline-block}
 .grille-attente h3{margin-bottom:.35rem}

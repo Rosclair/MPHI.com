@@ -32,7 +32,7 @@ function main() {
   });
 
   if (echecs === 0) {
-    console.log("OK — " + FICHIERS.length + " fichier(s) syntaxiquement valides.");
+    console.log("OK - " + FICHIERS.length + " fichier(s) syntaxiquement valides.");
     process.exit(0);
   } else {
     console.error(echecs + " fichier(s) en échec.");

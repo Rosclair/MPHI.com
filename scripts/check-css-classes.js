@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Vérifie que chaque classe utilisée (attributs class="" des pages,
    classes construites dynamiquement par app.js) a une règle réelle dans
-   styles.css — à l'exception des classes d'état purement JS (whitelist). */
+   styles.css - à l'exception des classes d'état purement JS (whitelist). */
 "use strict";
 
 var fs = require("fs");
@@ -67,7 +67,7 @@ function main() {
   });
 
   if (orphelines.length === 0) {
-    console.log("OK — " + Object.keys(utilisees).length + " classe(s) utilisée(s), toutes couvertes par styles.css ou la whitelist JS.");
+    console.log("OK - " + Object.keys(utilisees).length + " classe(s) utilisée(s), toutes couvertes par styles.css ou la whitelist JS.");
     process.exit(0);
   } else {
     console.error(orphelines.length + " classe(s) sans règle CSS :");

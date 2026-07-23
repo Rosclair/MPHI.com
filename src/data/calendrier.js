@@ -1,5 +1,5 @@
 /* ============================================================
-   MPHI — calendrier académique (données)
+   MPHI - calendrier académique (données)
    État actuel : AUCUNE date publiée par MPHI (brochure muette).
    La page calendrier.html affiche donc la chronologie du candidat
    et un état d'attente pour les dates officielles.
@@ -20,7 +20,7 @@ window.MPHI_CALENDRIER = null;
 
 window.MPHI_CALENDRIER = {
   valideLe: "2026-08-15",             // date de validation par la direction
-  note: "Dates susceptibles d'ajustement — confirmées au secrétariat.",
+  note: "Dates susceptibles d'ajustement - confirmées au secrétariat.",
   evenements: [
     {
       date: "2026-07-01",             // début (obligatoire)

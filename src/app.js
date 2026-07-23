@@ -1,4 +1,4 @@
-/* MPHI — comportements partagés (toutes les pages) */
+/* MPHI - comportements partagés (toutes les pages) */
 (function () {
   "use strict";
 
@@ -18,9 +18,9 @@
     });
   }
 
-  /* Menu déroulant « Admissions » (desktop : clic + Échap + clic extérieur ;
-     sur mobile le sous-groupe reste toujours déplié via CSS, ce bloc n'y a
-     alors aucun effet visible). */
+  /* Menu déroulant « Admissions » : replié par défaut, ouvert/fermé au clic
+     sur le bouton, avec Échap et clic extérieur pour refermer - identique
+     sur desktop (bulle flottante) et sur mobile (bloc dans le panneau). */
   var boutonAdmissions = document.getElementById("boutonAdmissions");
   var menuAdmissions = document.getElementById("menuAdmissions");
   if (boutonAdmissions && menuAdmissions) {
@@ -68,7 +68,7 @@
     elements.forEach(function (el) { el.classList.add("visible"); });
   }
 
-  /* Traçage des leads (WhatsApp, téléphone, CTA) — délégué :
+  /* Traçage des leads (WhatsApp, téléphone, CTA) - délégué :
      couvre aussi les éléments injectés dynamiquement (catalogue).
      Point de branchement unique pour un futur outil d'analytics. */
   document.addEventListener("click", function (e) {
@@ -84,7 +84,7 @@
   if (annee) { annee.textContent = String(new Date().getFullYear()); }
 })();
 
-/* campus.html — cartes Google Maps à la demande */
+/* campus.html - cartes Google Maps à la demande */
 (function () {
   "use strict";
 
@@ -98,7 +98,7 @@
 
       var cadre = document.createElement("iframe");
       cadre.src = "https://maps.google.com/maps?q=" + encodeURIComponent(requete) + "&z=16&output=embed";
-      cadre.title = "Carte — Campus " + campus + " MPHI, Bafoussam";
+      cadre.title = "Carte - Campus " + campus + " MPHI, Bafoussam";
       cadre.loading = "lazy";
       cadre.referrerPolicy = "no-referrer-when-downgrade";
       cadre.setAttribute("allowfullscreen", "");
@@ -109,7 +109,7 @@
   });
 })();
 
-/* faq.html — recherche instantanée, ancres profondes, tout déplier/replier */
+/* faq.html - recherche instantanée, ancres profondes, tout déplier/replier */
 (function () {
   "use strict";
 
@@ -209,7 +209,7 @@
   filtrer();
 })();
 
-/* 404.html — page prévue reconnue depuis l'URL + recherche instantanée */
+/* 404.html - page prévue reconnue depuis l'URL + recherche instantanée */
 (function () {
   "use strict";
 
@@ -255,7 +255,7 @@
     cta.href = prevue.cta.href;
     if (prevue.cta.href.indexOf("https://wa.me/") === 0) { cta.setAttribute("rel", "noopener"); }
     cta.setAttribute("data-lead", "404-prevu-" + nomPage);
-    document.title = prevue.titre + " — MPHI · Bafoussam";
+    document.title = prevue.titre + " - MPHI · Bafoussam";
   }
 
   /* ----- Recherche instantanée dans les formations ----- */
@@ -301,7 +301,7 @@
   }
 })();
 
-/* dossier.html — checklist persistée (localStorage) + impression */
+/* dossier.html - checklist persistée (localStorage) + impression */
 (function () {
   "use strict";
 
@@ -422,7 +422,7 @@
   synchroniserURL();
 })();
 
-/* formations.html — catalogue filtrable (recherche, diplôme, filière) */
+/* formations.html - catalogue filtrable (recherche, diplôme, filière) */
 (function () {
   "use strict";
 
@@ -500,10 +500,10 @@
   /* ----- Avis contextuels (DQP, Licence/Master) ----- */
   function majAvis() {
     if (etat.diplome === "dqp") {
-      avis.innerHTML = "<p><strong>Parcours DQP</strong> — accessible dès le BEPC, il suit les mêmes filières que le BTS ci-dessous, et se combine en «&nbsp;DQP&nbsp;+&nbsp;BTS en 2&nbsp;ans&nbsp;». La liste exacte des spécialités DQP est confirmée au secrétariat. <a href=\"admissions.html\">Voir les admissions</a></p>";
+      avis.innerHTML = "<p><strong>Parcours DQP</strong> - accessible dès le BEPC, il suit les mêmes filières que le BTS ci-dessous, et se combine en «&nbsp;DQP&nbsp;+&nbsp;BTS en 2&nbsp;ans&nbsp;». La liste exacte des spécialités DQP est confirmée au secrétariat. <a href=\"admissions.html\">Voir les admissions</a></p>";
       avis.classList.add("visible");
     } else if (etat.diplome === "licence-master") {
-      avis.innerHTML = "<p><strong>Licence et Master professionnels</strong> — ils prolongent les BTS et HND ci-dessous. Programme détaillé et conditions d'accès au secrétariat, ou <a href=\"https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20je%20souhaite%20des%20informations%20sur%20vos%20Licences%20et%20Masters%20professionnels.\" data-lead=\"avis-lm-whatsapp\" rel=\"noopener\">sur WhatsApp</a>.</p>";
+      avis.innerHTML = "<p><strong>Licence et Master professionnels</strong> - ils prolongent les BTS et HND ci-dessous. Programme détaillé et conditions d'accès au secrétariat, ou <a href=\"https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20je%20souhaite%20des%20informations%20sur%20vos%20Licences%20et%20Masters%20professionnels.\" data-lead=\"avis-lm-whatsapp\" rel=\"noopener\">sur WhatsApp</a>.</p>";
       avis.classList.add("visible");
     } else {
       avis.innerHTML = "";
@@ -600,7 +600,7 @@
   rendre();
 })();
 
-/* fiche.html — modèle unique rempli depuis ?f=<slug> */
+/* fiche.html - modèle unique rempli depuis ?f=<slug> */
 (function () {
   "use strict";
 
@@ -612,7 +612,7 @@
   function afficherErreur() {
     contenu.style.display = "none";
     erreur.classList.add("visible");
-    document.title = "Fiche introuvable — MPHI · Bafoussam";
+    document.title = "Fiche introuvable - MPHI · Bafoussam";
   }
 
   if (!donnees) { afficherErreur(); return; }
@@ -624,8 +624,8 @@
 
   /* ----- Libellés ----- */
   var DIPLOME_LONG = {
-    bts: "BTS — Brevet de technicien supérieur",
-    hnd: "HND — Higher national diploma"
+    bts: "BTS - Brevet de technicien supérieur",
+    hnd: "HND - Higher national diploma"
   };
   var langueLabel = spec.langue === "en" ? "Anglais (English track)" : "Français";
   var phraseLangue = spec.langue === "en"
@@ -633,7 +633,7 @@
     : "Cursus francophone, accessible dès le BAC.";
 
   /* ----- Titre, fil, badges, intro ----- */
-  document.title = spec.nom + " · " + spec.diplomeNom + " — MPHI Bafoussam";
+  document.title = spec.nom + " · " + spec.diplomeNom + " - MPHI Bafoussam";
   var metaDescription = document.querySelector("meta[name=description]");
   if (metaDescription) {
     metaDescription.setAttribute("content",
@@ -718,7 +718,7 @@
   var boutonCopier = document.getElementById("copierLien");
   var retourCopie = document.getElementById("retourCopie");
   function confirmerCopie(ok) {
-    retourCopie.textContent = ok ? "Lien copié !" : "Copie impossible — sélectionnez l'adresse du navigateur.";
+    retourCopie.textContent = ok ? "Lien copié !" : "Copie impossible - sélectionnez l'adresse du navigateur.";
     window.setTimeout(function () { retourCopie.textContent = ""; }, 2500);
   }
   boutonCopier.addEventListener("click", function () {
@@ -743,7 +743,7 @@
   });
 })();
 
-/* frais-et-bourses.html — rendu automatique dès que data/frais.js est rempli */
+/* frais-et-bourses.html - rendu automatique dès que data/frais.js est rempli */
 (function () {
   "use strict";
 
@@ -781,7 +781,7 @@
 
     [["Frais d'inscription", montant(ligne.inscription)],
      ["Scolarité", montant(ligne.scolarite)],
-     ["Paiement", ligne.tranches || "—"]].forEach(function (paire) {
+     ["Paiement", ligne.tranches || "-"]].forEach(function (paire) {
       var td = document.createElement("td");
       td.setAttribute("data-label", paire[0]);
       td.textContent = paire[1];
@@ -797,16 +797,16 @@
   var texteMaj = "Grille officielle";
   if (grille.valideLe) {
     try {
-      texteMaj += " — validée le " + new Date(grille.valideLe + "T00:00:00")
+      texteMaj += " - validée le " + new Date(grille.valideLe + "T00:00:00")
         .toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
-    } catch (e) { texteMaj += " — validée le " + grille.valideLe; }
+    } catch (e) { texteMaj += " - validée le " + grille.valideLe; }
   }
   if (grille.note) { texteMaj += ". " + grille.note; }
   maj.textContent = texteMaj;
   maj.hidden = false;
 })();
 
-/* calendrier.html — rendu automatique dès que data/calendrier.js est rempli */
+/* calendrier.html - rendu automatique dès que data/calendrier.js est rempli */
 (function () {
   "use strict";
 
@@ -911,7 +911,7 @@
   var texteMaj = "Calendrier officiel";
   if (calendrier.valideLe) {
     var v = versDate(calendrier.valideLe);
-    if (v) { texteMaj += " — validé le " + dateLongue(v); }
+    if (v) { texteMaj += " - validé le " + dateLongue(v); }
   }
   if (calendrier.note) { texteMaj += ". " + calendrier.note; }
   maj.textContent = texteMaj;
@@ -921,7 +921,7 @@
   datesListe.hidden = false;
 })();
 
-/* preinscription.html — validation, message WhatsApp structuré, envoi */
+/* preinscription.html - validation, message WhatsApp structuré, envoi */
 (function () {
   "use strict";
 
@@ -958,11 +958,11 @@
   /* ----- Libellés selon le mode ----- */
   if (modeEndpoint) {
     bouton.textContent = "Envoyer ma préinscription";
-    modeNote.textContent = "Envoi direct au secrétariat — vous êtes recontacté rapidement.";
+    modeNote.textContent = "Envoi direct au secrétariat - vous êtes recontacté rapidement.";
   }
 
   /* ----- Datalist des 106 formations + préremplissage ?f= ----- */
-  function libelleSpec(spec) { return spec.nom + " — " + spec.diplomeNom; }
+  function libelleSpec(spec) { return spec.nom + " - " + spec.diplomeNom; }
 
   if (donnees) {
     var liste = document.getElementById("listeFormations");
@@ -1013,7 +1013,7 @@
   function composerMessage() {
     var sautDeLigne = String.fromCharCode(10);
     var lignes = [
-      "Préinscription MPHI — rentrée 2026-2027",
+      "Préinscription MPHI - rentrée 2026-2027",
       "Nom : " + champNom.value.trim(),
       "Téléphone : " + champTel.value.trim(),
       "Formation visée : " + champFormation.value.trim(),
@@ -1102,7 +1102,7 @@
   });
 })();
 
-/* merci.html — point d'atterrissage unique après préinscription */
+/* merci.html - point d'atterrissage unique après préinscription */
 (function () {
   "use strict";
 
@@ -1121,7 +1121,7 @@
   /* ----- Variante selon le mode d'envoi ----- */
   if (via === "wa") {
     titre.textContent = "Votre message est prêt !";
-    texte.textContent = "Appuyez sur « Envoyer » dans WhatsApp pour transmettre votre préinscription — le secrétariat vous répond pour confirmer.";
+    texte.textContent = "Appuyez sur « Envoyer » dans WhatsApp pour transmettre votre préinscription - le secrétariat vous répond pour confirmer.";
     boutonRouvrir.hidden = false;
     var lienExact = null;
     try { lienExact = window.sessionStorage.getItem("mphi_pre_wa"); } catch (e) { /* stockage indisponible */ }

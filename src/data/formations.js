@@ -1,10 +1,10 @@
 /* ============================================================
-   MPHI — données des formations (source : brochure papier 2026)
+   MPHI - données des formations (source : brochure papier 2026)
    Fichier de données unique : catalogue, fiches, orienteur et
    sitemap se génèrent depuis cette structure.
 
    À VALIDER AVEC MPHI (atelier contenu) :
-   [D-1] Filière STAPS : la brochure ne liste aucune spécialité —
+   [D-1] Filière STAPS : la brochure ne liste aucune spécialité -
          une entrée générique est créée en attendant.
    [D-2] Filière « Ingénierie et gestion de l'eau » : les intitulés
          imprimés se recoupent ; les 3 entrées reproduisent la
@@ -13,9 +13,9 @@
          « DQP + BTS en 2 ans » suit les filières BTS). Le catalogue
          affiche un avis, pas une liste inventée.
    [D-4] Licence / Master : secteurs annoncés (volet anglais) mais
-         aucune liste de spécialités — même traitement.
+         aucune liste de spécialités - même traitement.
    [D-5] Campus d'enseignement par spécialité : information absente
-         de la brochure — volontairement non affichée.
+         de la brochure - volontairement non affichée.
    ============================================================ */
 
 (function () {
