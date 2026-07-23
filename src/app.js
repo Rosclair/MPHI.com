@@ -1,51 +1,5 @@
 /* MPHI - comportements partagés (toutes les pages) */
 
-/* Écran de chargement : barre de progression simulée jusqu'à l'événement
-   "load", puis fondu. Filet de sécurité à 4s pour ne jamais bloquer l'accès
-   au contenu (déjà présent et accessible dans le DOM sous l'écran). */
-(function () {
-  "use strict";
-
-  var ecran = document.getElementById("chargement");
-  var barre = document.getElementById("chargementRemplissage");
-  if (!ecran || !barre) { return; }
-
-  var reduireMouvement = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var termine = false;
-
-  function masquer() {
-    if (termine) { return; }
-    termine = true;
-    barre.style.width = "100%";
-    window.setTimeout(function () {
-      ecran.classList.add("masque");
-      window.setTimeout(function () { ecran.hidden = true; }, reduireMouvement ? 0 : 460);
-    }, reduireMouvement ? 0 : 150);
-  }
-
-  if (document.readyState === "complete") { masquer(); return; }
-
-  var progres = 0;
-  var minuteur = window.setInterval(function () {
-    progres += (92 - progres) / 8;
-    barre.style.width = Math.min(progres, 92).toFixed(0) + "%";
-  }, 130);
-
-  window.addEventListener("load", function () {
-    window.clearInterval(minuteur);
-    masquer();
-  });
-  window.setTimeout(masquer, 4000);
-
-  /* Retour avant/arrière (bfcache) : jamais réafficher un écran déjà passé. */
-  window.addEventListener("pageshow", function (e) {
-    if (e.persisted) {
-      window.clearInterval(minuteur);
-      ecran.hidden = true;
-    }
-  });
-})();
-
 (function () {
   "use strict";
 

@@ -156,7 +156,6 @@ function buildHead(p) {
 /* ---- Page complète -------------------------------------------------- */
 
 function buildPage(pages, p) {
-  var chargement = read(path.join(SRC, "partials", "chargement.html"));
   var annonce = read(path.join(SRC, "partials", "annonce.html"));
   var headerTpl = read(path.join(SRC, "partials", "header.html"));
   var footerTpl = read(path.join(SRC, "partials", "footer.html"));
@@ -181,7 +180,6 @@ function buildPage(pages, p) {
     head,
     "</head>",
     '<body data-page="' + p.id + '">',
-    chargement,
     annonce,
     "",
     header,
