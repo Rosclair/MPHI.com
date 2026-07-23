@@ -234,6 +234,34 @@ function copierAssets() {
   copierDossier(srcAssets, distAssets);
 }
 
+/* ---- Sitemap et robots.txt -------------------------------------------- */
+
+/* Pages indexables uniquement : celles marquées p.robots (merci, 404) sont
+   volontairement exclues du sitemap - elles portent déjà noindex. */
+function buildSitemap(pages) {
+  var urls = pages
+    .filter(function (p) { return !p.robots; })
+    .map(function (p) { return "  <url><loc>" + esc(pages.SITE_URL + "/" + p.out) + "</loc></url>"; });
+
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    urls.join("\n"),
+    "</urlset>",
+    ""
+  ].join("\n");
+}
+
+function buildRobots(siteUrl) {
+  return [
+    "User-agent: *",
+    "Disallow: /merci.html",
+    "",
+    "Sitemap: " + siteUrl + "/sitemap.xml",
+    ""
+  ].join("\n");
+}
+
 function build() {
   var pages = loadPages();
 
@@ -252,6 +280,9 @@ function build() {
   ["formations", "frais", "calendrier"].forEach(function (name) {
     fs.copyFileSync(path.join(SRC, "data", name + ".js"), path.join(DIST, "data", name + ".js"));
   });
+
+  fs.writeFileSync(path.join(DIST, "sitemap.xml"), buildSitemap(pages), "utf8");
+  fs.writeFileSync(path.join(DIST, "robots.txt"), buildRobots(pages.SITE_URL), "utf8");
 
   console.log("Build OK -> dist/ (" + pages.length + " page(s))");
 }
