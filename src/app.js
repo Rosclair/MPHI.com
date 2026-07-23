@@ -108,3 +108,103 @@
     });
   });
 })();
+
+/* faq.html — recherche instantanée, ancres profondes, tout déplier/replier */
+(function () {
+  "use strict";
+
+  var champ = document.getElementById("rechercheFaq");
+  var bascule = document.getElementById("basculeTout");
+  var compte = document.getElementById("compteFaq");
+  var vide = document.getElementById("faqVide");
+  if (!champ || !bascule || !compte || !vide) { return; }
+
+  var themes = Array.prototype.slice.call(document.querySelectorAll("[data-theme]"));
+  var questions = Array.prototype.slice.call(document.querySelectorAll(".theme-faq details"));
+  var total = questions.length;
+  var programmatique = false;
+
+  var marquesDiacritiques = new RegExp("[" + String.fromCharCode(0x0300) + "-" + String.fromCharCode(0x036f) + "]", "g");
+  function normaliser(texte) {
+    return String(texte).normalize("NFD").replace(marquesDiacritiques, "").toLowerCase();
+  }
+
+  /* ----- Ancres profondes : #id ouvre et défile ; ouvrir met à jour l'URL ----- */
+  function ouvrirDepuisAncre() {
+    var id = window.location.hash.replace("#", "");
+    if (!id) { return; }
+    var cible = document.getElementById(id);
+    if (cible && cible.tagName === "DETAILS") {
+      programmatique = true;
+      cible.open = true;
+      programmatique = false;
+      cible.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+  questions.forEach(function (q) {
+    q.addEventListener("toggle", function () {
+      if (programmatique) { return; }
+      if (q.open) {
+        window.history.replaceState(null, "", "#" + q.id);
+      } else if (window.location.hash === "#" + q.id) {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
+    });
+  });
+  window.addEventListener("hashchange", ouvrirDepuisAncre);
+  ouvrirDepuisAncre();
+
+  /* ----- Recherche instantanée ----- */
+  function filtrer() {
+    var q = normaliser(champ.value.trim());
+    var visibles = 0;
+    programmatique = true;
+    questions.forEach(function (question) {
+      var texte = normaliser(question.textContent);
+      var correspond = q.length < 2 || texte.indexOf(q) !== -1;
+      question.hidden = !correspond;
+      if (correspond) {
+        visibles += 1;
+        if (q.length >= 2) { question.open = true; }
+      }
+    });
+    if (q.length < 2) {
+      questions.forEach(function (question) { question.open = false; });
+      ouvrirDepuisAncre();
+    }
+    programmatique = false;
+
+    themes.forEach(function (theme) {
+      var restantes = theme.querySelectorAll("details:not([hidden])").length;
+      theme.hidden = restantes === 0;
+    });
+
+    vide.classList.toggle("visible", visibles === 0);
+    if (q.length < 2) {
+      compte.innerHTML = "<b>" + total + "</b> questions, cinq thèmes.";
+    } else if (visibles === 0) {
+      compte.innerHTML = "Aucune réponse trouvée.";
+    } else {
+      compte.innerHTML = "<b>" + visibles + "</b> réponse" + (visibles > 1 ? "s" : "") + " affichée" + (visibles > 1 ? "s" : "") + ".";
+    }
+    majBascule();
+  }
+  champ.addEventListener("input", filtrer);
+
+  /* ----- Tout déplier / replier ----- */
+  function majBascule() {
+    var ouvertes = questions.filter(function (q) { return !q.hidden && q.open; }).length;
+    var visibles = questions.filter(function (q) { return !q.hidden; }).length;
+    bascule.textContent = (visibles > 0 && ouvertes === visibles) ? "Tout replier" : "Tout déplier";
+  }
+  bascule.addEventListener("click", function () {
+    var visibles = questions.filter(function (q) { return !q.hidden; });
+    var toutOuvrir = visibles.some(function (q) { return !q.open; });
+    programmatique = true;
+    visibles.forEach(function (q) { q.open = toutOuvrir; });
+    programmatique = false;
+    majBascule();
+  });
+
+  filtrer();
+})();

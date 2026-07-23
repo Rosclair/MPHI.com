@@ -431,3 +431,25 @@ ol.etapes{list-style:none;counter-reset:etape;margin:2.2rem 0 0;padding:0;displa
 /* .bande-aide{margin-block:...} local à campus.html : divergent de l'usage
    de .bande-aide sur contact.html (qui n'a pas cette marge) → scopé. */
 body[data-page="campus"] .bande-aide{margin-block:clamp(2.75rem,6vw,4.5rem)}
+
+/* ---------- faq ---------- */
+.outils-faq{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;margin-top:1.8rem}
+.champ-faq{position:relative;flex:1 1 260px;min-width:220px}
+.champ-faq svg{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--encre-2);pointer-events:none}
+.champ-faq input{
+  width:100%;font:inherit;color:var(--encre);background:#fff;
+  border:1.5px solid var(--ligne);border-radius:12px;padding:.72rem 1rem .72rem 2.5rem;
+}
+.champ-faq input::placeholder{color:#8A968D}
+.champ-faq input:focus-visible{outline:3px solid var(--or-500);outline-offset:0;border-color:var(--vert-600)}
+.btn-deplier{font:inherit;font-size:.92rem;font-weight:700;color:var(--vert-600);background:none;border:none;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.btn-deplier:hover{color:var(--vert-900)}
+.compte-faq{margin:.7rem 0 0;font-size:.92rem;color:var(--encre-2)}
+.compte-faq b{color:var(--encre)}
+.theme-faq{margin-top:clamp(2.2rem,5vw,3rem)}
+.theme-faq h2{font-size:clamp(1.4rem,3vw,1.9rem)}
+.accordeons details{scroll-margin-top:96px}
+.faq-vide{display:none;margin-top:2rem;text-align:center;padding:2.5rem 1.5rem}
+.faq-vide.visible{display:block}
+.faq-vide h2{margin-bottom:.3rem}
+.faq-vide p{color:var(--encre-2);max-width:44ch;margin-inline:auto}

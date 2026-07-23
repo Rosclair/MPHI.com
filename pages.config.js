@@ -108,5 +108,38 @@ module.exports = [
     navSectionKey: "campus",
     inHeaderNav: true,
     dataScripts: []
+  },
+  {
+    id: "faq",
+    out: "faq.html",
+    title: "Questions fréquentes — MPHI · Bafoussam",
+    description: "BEPC ou BAC, pièces du dossier, frais et bourse −50 %, permis offert, campus, rentrée : les réponses aux questions les plus posées sur MPHI Bafoussam.",
+    og: {
+      title: "Questions fréquentes — MPHI",
+      description: "Inscription dès le BEPC ou le BAC, dossier en 7 pièces, bourse jusqu'à −50 %, permis offert : toutes les réponses.",
+      image: "assets/og/accueil.jpg"
+    },
+    robots: null,
+    jsonld: [
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: [
+          { "@type": "Question", name: "Puis-je m'inscrire avec seulement le BEPC ?", acceptedAnswer: { "@type": "Answer", text: "Oui. Le BEPC ouvre le parcours DQP (diplôme de qualification professionnelle), combinable cette année en DQP + BTS en 2 ans." } },
+          { "@type": "Question", name: "Puis-je m'inscrire avec le BAC ?", acceptedAnswer: { "@type": "Answer", text: "Oui : le BAC donne accès au BTS en 2 ans (environ 87 spécialités francophones), avec poursuite possible en Licence et Master professionnels." } },
+          { "@type": "Question", name: "Quelles pièces composent le dossier d'inscription ?", acceptedAnswer: { "@type": "Answer", text: "Sept pièces : demande d'admission au directeur, fiche d'inscription, photocopies de la CNI et de l'acte de naissance, photocopie du diplôme requis, deux photos 4x4, reçu des frais d'inscription et un carton de format." } },
+          { "@type": "Question", name: "Puis-je envoyer mon dossier par internet ?", acceptedAnswer: { "@type": "Answer", text: "Non, volontairement : aucun document ne transite en ligne. La préinscription en ligne réserve votre contact en deux minutes ; le dossier se dépose au secrétariat du campus." } },
+          { "@type": "Question", name: "Combien coûte la formation ?", acceptedAnswer: { "@type": "Answer", text: "Les frais varient selon la formation et le diplôme préparé ; ils sont communiqués au secrétariat, avec un paiement en tranches." } },
+          { "@type": "Question", name: "Comment obtenir la bourse de moins 50 % ?", acceptedAnswer: { "@type": "Answer", text: "La bourse de formation s'applique au moment de l'inscription, jusqu'à moins 50 %, selon les conditions en vigueur au secrétariat." } },
+          { "@type": "Question", name: "Le permis de conduire est-il vraiment offert ?", acceptedAnswer: { "@type": "Answer", text: "Oui : le bonus permis de conduire s'active dès le paiement de la première tranche de scolarité, selon les conditions en vigueur au secrétariat." } },
+          { "@type": "Question", name: "Vos diplômes sont-ils reconnus ?", acceptedAnswer: { "@type": "Answer", text: "Oui : les diplômes sont reconnus par l'État et l'institut est autorisé par le MINESUP (arrêté du 1er août 2023)." } }
+        ]
+      }
+    ],
+    navGroup: "admissions",
+    navLabel: "Questions fréquentes",
+    navSectionKey: "admissions",
+    inHeaderNav: true,
+    dataScripts: []
   }
 ];
