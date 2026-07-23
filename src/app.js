@@ -599,3 +599,146 @@
   synchroniserUI();
   rendre();
 })();
+
+/* fiche.html — modèle unique rempli depuis ?f=<slug> */
+(function () {
+  "use strict";
+
+  var donnees = window.MPHI_FORMATIONS;
+  var contenu = document.getElementById("contenuFiche");
+  var erreur = document.getElementById("ficheErreur");
+  if (!contenu || !erreur) { return; }
+
+  function afficherErreur() {
+    contenu.style.display = "none";
+    erreur.classList.add("visible");
+    document.title = "Fiche introuvable — MPHI · Bafoussam";
+  }
+
+  if (!donnees) { afficherErreur(); return; }
+
+  var slug = new URLSearchParams(window.location.search).get("f");
+  var spec = null;
+  donnees.specialites.forEach(function (s) { if (s.slug === slug) { spec = s; } });
+  if (!spec) { afficherErreur(); return; }
+
+  /* ----- Libellés ----- */
+  var DIPLOME_LONG = {
+    bts: "BTS — Brevet de technicien supérieur",
+    hnd: "HND — Higher national diploma"
+  };
+  var langueLabel = spec.langue === "en" ? "Anglais (English track)" : "Français";
+  var phraseLangue = spec.langue === "en"
+    ? "Cursus anglophone, accessible après le GCE A/L ou le BAC."
+    : "Cursus francophone, accessible dès le BAC.";
+
+  /* ----- Titre, fil, badges, intro ----- */
+  document.title = spec.nom + " · " + spec.diplomeNom + " — MPHI Bafoussam";
+  var metaDescription = document.querySelector("meta[name=description]");
+  if (metaDescription) {
+    metaDescription.setAttribute("content",
+      spec.nom + " (" + spec.diplomeNom + ", filière " + spec.filiereNom
+      + ") chez MPHI à Bafoussam : conditions d'admission, inscription en 3 étapes, questions sur WhatsApp.");
+  }
+
+  var lienFilCatalogue = "formations.html?filiere=" + encodeURIComponent(spec.filiere);
+  var filFiliere = document.getElementById("filFiliere");
+  filFiliere.textContent = spec.filiereNom;
+  filFiliere.href = lienFilCatalogue;
+  document.getElementById("filNom").textContent = spec.nom;
+
+  document.getElementById("surTitre").textContent = spec.filiereNom;
+  document.getElementById("titreFiche").textContent = spec.nom;
+  document.getElementById("introFiche").textContent =
+    "Formation " + spec.diplomeNom + " de la filière " + spec.filiereNom + ". " + phraseLangue;
+
+  var badges = document.getElementById("badgesFiche");
+  function ajouterBadge(texte, classes) {
+    var li = document.createElement("li");
+    li.className = classes;
+    li.textContent = texte;
+    badges.appendChild(li);
+  }
+  ajouterBadge(spec.diplomeNom, "badge badge-dip");
+  ajouterBadge(spec.admission, "badge");
+  ajouterBadge(spec.langue === "en" ? "English" : "Français", spec.langue === "en" ? "badge badge-en" : "badge");
+
+  /* ----- Informations clés ----- */
+  document.getElementById("infoDiplome").textContent = DIPLOME_LONG[spec.diplome];
+  var infoFiliere = document.getElementById("infoFiliere");
+  infoFiliere.textContent = spec.filiereNom;
+  infoFiliere.href = lienFilCatalogue;
+  document.getElementById("infoAdmission").textContent = spec.admission;
+  document.getElementById("infoLangue").textContent = langueLabel;
+
+  /* ----- Appels à l'action ----- */
+  var messageWhatsApp = "Bonjour MPHI, je souhaite des informations sur la spécialité "
+    + spec.nom + " (" + spec.diplomeNom + ", filière " + spec.filiereNom + ").";
+  document.getElementById("ctaWhatsApp").href =
+    "https://wa.me/237655996913?text=" + encodeURIComponent(messageWhatsApp);
+
+  var lienPreinscription = "preinscription.html?f=" + encodeURIComponent(spec.slug);
+  document.getElementById("ctaPreinscription").href = lienPreinscription;
+  document.getElementById("lienPreinscriptionEtape").href = lienPreinscription;
+
+  var lienDossier = "dossier.html?profil=" + spec.diplome;
+  document.getElementById("ctaDossier").href = lienDossier;
+  document.getElementById("lienDossierEtape").href = lienDossier;
+
+  if (spec.langue === "fr") {
+    document.getElementById("noteDqp").hidden = false;
+  }
+
+  /* ----- Dans la même filière ----- */
+  var soeurs = donnees.specialites.filter(function (s) {
+    return s.filiere === spec.filiere && s.slug !== spec.slug;
+  }).slice(0, 8);
+  var blocSoeurs = document.getElementById("blocSoeurs");
+  if (soeurs.length === 0) {
+    blocSoeurs.hidden = true;
+  } else {
+    var listeSoeurs = document.getElementById("listeSoeurs");
+    soeurs.forEach(function (s) {
+      var lien = document.createElement("a");
+      lien.className = "chip";
+      lien.href = "fiche.html?f=" + encodeURIComponent(s.slug);
+      lien.setAttribute("data-lead", "fiche-meme-filiere");
+      lien.textContent = s.nom;
+      listeSoeurs.appendChild(lien);
+    });
+  }
+
+  /* ----- Partage ----- */
+  var adresseFiche = window.location.href;
+  var messagePartage = "À découvrir chez MPHI Bafoussam : " + spec.nom
+    + " (" + spec.diplomeNom + "). " + adresseFiche;
+  document.getElementById("partageWhatsApp").href =
+    "https://wa.me/?text=" + encodeURIComponent(messagePartage);
+
+  var boutonCopier = document.getElementById("copierLien");
+  var retourCopie = document.getElementById("retourCopie");
+  function confirmerCopie(ok) {
+    retourCopie.textContent = ok ? "Lien copié !" : "Copie impossible — sélectionnez l'adresse du navigateur.";
+    window.setTimeout(function () { retourCopie.textContent = ""; }, 2500);
+  }
+  boutonCopier.addEventListener("click", function () {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(adresseFiche)
+        .then(function () { confirmerCopie(true); })
+        .catch(function () { confirmerCopie(false); });
+      return;
+    }
+    try {
+      var zone = document.createElement("textarea");
+      zone.value = adresseFiche;
+      zone.setAttribute("readonly", "");
+      zone.style.position = "absolute";
+      zone.style.left = "-9999px";
+      document.body.appendChild(zone);
+      zone.select();
+      var ok = document.execCommand("copy");
+      document.body.removeChild(zone);
+      confirmerCopie(ok);
+    } catch (e) { confirmerCopie(false); }
+  });
+})();

@@ -191,5 +191,23 @@ module.exports = [
     navSectionKey: "formations",
     inHeaderNav: true,
     dataScripts: ["formations"]
+  },
+  {
+    id: "fiche",
+    out: "fiche.html",
+    title: "Fiche formation — MPHI · Bafoussam",
+    description: "Diplôme préparé, conditions d'admission, langue et inscription : la fiche complète de votre formation chez MPHI à Bafoussam.",
+    og: {
+      title: "Fiche formation — MPHI",
+      description: "Diplôme préparé, conditions d'admission et inscription en 3 étapes. Posez vos questions sur WhatsApp.",
+      image: "assets/og/accueil.jpg"
+    },
+    robots: null,
+    jsonld: [],
+    navGroup: null,
+    navLabel: null,
+    navSectionKey: "formations",
+    inHeaderNav: false,
+    dataScripts: ["formations"]
   }
 ];
