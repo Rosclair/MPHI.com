@@ -343,8 +343,8 @@ ol.etapes{list-style:none;counter-reset:etape;margin:2.2rem 0 0;padding:0;displa
 
 /* ---------- index ---------- */
 /* Fond blanc (par défaut, comme le reste du site) : pas de photo posée en
-   fond du hero. src/assets/hero.jpg reste dans le projet si besoin de la
-   remettre plus tard - il suffira de réintroduire background-image ici. */
+   fond du hero. Un visuel de campus/étudiants reste à fournir - l'historique
+   Git conserve l'ancien hero.jpg si besoin de repartir de là. */
 .hero{padding-block:clamp(2.75rem,7vw,5rem);overflow:hidden}
 .hero-grille{display:grid;gap:2.75rem}
 @media (min-width:960px){.hero-grille{grid-template-columns:1.12fr .88fr;align-items:center;gap:3.5rem}}
