@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!--
+  MPHI — Calendrier (Lot 2 · admissions/calendrier)
+  Dépend de : styles.css, site.js, data/calendrier.js. Fonctionne en file://.
+
+  PARTI PRIS : aucune date inventée. Le contenu principal est la
+  CHRONOLOGIE du candidat — six étapes ordonnées qu'il contrôle,
+  chacune reliée à sa page. Les dates officielles se publient en
+  remplissant data/calendrier.js : la liste se rend alors
+  automatiquement (tri, périodes, passé grisé).
+
+  À VALIDER AVEC MPHI :
+  [TODO-1] Confirmer officiellement l'ouverture des inscriptions
+           2026-2027 et sa période — c'est la seule affirmation datée
+           du site (bandeau d'annonce), héritée de la campagne de la
+           brochure (« tu peux t'inscrire »).
+  [TODO-2] Dates officielles (rentrée, échéances, sessions) →
+           data/calendrier.js.
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calendrier 2026-2027 — MPHI · Bafoussam</title>
+<meta name="description" content="Le parcours d'inscription MPHI étape par étape, et les dates officielles de la rentrée 2026-2027 publiées dès leur validation. Demandez les dates sur WhatsApp.">
+<meta name="theme-color" content="#14532D">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="MPHI — Monga Polytechnic Higher Institute">
+<meta property="og:title" content="Calendrier 2026-2027 — MPHI">
+<meta property="og:description" content="De la préparation du dossier à la rentrée : votre chronologie d'inscription, et les dates officielles dès leur publication.">
+<meta property="og:image" content="assets/og/accueil.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314532D'/%3E%3Cpath d='M6 13.5 16 9l10 4.5-10 4.5z' fill='%23E8A912'/%3E%3Cpath d='M10 17v4.2c0 1.6 2.7 2.8 6 2.8s6-1.2 6-2.8V17l-6 2.7z' fill='%23FAF9F4'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<style>
+/* ---------- Chronologie du candidat ---------- */
+.chrono{list-style:none;margin:2.2rem 0 0;padding:0;position:relative;max-width:640px}
+.chrono::before{content:"";position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:var(--ligne)}
+.chrono li{position:relative;padding:0 0 1.7rem 2.5rem}
+.chrono li:last-child{padding-bottom:0}
+.chrono li::before{
+  content:"";position:absolute;left:4px;top:3px;width:16px;height:16px;border-radius:50%;
+  background:var(--or-500);border:3px solid var(--papier);box-shadow:0 0 0 1px var(--ligne);
+}
+.chrono li.maintenant::before{background:var(--vert-700)}
+.chrono .quand{display:block;font-size:.76rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--vert-600);margin-bottom:.1rem}
+.chrono h3{font-size:1.15rem;margin:0 0 .15rem}
+.chrono p{margin:0;color:var(--encre-2);font-size:.95rem}
+.chrono p a{font-weight:700}
+
+/* ---------- Dates officielles ---------- */
+.section-cal{margin-top:clamp(2.75rem,6vw,4.25rem);scroll-margin-top:96px}
+.section-cal h2{font-size:clamp(1.6rem,3.6vw,2.3rem)}
+.grille-attente{margin-top:1.6rem;background:#fff;border:1.5px dashed var(--vert-500);border-radius:var(--rayon);padding:clamp(1.6rem,4vw,2.5rem);text-align:center}
+.grille-attente .badge{margin-bottom:.9rem;display:inline-block}
+.grille-attente h3{margin-bottom:.35rem}
+.grille-attente p{color:var(--encre-2);max-width:52ch;margin-inline:auto}
+.grille-attente .actions-attente{margin-top:1rem;display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
+.titre-groupe-dates{margin:1.6rem 0 .1rem;font-size:.82rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--encre-2)}
+.liste-dates{display:grid;gap:.7rem;margin-top:.7rem}
+.evenement{display:flex;gap:1rem;align-items:flex-start;background:#fff;border:1px solid var(--ligne);border-radius:12px;padding:1rem 1.15rem}
+.evenement.passe{opacity:.55}
+.evenement time{
+  flex:none;min-width:88px;text-align:center;background:var(--papier);
+  border:1px solid var(--ligne);border-radius:10px;padding:.5rem .55rem;
+  font-family:var(--f-display);font-weight:800;line-height:1;
+}
+.evenement time b{display:block;font-size:1.7rem;color:var(--vert-700)}
+.evenement time span{display:block;font-family:var(--f-texte);font-weight:700;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;color:var(--encre-2);margin-top:.2rem}
+.evenement .corps h3{font-size:1.08rem;margin:0 0 .2rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.evenement .corps h3 .badge{font-size:.68rem}
+.evenement .corps p{margin:0;color:var(--encre-2);font-size:.93rem}
+.maj-grille{margin-top:.9rem;font-size:.85rem;color:var(--encre-2)}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#contenu">Aller au contenu principal</a>
+
+<div class="annonce" role="region" aria-label="Annonce de la rentrée">
+  <div class="conteneur">
+    <p style="margin:0">Inscriptions <strong>2026-2027</strong> ouvertes · jusqu'à <strong>−50&nbsp;%</strong> sur les frais d'inscription</p>
+    <a href="preinscription.html" data-lead="annonce-preinscription">Se préinscrire →</a>
+  </div>
+</div>
+
+<header class="entete" id="haut">
+  <div class="conteneur">
+    <a class="marque" href="index.html" aria-label="MPHI — retour à l'accueil">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <rect width="48" height="48" rx="10" fill="#14532D"/>
+        <path d="M8 20.5 24 13l16 7.5-16 7.5z" fill="#E8A912"/>
+        <path d="M14 25.5v6.1c0 2.4 4.4 4.4 10 4.4s10-2 10-4.4v-6.1l-10 4.6z" fill="#FAF9F4"/>
+        <path d="M39.5 21.5v7.5" stroke="#E8A912" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span><b>MPHI</b><small>Monga Polytechnic<br>Higher Institute</small></span>
+    </a>
+
+    <button class="bouton-menu" type="button" aria-expanded="false" aria-controls="menu" id="boutonMenu">
+      <span class="sr-only">Ouvrir le menu</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+
+    <nav class="nav-principale" id="menu" aria-label="Navigation principale">
+      <ul>
+        <li><a href="formations.html">Formations</a></li>
+        <li><a href="admissions.html" aria-current="page">Admissions</a></li>
+        <li><a href="campus.html">Campus</a></li>
+        <li><a href="institut.html">L'institut</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-cta"><a class="btn btn-plein" href="https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20je%20souhaite%20des%20informations%20sur%20vos%20formations%20et%20les%20inscriptions%202026-2027."
+               data-lead="entete-whatsapp" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg>
+          WhatsApp
+        </a></li>
+      </ul>
+    </nav>
+
+    <a class="btn btn-plein btn-cta-haut" href="https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20je%20souhaite%20des%20informations%20sur%20vos%20formations%20et%20les%20inscriptions%202026-2027."
+       data-lead="entete-whatsapp" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+</header>
+
+<main id="contenu">
+  <div class="entete-page">
+    <div class="conteneur">
+      <nav class="fil" aria-label="Fil d'Ariane">
+        <a href="admissions.html">Admissions</a>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">Calendrier</span>
+      </nav>
+
+      <p class="sur-titre">Admissions · 2026-2027</p>
+      <h1>Votre chronologie d'inscription</h1>
+      <p class="intro">Les inscriptions sont ouvertes. Voici les étapes dans l'ordre — vous en contrôlez le rythme — puis <a href="#dates">les dates officielles</a>, publiées ici dès leur validation.</p>
+
+      <ol class="chrono">
+        <li class="maintenant">
+          <span class="quand">Maintenant</span>
+          <h3>Choisissez votre formation</h3>
+          <p><a href="formations.html">106 spécialités filtrables</a>, ou <a href="orienteur.html">le test d'orientation</a> si vous hésitez.</p>
+        </li>
+        <li class="maintenant">
+          <span class="quand">Maintenant</span>
+          <h3>Préparez votre dossier</h3>
+          <p>Sept pièces — <a href="dossier.html">la checklist</a> se coche, s'adapte à votre diplôme et s'imprime.</p>
+        </li>
+        <li>
+          <span class="quand">Quand vous êtes prêt</span>
+          <h3>Préinscrivez-vous</h3>
+          <p><a href="preinscription.html">En ligne en deux minutes</a>, ou directement au secrétariat du campus.</p>
+        </li>
+        <li>
+          <span class="quand">Au campus</span>
+          <h3>Déposez le dossier et réglez l'inscription</h3>
+          <p>La bourse s'applique à ce moment — jusqu'à −50&nbsp;% sur <a href="frais-et-bourses.html">les frais d'inscription</a>*.</p>
+        </li>
+        <li>
+          <span class="quand">Ensuite</span>
+          <h3>Réglez la première tranche</h3>
+          <p>Votre place est assurée et le bonus <a href="frais-et-bourses.html">permis de conduire</a> s'active*.</p>
+        </li>
+        <li>
+          <span class="quand">Jour J</span>
+          <h3>La rentrée</h3>
+          <p>Sa date vous est communiquée au secrétariat — et publiée <a href="#dates">ci-dessous</a> dès validation.</p>
+        </li>
+      </ol>
+      <p class="asterisque">* Selon conditions en vigueur au secrétariat.</p>
+
+      <section class="section-cal" id="dates" aria-labelledby="titre-dates">
+        <h2 id="titre-dates">Les dates officielles</h2>
+
+        <div class="grille-attente" id="datesAttente">
+          <span class="badge badge-en">En préparation</span>
+          <h3>Publiées ici dès validation par la direction</h3>
+          <p>Rentrée, échéances des tranches, sessions&nbsp;: demandez-les dès maintenant, ou faites-vous prévenir dès leur publication.</p>
+          <div class="actions-attente">
+            <a class="btn btn-plein" rel="noopener" data-lead="calendrier-whatsapp-dates"
+               href="https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20quelles%20sont%20les%20dates%20de%20la%20rentr%C3%A9e%202026-2027%20%3F">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg>
+              Demander les dates
+            </a>
+            <a class="btn btn-contour" rel="noopener" data-lead="calendrier-whatsapp-alerte"
+               href="https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20pouvez-vous%20me%20communiquer%20les%20dates%20de%20la%20rentr%C3%A9e%202026-2027%20d%C3%A8s%20qu%27elles%20sont%20fix%C3%A9es%20%3F">Me prévenir dès publication</a>
+          </div>
+        </div>
+
+        <div id="datesListe" hidden>
+          <p class="titre-groupe-dates" id="titreAVenir" hidden>À venir</p>
+          <div class="liste-dates" id="listeAVenir"></div>
+          <p class="titre-groupe-dates" id="titrePasses" hidden>Passés</p>
+          <div class="liste-dates" id="listePasses"></div>
+          <p class="maj-grille" id="majCalendrier" hidden></p>
+        </div>
+      </section>
+
+      <div class="bande-aide">
+        <p><b>Chaque étape est prête&nbsp;:</b> commencez par le dossier, le reste suit naturellement.</p>
+        <a class="btn btn-or" href="dossier.html" data-lead="calendrier-vers-dossier">Ouvrir la checklist</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" aria-hidden="true"></div>
+</main>
+
+<footer class="pied">
+  <div class="conteneur pied-grille">
+    <div>
+      <a class="marque" href="index.html">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <rect width="48" height="48" rx="10" fill="#E8A912"/>
+          <path d="M8 20.5 24 13l16 7.5-16 7.5z" fill="#0E3B21"/>
+          <path d="M14 25.5v6.1c0 2.4 4.4 4.4 10 4.4s10-2 10-4.4v-6.1l-10 4.6z" fill="#FAF9F4"/>
+        </svg>
+        <span><b>MPHI</b><small>Monga Polytechnic<br>Higher Institute</small></span>
+      </a>
+      <p class="baseline">Former aujourd'hui, bâtir demain. Former, innover, transformer.</p>
+      <p class="autorisation">Institut privé d'enseignement supérieur autorisé par le MINESUP — arrêté du 1ᵉʳ août 2023.</p>
+    </div>
+
+    <nav aria-label="Plan du site">
+      <h3>Le site</h3>
+      <ul>
+        <li><a href="formations.html">Formations</a></li>
+        <li><a href="admissions.html">Admissions</a></li>
+        <li><a href="preinscription.html">Préinscription</a></li>
+        <li><a href="campus.html">Campus</a></li>
+        <li><a href="institut.html">L'institut</a></li>
+        <li><a href="faq.html">Questions fréquentes</a></li>
+      </ul>
+    </nav>
+
+    <div>
+      <h3>Nos campus</h3>
+      <ul>
+        <li><a href="campus.html#campus-a">A · Carrefour Saint-Thomas</a></li>
+        <li><a href="campus.html#campus-b">B · Bocom Marché B</a></li>
+        <li><a href="campus.html#campus-c">C · Entrée de la ville</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>Contact</h3>
+      <ul>
+        <li><a href="tel:+237697636586" data-lead="pied-appel-1">697 63 65 86</a></li>
+        <li><a href="tel:+237673382355" data-lead="pied-appel-2">673 38 23 55</a></li>
+        <li><a href="tel:+237650667032" data-lead="pied-appel-3">650 66 70 32</a></li>
+        <li><a href="https://wa.me/237655996913" rel="noopener" data-lead="pied-whatsapp">WhatsApp · 655 99 69 13</a></li>
+        <li><a href="mailto:mongahigherpolytechnicinstitute@gmail.com">mongahigherpolytechnicinstitute@gmail.com</a></li>
+        <li><a href="https://www.facebook.com/MongaPolytechnic" rel="noopener">Facebook · @MongaPolytechnic</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="conteneur pied-bas">
+    <p style="margin:0">© <span id="annee">2026</span> Monga Polytechnic Higher Institute — Bafoussam, Cameroun</p>
+    <ul>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="data/calendrier.js"></script>
+<script src="site.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  /* Rendu automatique des dates officielles dès que data/calendrier.js
+     est rempli (MPHI_CALENDRIER non nul). Sinon : état d'attente. */
+  var calendrier = window.MPHI_CALENDRIER;
+  if (!calendrier || !Array.isArray(calendrier.evenements) || calendrier.evenements.length === 0) { return; }
+
+  var MOIS_COURTS = ["jan", "fév", "mar", "avr", "mai", "juin", "juil", "août", "sep", "oct", "nov", "déc"];
+  var CATEGORIES = {
+    inscriptions: { texte: "Inscriptions", classe: "badge badge-en" },
+    rentree: { texte: "Rentrée", classe: "badge badge-dip" },
+    paiement: { texte: "Paiement", classe: "badge" },
+    examen: { texte: "Examens", classe: "badge" }
+  };
+
+  function versDate(chaine) {
+    var d = new Date(chaine + "T00:00:00");
+    return isNaN(d.getTime()) ? null : d;
+  }
+  function dateLongue(d) {
+    try {
+      return d.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+    } catch (e) { return d.toISOString().slice(0, 10); }
+  }
+
+  var evenements = calendrier.evenements.map(function (e) {
+    var debut = versDate(e.date);
+    if (!debut) { return null; }
+    return {
+      debut: debut,
+      fin: e.dateFin ? versDate(e.dateFin) : null,
+      titre: e.titre || "Événement",
+      description: e.description || "",
+      categorie: e.categorie || ""
+    };
+  }).filter(Boolean).sort(function (a, b) { return a.debut - b.debut; });
+
+  if (evenements.length === 0) { return; }
+
+  var aujourdhui = new Date();
+  aujourdhui.setHours(0, 0, 0, 0);
+
+  function carteEvenement(e, passe) {
+    var article = document.createElement("article");
+    article.className = "evenement" + (passe ? " passe" : "");
+
+    var temps = document.createElement("time");
+    temps.setAttribute("datetime", e.debut.toISOString().slice(0, 10));
+    var jour = document.createElement("b");
+    jour.textContent = String(e.debut.getDate());
+    var mois = document.createElement("span");
+    mois.textContent = MOIS_COURTS[e.debut.getMonth()] + " " + e.debut.getFullYear();
+    temps.appendChild(jour);
+    temps.appendChild(mois);
+
+    var corps = document.createElement("div");
+    corps.className = "corps";
+    var titre = document.createElement("h3");
+    titre.textContent = e.titre;
+    var cat = CATEGORIES[e.categorie];
+    if (cat || e.categorie) {
+      var badge = document.createElement("span");
+      badge.className = cat ? cat.classe : "badge";
+      badge.textContent = cat ? cat.texte : e.categorie;
+      titre.appendChild(badge);
+    }
+    corps.appendChild(titre);
+
+    var details = [];
+    if (e.fin) { details.push("Jusqu'au " + dateLongue(e.fin) + "."); }
+    if (e.description) { details.push(e.description); }
+    if (details.length) {
+      var p = document.createElement("p");
+      p.textContent = details.join(" ");
+      corps.appendChild(p);
+    }
+
+    article.appendChild(temps);
+    article.appendChild(corps);
+    return article;
+  }
+
+  var aVenir = [], passes = [];
+  evenements.forEach(function (e) {
+    var reference = e.fin || e.debut;
+    (reference >= aujourdhui ? aVenir : passes).push(e);
+  });
+
+  var zoneAVenir = document.getElementById("listeAVenir");
+  var zonePasses = document.getElementById("listePasses");
+  aVenir.forEach(function (e) { zoneAVenir.appendChild(carteEvenement(e, false)); });
+  passes.forEach(function (e) { zonePasses.appendChild(carteEvenement(e, true)); });
+  document.getElementById("titreAVenir").hidden = aVenir.length === 0;
+  document.getElementById("titrePasses").hidden = passes.length === 0;
+
+  var maj = document.getElementById("majCalendrier");
+  var texteMaj = "Calendrier officiel";
+  if (calendrier.valideLe) {
+    var v = versDate(calendrier.valideLe);
+    if (v) { texteMaj += " — validé le " + dateLongue(v); }
+  }
+  if (calendrier.note) { texteMaj += ". " + calendrier.note; }
+  maj.textContent = texteMaj;
+  maj.hidden = false;
+
+  document.getElementById("datesAttente").hidden = true;
+  document.getElementById("datesListe").hidden = false;
+})();
+</script>
+
+</body>
+</html>

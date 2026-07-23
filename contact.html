@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!--
+  MPHI — Contact (Lot 1 · page 6/7)
+  Dépend de : styles.css, site.js. Fonctionne en file:// sans serveur.
+
+  PARTI PRIS : pas de formulaire de contact. WhatsApp et le téléphone sont
+  les canaux réels ; la préinscription (Lot 2) portera le seul formulaire.
+  Les 4 messages pré-remplis segmentent les demandes par intention
+  (formation / inscription / frais / accès) — chaque clic est tracé avec
+  un data-lead distinct : MPHI saura CE QUE les visiteurs demandent.
+
+  À VALIDER AVEC MPHI :
+  [TODO-1] Deux adresses email différentes sont imprimées sur la même
+           brochure : mongahigherpolytechnicinstitute@gmail.com (volet FR)
+           et mongapolytechnic@gmail.com (volet EN). Trancher l'officielle.
+           La première est utilisée ici et dans tous les pieds de page.
+  [TODO-2] Horaires d'ouverture : non publiés. La mention « du lundi au
+           samedi », apparue par erreur sur l'accueil, a été retirée.
+  [TODO-3] URLs exactes des réseaux (@MongaPolytechnic) à vérifier — la
+           brochure montre les icônes Facebook et Instagram.
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — MPHI · Bafoussam</title>
+<meta name="description" content="Contactez MPHI à Bafoussam : WhatsApp 655 99 69 13, téléphone 697 63 65 86, email et trois campus. Réponse rapide aux heures d'ouverture du secrétariat.">
+<meta name="theme-color" content="#14532D">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="MPHI — Monga Polytechnic Higher Institute">
+<meta property="og:title" content="Contacter MPHI — Bafoussam">
+<meta property="og:description" content="WhatsApp, téléphone, email et trois campus dans Bafoussam. Posez votre question, le secrétariat vous répond rapidement.">
+<meta property="og:image" content="assets/og/accueil.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314532D'/%3E%3Cpath d='M6 13.5 16 9l10 4.5-10 4.5z' fill='%23E8A912'/%3E%3Cpath d='M10 17v4.2c0 1.6 2.7 2.8 6 2.8s6-1.2 6-2.8V17l-6 2.7z' fill='%23FAF9F4'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "Monga Polytechnic Higher Institute",
+  "alternateName": "MPHI",
+  "email": "mongahigherpolytechnicinstitute@gmail.com",
+  "contactPoint": [
+    {"@type": "ContactPoint", "contactType": "admissions", "telephone": "+237697636586", "availableLanguage": ["fr", "en"]},
+    {"@type": "ContactPoint", "contactType": "admissions", "telephone": "+237655996913", "availableLanguage": ["fr", "en"]}
+  ],
+  "sameAs": [
+    "https://www.facebook.com/MongaPolytechnic",
+    "https://www.instagram.com/MongaPolytechnic"
+  ]
+}
+</script>
+
+<style>
+/* ---------- Canaux ---------- */
+.canaux{display:grid;gap:1.1rem;margin-top:2.2rem}
+@media (min-width:900px){
+  .canaux{grid-template-columns:1.15fr .85fr}
+  .canal-wa{grid-row:span 2}
+}
+.canal h2{font-size:1.3rem;display:flex;align-items:center;gap:.55rem;margin-bottom:.2rem}
+.canal h2 svg{width:20px;height:20px;flex:none;color:var(--vert-600)}
+.gros-numero{font-family:var(--f-display);font-weight:800;font-size:clamp(1.9rem,4.5vw,2.6rem);line-height:1;letter-spacing:.02em;color:var(--vert-700);margin:.35rem 0 .55rem}
+.canal .note{color:var(--encre-2);font-size:.93rem;margin:0 0 1.05rem}
+.tels{list-style:none;margin:.3rem 0 .9rem;padding:0;display:grid;gap:.5rem}
+.tels a{font-weight:700;font-size:1.12rem;text-decoration:none}
+.canal .mail{font-weight:700;font-size:1.02rem;word-break:break-all}
+.intents{margin-top:1.4rem;border-top:1px dashed var(--ligne);padding-top:1.1rem}
+.intents > p{font-size:.9rem;font-weight:700;margin:0 0 .6rem}
+.reseaux{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:.4rem}
+.sans-formulaire{margin-top:1.9rem;color:var(--encre-2);font-size:.95rem;max-width:70ch}
+.sans-formulaire a{font-weight:700}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#contenu">Aller au contenu principal</a>
+
+<div class="annonce" role="region" aria-label="Annonce de la rentrée">
+  <div class="conteneur">
+    <p style="margin:0">Inscriptions <strong>2026-2027</strong> ouvertes · jusqu'à <strong>−50&nbsp;%</strong> sur les frais d'inscription</p>
+    <a href="preinscription.html" data-lead="annonce-preinscription">Se préinscrire →</a>
+  </div>
+</div>
+
+<header class="entete" id="haut">
+  <div class="conteneur">
+    <a class="marque" href="index.html" aria-label="MPHI — retour à l'accueil">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <rect width="48" height="48" rx="10" fill="#14532D"/>
+        <path d="M8 20.5 24 13l16 7.5-16 7.5z" fill="#E8A912"/>
+        <path d="M14 25.5v6.1c0 2.4 4.4 4.4 10 4.4s10-2 10-4.4v-6.1l-10 4.6z" fill="#FAF9F4"/>
+        <path d="M39.5 21.5v7.5" stroke="#E8A912" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span><b>MPHI</b><small>Monga Polytechnic<br>Higher Institute</small></span>
+    </a>
+
+    <button class="bouton-menu" type="button" aria-expanded="false" aria-controls="menu" id="boutonMenu">
+      <span class="sr-only">Ouvrir le menu</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+
+    <nav class="nav-principale" id="menu" aria-label="Navigation principale">
+      <ul>
+        <li><a href="formations.html">Formations</a></li>
+        <li><a href="admissions.html">Admissions</a></li>
+        <li><a href="campus.html">Campus</a></li>
+        <li><a href="institut.html">L'institut</a></li>
+        <li><a href="contact.html" aria-current="page">Contact</a></li>
+        <li class="nav-cta"><a class="btn btn-plein" href="https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20je%20souhaite%20des%20informations%20sur%20vos%20formations%20et%20les%20inscriptions%202026-2027."
+               data-lead="entete-whatsapp" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg>
+          WhatsApp
+        </a></li>
+      </ul>
+    </nav>
+
+    <a class="btn btn-plein btn-cta-haut" href="https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20je%20souhaite%20des%20informations%20sur%20vos%20formations%20et%20les%20inscriptions%202026-2027."
+       data-lead="entete-whatsapp" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+</header>
+
+<main id="contenu">
+  <div class="entete-page">
+    <div class="conteneur">
+      <p class="sur-titre">Contact</p>
+      <h1>Parlons de votre formation</h1>
+      <p class="intro">Une question sur une filière, le dossier, les frais ou l'accès aux campus&nbsp;? Le secrétariat vous répond rapidement, aux heures d'ouverture.</p>
+
+      <div class="canaux">
+        <article class="carte canal canal-wa">
+          <h2>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg>
+            WhatsApp — le plus rapide
+          </h2>
+          <p class="gros-numero">655 99 69 13</p>
+          <p class="note">Écrivez à tout moment&nbsp;; réponse aux heures d'ouverture du secrétariat.</p>
+          <a class="btn btn-plein" rel="noopener" data-lead="contact-whatsapp-general"
+             href="https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20j%27ai%20une%20question.">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg>
+            Écrire sur WhatsApp
+          </a>
+
+          <div class="intents">
+            <p>Gagnez du temps — partez d'un message prêt&nbsp;:</p>
+            <div class="chips">
+              <a class="chip" rel="noopener" data-lead="contact-wa-formation"
+                 href="https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20je%20souhaite%20des%20informations%20sur%20la%20formation%20...%20(pr%C3%A9cisez%20le%20nom).">Infos sur une formation</a>
+              <a class="chip" rel="noopener" data-lead="contact-wa-inscription"
+                 href="https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20j%27ai%20une%20question%20sur%20l%27inscription%20et%20la%20constitution%20du%20dossier.">Inscription &amp; dossier</a>
+              <a class="chip" rel="noopener" data-lead="contact-wa-frais"
+                 href="https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20j%27ai%20une%20question%20sur%20les%20frais%20et%20la%20bourse%20de%20formation.">Frais &amp; bourse</a>
+              <a class="chip" rel="noopener" data-lead="contact-wa-campus"
+                 href="https://wa.me/237655996913?text=Bonjour%20MPHI%2C%20comment%20acc%C3%A9der%20%C3%A0%20vos%20campus%20%3F">Accès aux campus</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="carte canal">
+          <h2>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.9.6 2.8a2 2 0 0 1-.4 2L8 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2-.5c.9.3 1.9.5 2.8.6a2 2 0 0 1 1.9 2z"/></svg>
+            Par téléphone
+          </h2>
+          <ul class="tels">
+            <li><a href="tel:+237697636586" data-lead="contact-appel-1">697 63 65 86</a></li>
+            <li><a href="tel:+237673382355" data-lead="contact-appel-2">673 38 23 55</a></li>
+            <li><a href="tel:+237650667032" data-lead="contact-appel-3">650 66 70 32</a></li>
+          </ul>
+          <p class="note" style="margin:0">Aux heures d'ouverture du secrétariat.</p>
+        </article>
+
+        <article class="carte canal">
+          <h2>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+            Par email
+          </h2>
+          <p class="mail"><a href="mailto:mongahigherpolytechnicinstitute@gmail.com">mongahigherpolytechnicinstitute@gmail.com</a></p>
+          <p class="note">Pour les demandes détaillées — WhatsApp reste plus rapide.</p>
+          <h2 style="margin-top:1.2rem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            Suivez-nous
+          </h2>
+          <div class="reseaux">
+            <a class="btn btn-contour" href="https://www.facebook.com/MongaPolytechnic" rel="noopener" data-lead="contact-facebook">Facebook</a>
+            <a class="btn btn-contour" href="https://www.instagram.com/MongaPolytechnic" rel="noopener" data-lead="contact-instagram">Instagram</a>
+          </div>
+          <p class="note" style="margin:.7rem 0 0">@MongaPolytechnic</p>
+        </article>
+      </div>
+
+      <section class="depot" aria-labelledby="titre-adresses">
+        <h2 id="titre-adresses">Où nous trouver</h2>
+        <ul>
+          <li><b>A</b><span>Carrefour Saint-Thomas</span>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Carrefour+Saint+Thomas+Bafoussam" rel="noopener" data-lead="contact-campus-a">Itinéraire</a></li>
+          <li><b>B</b><span>Bocom Marché B</span>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Bocom+March%C3%A9+B+Bafoussam" rel="noopener" data-lead="contact-campus-b">Itinéraire</a></li>
+          <li><b>C</b><span>Entrée de la ville (Borne fontaine)</span>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Bafoussam+entr%C3%A9e+de+la+ville" rel="noopener" data-lead="contact-campus-c">Itinéraire</a></li>
+        </ul>
+        <p class="horaires"><a href="campus.html">Voir les campus en détail →</a></p>
+      </section>
+
+      <p class="sans-formulaire">Pas de formulaire ici&nbsp;: WhatsApp et le téléphone vont plus vite — et pour réserver votre place, <a href="preinscription.html" data-lead="contact-preinscription">la préinscription en ligne</a> prend deux minutes. Aucun document ne s'envoie en ligne&nbsp;: le dossier se dépose au secrétariat.</p>
+
+      <div class="bande-aide">
+        <p><b>Avant d'écrire&nbsp;:</b> les réponses aux questions les plus posées sont peut-être déjà en ligne.</p>
+        <a class="btn btn-or" href="faq.html" data-lead="contact-faq">Consulter la FAQ</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" aria-hidden="true"></div>
+</main>
+
+<footer class="pied">
+  <div class="conteneur pied-grille">
+    <div>
+      <a class="marque" href="index.html">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <rect width="48" height="48" rx="10" fill="#E8A912"/>
+          <path d="M8 20.5 24 13l16 7.5-16 7.5z" fill="#0E3B21"/>
+          <path d="M14 25.5v6.1c0 2.4 4.4 4.4 10 4.4s10-2 10-4.4v-6.1l-10 4.6z" fill="#FAF9F4"/>
+        </svg>
+        <span><b>MPHI</b><small>Monga Polytechnic<br>Higher Institute</small></span>
+      </a>
+      <p class="baseline">Former aujourd'hui, bâtir demain. Former, innover, transformer.</p>
+      <p class="autorisation">Institut privé d'enseignement supérieur autorisé par le MINESUP — arrêté du 1ᵉʳ août 2023.</p>
+    </div>
+
+    <nav aria-label="Plan du site">
+      <h3>Le site</h3>
+      <ul>
+        <li><a href="formations.html">Formations</a></li>
+        <li><a href="admissions.html">Admissions</a></li>
+        <li><a href="preinscription.html">Préinscription</a></li>
+        <li><a href="campus.html">Campus</a></li>
+        <li><a href="institut.html">L'institut</a></li>
+        <li><a href="faq.html">Questions fréquentes</a></li>
+      </ul>
+    </nav>
+
+    <div>
+      <h3>Nos campus</h3>
+      <ul>
+        <li><a href="campus.html#campus-a">A · Carrefour Saint-Thomas</a></li>
+        <li><a href="campus.html#campus-b">B · Bocom Marché B</a></li>
+        <li><a href="campus.html#campus-c">C · Entrée de la ville</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>Contact</h3>
+      <ul>
+        <li><a href="tel:+237697636586" data-lead="pied-appel-1">697 63 65 86</a></li>
+        <li><a href="tel:+237673382355" data-lead="pied-appel-2">673 38 23 55</a></li>
+        <li><a href="tel:+237650667032" data-lead="pied-appel-3">650 66 70 32</a></li>
+        <li><a href="https://wa.me/237655996913" rel="noopener" data-lead="pied-whatsapp">WhatsApp · 655 99 69 13</a></li>
+        <li><a href="mailto:mongahigherpolytechnicinstitute@gmail.com">mongahigherpolytechnicinstitute@gmail.com</a></li>
+        <li><a href="https://www.facebook.com/MongaPolytechnic" rel="noopener">Facebook · @MongaPolytechnic</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="conteneur pied-bas">
+    <p style="margin:0">© <span id="annee">2026</span> Monga Polytechnic Higher Institute — Bafoussam, Cameroun</p>
+    <ul>
+      <li><a href="mentions-legales.html">Mentions légales</a></li>
+      <li><a href="confidentialite.html">Confidentialité</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+
+</body>
+</html>
