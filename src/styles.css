@@ -37,6 +37,7 @@ body{
 img,svg{display:block;max-width:100%}
 a{color:var(--vert-600)}
 a:hover{color:var(--vert-900)}
+::placeholder{color:#6E7B72;opacity:1}
 :focus-visible{outline:3px solid var(--vert-700);outline-offset:2px;box-shadow:0 0 0 5px var(--or-300);border-radius:4px}
 .pied :focus-visible,.chiffres :focus-visible,.cta-finale :focus-visible{outline-color:var(--or-300);box-shadow:0 0 0 5px rgba(255,255,255,.35)}
 .conteneur{max-width:var(--largeur);margin-inline:auto;padding-inline:clamp(1rem,4vw,1.5rem)}
@@ -459,7 +460,6 @@ body[data-page="campus"] .bande-aide{margin-block:clamp(2.75rem,6vw,4.5rem)}
   width:100%;font:inherit;color:var(--encre);background:#fff;
   border:1.5px solid var(--ligne);border-radius:12px;padding:.72rem 1rem .72rem 2.5rem;
 }
-.champ-faq input::placeholder{color:#8A968D}
 .champ-faq input:focus-visible{outline:3px solid var(--vert-700);outline-offset:0;border-color:var(--vert-600)}
 .btn-deplier{font:inherit;font-size:.92rem;font-weight:700;color:var(--vert-600);background:none;border:none;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
 .btn-deplier:hover{color:var(--vert-900)}
@@ -487,7 +487,6 @@ body[data-page="campus"] .bande-aide{margin-block:clamp(2.75rem,6vw,4.5rem)}
   width:100%;font:inherit;color:var(--encre);background:var(--papier);
   border:1.5px solid var(--ligne);border-radius:12px;padding:.72rem 1rem;
 }
-.recherche-404 input::placeholder{color:#8A968D}
 .recherche-404 input:focus-visible{outline:3px solid var(--vert-700);outline-offset:0;border-color:var(--vert-600)}
 .suggestions{margin-top:.75rem;display:grid;gap:.45rem}
 .suggestion{display:block;padding:.7rem .85rem;border:1px solid var(--ligne);border-radius:10px;text-decoration:none;transition:border-color .15s,background .15s}
@@ -566,7 +565,6 @@ body[data-page="campus"] .bande-aide{margin-block:clamp(2.75rem,6vw,4.5rem)}
   width:100%;font:inherit;color:var(--encre);background:#fff;
   border:1.5px solid var(--ligne);border-radius:12px;padding:.72rem 1rem .72rem 2.5rem;
 }
-.champ-recherche input::placeholder{color:#8A968D}
 .champ-recherche input:focus-visible{outline:3px solid var(--vert-700);outline-offset:0;border-color:var(--vert-600)}
 .barre-bas{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;align-items:baseline;margin-top:.7rem}
 .compte{margin:0;font-size:.95rem;color:var(--encre-2)}
@@ -702,7 +700,6 @@ body[data-page="calendrier"] .maj-grille{margin-top:.9rem}
   border:1.5px solid var(--ligne);border-radius:12px;padding:.72rem .95rem;
 }
 .champ textarea{resize:vertical;min-height:84px}
-.champ input::placeholder,.champ textarea::placeholder{color:#8A968D}
 .champ input:focus-visible,.champ textarea:focus-visible,.champ select:focus-visible{outline:3px solid var(--vert-700);outline-offset:0;border-color:var(--vert-600)}
 .champ [aria-invalid="true"]{border-color:#B4231F}
 .erreur-champ{margin:.35rem 0 0;font-size:.85rem;font-weight:600;color:#B4231F}
