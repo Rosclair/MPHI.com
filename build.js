@@ -43,6 +43,23 @@ function loadPages() {
   return require(PAGES_CONFIG_PATH);
 }
 
+/* Chiffres de l'institut (spécialités, filières) : comptés au build depuis
+   la source unique src/data/formations.js plutôt qu'écrits en dur dans une
+   page - le fichier s'exécute tel quel (il s'attache à un objet "window"),
+   fourni ici comme sandbox minimal. */
+var comptesFormationsCache = null;
+function comptesFormations() {
+  if (comptesFormationsCache) { return comptesFormationsCache; }
+  var sandbox = {};
+  var code = read(path.join(SRC, "data", "formations.js"));
+  new Function("window", code)(sandbox);
+  comptesFormationsCache = {
+    NB_SPECIALITES: sandbox.MPHI_FORMATIONS.specialites.length,
+    NB_FILIERES: sandbox.MPHI_FORMATIONS.filieres.length
+  };
+  return comptesFormationsCache;
+}
+
 /* Utilisés uniquement en secours pendant la migration incrémentale (une page
    à la fois) : le header/footer référencent toutes les pages "principal"/
    "admissions" quelle que soit la page en cours de build. Une fois les 13
@@ -169,7 +186,7 @@ function buildPage(pages, p) {
   var annonce = read(path.join(SRC, "partials", "annonce.html"));
   var headerTpl = read(path.join(SRC, "partials", "header.html"));
   var footerTpl = read(path.join(SRC, "partials", "footer.html"));
-  var mainContent = read(path.join(SRC, "pages", p.id + ".html")).trim();
+  var mainContent = fill(read(path.join(SRC, "pages", p.id + ".html")).trim(), comptesFormations());
 
   var header = fill(headerTpl, { NAV_ITEMS: buildNavItems(pages, p.id) });
   var footer = fill(footerTpl, {

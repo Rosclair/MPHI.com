@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 /* Vérifie que tout lien interne de dist/*.html résout vers un fichier
    réel de dist/ (ancre/paramètres facultatifs) ou vers l'une des pages
-   volontairement 404 (orienteur, institut, mentions-legales,
-   confidentialite). Vérifie aussi que les ancres #id ciblent un id
-   existant dans la page de destination. */
+   volontairement 404 (orienteur, mentions-legales, confidentialite).
+   Vérifie aussi que les ancres #id ciblent un id existant dans la page
+   de destination. */
 "use strict";
 
 var fs = require("fs");
 var path = require("path");
 
 var DIST = path.join(__dirname, "..", "dist");
-var PAGES_404_PREVUES = ["orienteur.html", "institut.html", "mentions-legales.html", "confidentialite.html"];
+var PAGES_404_PREVUES = ["orienteur.html", "mentions-legales.html", "confidentialite.html"];
 
 function listerPages() {
   return fs.readdirSync(DIST).filter(function (f) { return f.endsWith(".html"); });

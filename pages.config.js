@@ -115,6 +115,44 @@ var pages = [
     dataScripts: []
   },
   {
+    id: "institut",
+    out: "institut.html",
+    title: "L'institut - MPHI · Bafoussam",
+    description: "MPHI, institut privé d'enseignement supérieur autorisé par le MINESUP (arrêté du 1er août 2023) à Bafoussam : diplômes reconnus par l'État, 106 spécialités, 26 filières, 3 campus.",
+    og: {
+      title: "L'institut - MPHI",
+      description: "Institut autorisé par le MINESUP, diplômes reconnus par l'État : ce qui fait la crédibilité de MPHI, en un coup d'œil.",
+      image: "assets/og/accueil.jpg"
+    },
+    robots: null,
+    jsonld: [
+      {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        name: "Monga Polytechnic Higher Institute",
+        alternateName: "MPHI",
+        slogan: "Former aujourd'hui, bâtir demain",
+        description: "Institut privé d'enseignement supérieur autorisé par le MINESUP (arrêté du 1er août 2023), à Bafoussam, Cameroun. Diplômes reconnus par l'État : DQP, BTS, HND, Licence et Master professionnels.",
+        email: "mongahigherpolytechnicinstitute@gmail.com",
+        telephone: "+237697636586",
+        address: [
+          { "@type": "PostalAddress", streetAddress: "Campus A - Carrefour Saint-Thomas", addressLocality: "Bafoussam", addressRegion: "Ouest", addressCountry: "CM" },
+          { "@type": "PostalAddress", streetAddress: "Campus B - Bocom Marché B", addressLocality: "Bafoussam", addressRegion: "Ouest", addressCountry: "CM" },
+          { "@type": "PostalAddress", streetAddress: "Campus C - Entrée de la ville (Borne fontaine)", addressLocality: "Bafoussam", addressRegion: "Ouest", addressCountry: "CM" }
+        ],
+        sameAs: [
+          "https://www.facebook.com/MongaPolytechnic",
+          "https://www.instagram.com/MongaPolytechnic"
+        ]
+      }
+    ],
+    navGroup: "principal",
+    navLabel: "L'institut",
+    navSectionKey: "institut",
+    inHeaderNav: true,
+    dataScripts: []
+  },
+  {
     id: "faq",
     out: "faq.html",
     title: "Questions fréquentes - MPHI · Bafoussam",
