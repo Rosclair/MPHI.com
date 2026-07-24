@@ -6,6 +6,7 @@
 
 var fs = require("fs");
 var path = require("path");
+var crypto = require("crypto");
 
 var ROOT = __dirname;
 var SRC = path.join(ROOT, "src");
@@ -36,6 +37,13 @@ function fill(template, tokens) {
   return template.replace(/\{\{(\w+)\}\}/g, function (m, key) {
     return Object.prototype.hasOwnProperty.call(tokens, key) ? tokens[key] : "";
   });
+}
+
+/* Cache-busting : suffixe de hash de contenu sur styles.css et app.js, pour
+   que vercel.json puisse leur donner un Cache-Control immutable sans jamais
+   servir une version périmée après un déploiement. */
+function hashCourt(contenu) {
+  return crypto.createHash("sha256").update(contenu).digest("hex").slice(0, 10);
 }
 
 function fusionnerObjets(a, b) {
@@ -149,7 +157,7 @@ function absolutiser(siteUrl, chemin) {
   return /^https?:\/\//i.test(chemin) ? chemin : siteUrl + "/" + chemin;
 }
 
-function buildHead(p, siteUrl) {
+function buildHead(p, siteUrl, stylesHref) {
   var canonical = '<link rel="canonical" href="' + escAttr(absolutiser(siteUrl, p.out)) + '">';
   var robots = p.robots ? '<meta name="robots" content="' + escAttr(p.robots) + '">' : "";
 
@@ -182,6 +190,7 @@ function buildHead(p, siteUrl) {
     TITLE: esc(p.title),
     DESCRIPTION: escAttr(p.description),
     CANONICAL: canonical,
+    STYLES_HREF: stylesHref,
     ROBOTS: robots,
     OG_BLOCK: og,
     JSONLD_BLOCK: jsonld
@@ -230,7 +239,7 @@ function demoTokens(pages) {
 
 /* ---- Page complète -------------------------------------------------- */
 
-function buildPage(pages, p) {
+function buildPage(pages, p, stylesHref, appHref) {
   var annonce = read(path.join(SRC, "partials", "annonce.html"));
   var headerTpl = read(path.join(SRC, "partials", "header.html"));
   var footerTpl = read(path.join(SRC, "partials", "footer.html"));
@@ -242,13 +251,13 @@ function buildPage(pages, p) {
     FOOTER_LE_SITE: buildFooterLeSite(pages),
     FOOTER_ADMISSIONS: buildFooterAdmissions(pages)
   });
-  var head = buildHead(p, pages.SITE_URL);
+  var head = buildHead(p, pages.SITE_URL, stylesHref);
   var bandeauDemo = buildBandeauDemo(pages);
   var classeCorps = pages.MODE_DEMO ? ' class="a-bandeau-demo"' : "";
 
   var scripts = (p.dataScripts || [])
     .map(function (s) { return '<script src="data/' + s + '.js"></script>'; })
-    .concat(['<script src="app.js"></script>'])
+    .concat(['<script src="' + appHref + '"></script>'])
     .join("\n");
 
   return [
@@ -331,19 +340,37 @@ function buildRobots(siteUrl) {
   ].join("\n");
 }
 
+/* Retire les anciens fichiers hashés (styles.<hash>.css / app.<hash>.js)
+   d'un précédent build - sinon ils s'accumulent dans dist/ à chaque
+   changement de contenu (le hash change, l'ancien nom ne l'est plus). */
+function nettoyerAnciensHashes(prefixe, extension) {
+  if (!fs.existsSync(DIST)) { return; }
+  var re = new RegExp("^" + prefixe + "\\.[0-9a-f]{10}\\." + extension + "$");
+  fs.readdirSync(DIST).forEach(function (f) {
+    if (re.test(f)) { fs.unlinkSync(path.join(DIST, f)); }
+  });
+}
+
 function build() {
   var pages = loadPages();
 
   ensureDir(DIST);
   ensureDir(path.join(DIST, "data"));
 
+  var cssContenu = read(path.join(SRC, "styles.css"));
+  var jsContenu = read(path.join(SRC, "app.js"));
+  var stylesHref = "styles." + hashCourt(cssContenu) + ".css";
+  var appHref = "app." + hashCourt(jsContenu) + ".js";
+
   pages.forEach(function (p) {
-    var html = buildPage(pages, p);
+    var html = buildPage(pages, p, stylesHref, appHref);
     fs.writeFileSync(path.join(DIST, p.out), html, "utf8");
   });
 
-  fs.copyFileSync(path.join(SRC, "styles.css"), path.join(DIST, "styles.css"));
-  fs.copyFileSync(path.join(SRC, "app.js"), path.join(DIST, "app.js"));
+  nettoyerAnciensHashes("styles", "css");
+  nettoyerAnciensHashes("app", "js");
+  fs.writeFileSync(path.join(DIST, stylesHref), cssContenu, "utf8");
+  fs.writeFileSync(path.join(DIST, appHref), jsContenu, "utf8");
   copierAssets();
 
   ["formations", "frais", "calendrier"].forEach(function (name) {

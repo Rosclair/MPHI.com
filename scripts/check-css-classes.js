@@ -46,9 +46,19 @@ function classesUtiliseesDansJS(js) {
   return classes;
 }
 
+/* styles.css et app.js sortent de build.js avec un suffixe de hash de
+   contenu (cache-busting) - on retrouve le fichier par motif plutôt que
+   par nom fixe. */
+function trouverFichier(prefixe, extension) {
+  var re = new RegExp("^" + prefixe + "(\\.[0-9a-f]+)?\\." + extension + "$");
+  var trouve = fs.readdirSync(DIST).filter(function (f) { return re.test(f); })[0];
+  if (!trouve) { throw new Error("Introuvable dans dist/ : " + prefixe + ".*." + extension); }
+  return trouve;
+}
+
 function main() {
-  var css = fs.readFileSync(path.join(DIST, "styles.css"), "utf8");
-  var js = fs.readFileSync(path.join(DIST, "app.js"), "utf8");
+  var css = fs.readFileSync(path.join(DIST, trouverFichier("styles", "css")), "utf8");
+  var js = fs.readFileSync(path.join(DIST, trouverFichier("app", "js")), "utf8");
   var definies = classesDefiniesDansCSS(css);
 
   var utilisees = {};
