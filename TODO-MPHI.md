@@ -20,8 +20,10 @@ MPHI, sont en fin de document.
   (blocs contacts, 3 occurrences concordantes) : A = Carrefour Saint-Thomas,
   B = Bocom Marché B, C = Entrée de la ville (Borne fontaine). À trancher avec
   MPHI.
-- **[TODO-4]** Image Open Graph : créer `assets/og/accueil.jpg` (1200×630) avant
-  mise en ligne.
+- ~~**[TODO-4]** Image Open Graph : créer `assets/og/accueil.jpg` (1200×630) avant
+  mise en ligne.~~ Fait : `src/assets/og/accueil.webp` (952×497 - même ratio
+  ~1,91:1 que le format recommandé, au-dessus du minimum WhatsApp/Facebook),
+  référencée dans `og.image` de chaque page.
 - **[TODO-5]** Liens sociaux : la brochure indique @MongaPolytechnic - vérifier
   les URL exactes.
 

@@ -49,7 +49,7 @@ var pages = [
     og: {
       title: "Contacter MPHI - Bafoussam",
       description: "WhatsApp, téléphone, email et trois campus dans Bafoussam. Posez votre question, le secrétariat vous répond rapidement.",
-      image: "assets/og/accueil.jpg"
+      image: "assets/og/accueil.webp"
     },
     robots: null,
     jsonld: [
@@ -82,7 +82,7 @@ var pages = [
     og: {
       title: "Admissions - rejoindre MPHI",
       description: "BEPC ou BAC : vous pouvez vous inscrire. Conditions par diplôme, dossier en 7 pièces, inscription en 4 temps, bourse jusqu'à −50 %.",
-      image: "assets/og/accueil.jpg"
+      image: "assets/og/accueil.webp"
     },
     robots: null,
     jsonld: [],
@@ -99,7 +99,7 @@ var pages = [
     og: {
       title: "MPHI · Former aujourd'hui, bâtir demain",
       description: "DQP, BTS, HND, Licence et Master professionnels à Bafoussam. Une centaine de spécialités, 3 campus. Inscriptions 2026-2027 ouvertes.",
-      image: "assets/og/accueil.jpg"
+      image: "assets/og/accueil.webp"
     },
     robots: null,
     jsonld: [
@@ -131,7 +131,7 @@ var pages = [
     og: {
       title: "Nos campus à Bafoussam - MPHI",
       description: "Trois adresses dans Bafoussam, un secrétariat sur chaque site pour vos renseignements et le dépôt du dossier d'inscription.",
-      image: "assets/og/accueil.jpg"
+      image: "assets/og/accueil.webp"
     },
     robots: null,
     jsonld: [],
@@ -148,7 +148,7 @@ var pages = [
     og: {
       title: "L'institut - MPHI",
       description: "Institut autorisé par le MINESUP, diplômes reconnus par l'État : ce qui fait la crédibilité de MPHI, en un coup d'œil.",
-      image: "assets/og/accueil.jpg"
+      image: "assets/og/accueil.webp"
     },
     robots: null,
     jsonld: [
@@ -185,7 +185,7 @@ var pages = [
     og: {
       title: "Questions fréquentes - MPHI",
       description: "Inscription dès le BEPC ou le BAC, dossier en 7 pièces, bourse jusqu'à −50 %, permis offert : toutes les réponses.",
-      image: "assets/og/accueil.jpg"
+      image: "assets/og/accueil.webp"
     },
     robots: null,
     jsonld: [
@@ -230,7 +230,7 @@ var pages = [
     og: {
       title: "Constituer votre dossier d'inscription - MPHI",
       description: "Sept pièces, aucune surprise. La checklist officielle à cocher et à imprimer avant de déposer votre dossier au campus.",
-      image: "assets/og/accueil.jpg"
+      image: "assets/og/accueil.webp"
     },
     robots: null,
     jsonld: [breadcrumbJsonLd([
@@ -250,7 +250,7 @@ var pages = [
     og: {
       title: "Formations et spécialités - MPHI",
       description: "Une centaine de spécialités en BTS et HND à Bafoussam. Trouvez la vôtre et posez vos questions sur WhatsApp.",
-      image: "assets/og/accueil.jpg"
+      image: "assets/og/accueil.webp"
     },
     robots: null,
     jsonld: [],
@@ -267,7 +267,7 @@ var pages = [
     og: {
       title: "Fiche formation - MPHI",
       description: "Diplôme préparé, conditions d'admission et inscription en 3 étapes. Posez vos questions sur WhatsApp.",
-      image: "assets/og/accueil.jpg"
+      image: "assets/og/accueil.webp"
     },
     robots: null,
     jsonld: [],
@@ -284,7 +284,7 @@ var pages = [
     og: {
       title: "Le test d'orientation - MPHI",
       description: "Niveau d'études, domaine, priorités : trois questions et quelques pistes de spécialités, à affiner avec le secrétariat.",
-      image: "assets/og/accueil.jpg"
+      image: "assets/og/accueil.webp"
     },
     robots: null,
     jsonld: [],
@@ -301,7 +301,7 @@ var pages = [
     og: {
       title: "Frais et bourse de formation - MPHI",
       description: "Bourse jusqu'à −50 % à l'inscription, permis de conduire dès la première tranche, paiement en tranches. Demandez le tarif de votre formation en un message.",
-      image: "assets/og/accueil.jpg"
+      image: "assets/og/accueil.webp"
     },
     robots: null,
     jsonld: [breadcrumbJsonLd([
@@ -321,7 +321,7 @@ var pages = [
     og: {
       title: "Calendrier 2026-2027 - MPHI",
       description: "De la préparation du dossier à la rentrée : votre chronologie d'inscription, et les dates officielles dès leur publication.",
-      image: "assets/og/accueil.jpg"
+      image: "assets/og/accueil.webp"
     },
     robots: null,
     jsonld: [breadcrumbJsonLd([
@@ -341,7 +341,7 @@ var pages = [
     og: {
       title: "Préinscription 2026-2027 - MPHI",
       description: "Deux minutes, aucun document : réservez votre place pour la rentrée, le secrétariat vous recontacte.",
-      image: "assets/og/accueil.jpg"
+      image: "assets/og/accueil.webp"
     },
     robots: null,
     jsonld: [breadcrumbJsonLd([
