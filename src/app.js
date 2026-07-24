@@ -20,14 +20,17 @@
   }
 
   /* Menu déroulant « Admissions » : replié par défaut, ouvert/fermé au clic
-     sur le bouton, avec Échap et clic extérieur pour refermer - identique
-     sur desktop (bulle flottante) et sur mobile (bloc dans le panneau). */
+     sur le bouton, avec Échap (focus rendu au bouton) et clic extérieur pour
+     refermer, et Haut/Bas pour naviguer entre ses liens - identique sur
+     desktop (bulle flottante) et sur mobile (bloc dans le panneau). */
   var boutonAdmissions = document.getElementById("boutonAdmissions");
   var menuAdmissions = document.getElementById("menuAdmissions");
   if (boutonAdmissions && menuAdmissions) {
-    var fermerAdmissions = function () {
+    var liensAdmissions = Array.prototype.slice.call(menuAdmissions.querySelectorAll("a"));
+    var fermerAdmissions = function (rendreFocus) {
       menuAdmissions.classList.remove("ouverte");
       boutonAdmissions.setAttribute("aria-expanded", "false");
+      if (rendreFocus) { boutonAdmissions.focus(); }
     };
     boutonAdmissions.addEventListener("click", function (e) {
       e.stopPropagation();
@@ -35,10 +38,20 @@
       boutonAdmissions.setAttribute("aria-expanded", ouvert ? "true" : "false");
     });
     document.addEventListener("click", function (e) {
-      if (!e.target.closest(".nav-dropdown")) { fermerAdmissions(); }
+      if (!e.target.closest(".nav-dropdown")) { fermerAdmissions(false); }
     });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") { fermerAdmissions(); }
+      if (e.key !== "Escape") { return; }
+      if (menuAdmissions.classList.contains("ouverte")) { fermerAdmissions(true); }
+    });
+    menuAdmissions.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowDown" && e.key !== "ArrowUp") { return; }
+      e.preventDefault();
+      var position = liensAdmissions.indexOf(document.activeElement);
+      var suivante = e.key === "ArrowDown"
+        ? (position + 1) % liensAdmissions.length
+        : (position - 1 + liensAdmissions.length) % liensAdmissions.length;
+      liensAdmissions[suivante].focus();
     });
   }
 
@@ -336,6 +349,7 @@
         lien.setAttribute("data-lead", "404-suggestion");
         var nom = document.createElement("b");
         nom.textContent = s.nom;
+        if (s.langue === "en") { nom.lang = "en"; }
         var meta = document.createElement("small");
         meta.textContent = s.diplomeNom + " · " + s.filiereNom;
         lien.appendChild(nom);
@@ -580,9 +594,10 @@
     var badgeLangue = spec.langue === "en"
       ? "<li class=\"badge badge-en\">English</li>"
       : "<li class=\"badge\">Français</li>";
+    var langAttr = spec.langue === "en" ? " lang=\"en\"" : "";
     return "<article class=\"carte carte-spec\">"
       + "<p class=\"filiere-nom\">" + spec.filiereNom + "</p>"
-      + "<h3>" + spec.nom + "</h3>"
+      + "<h3" + langAttr + ">" + spec.nom + "</h3>"
       + "<ul class=\"badges\">"
       + "<li class=\"badge badge-dip\">" + spec.diplomeNom + "</li>"
       + "<li class=\"badge\">" + spec.admission + "</li>"
@@ -724,7 +739,9 @@
   })();
 
   document.getElementById("surTitre").textContent = spec.filiereNom;
-  document.getElementById("titreFiche").textContent = spec.nom;
+  var titreFiche = document.getElementById("titreFiche");
+  titreFiche.textContent = spec.nom;
+  if (spec.langue === "en") { titreFiche.lang = "en"; }
   document.getElementById("introFiche").textContent =
     "Formation " + spec.diplomeNom + " de la filière " + spec.filiereNom + ". " + phraseLangue;
 
@@ -780,6 +797,7 @@
       lien.href = "fiche.html?f=" + encodeURIComponent(s.slug);
       lien.setAttribute("data-lead", "fiche-meme-filiere");
       lien.textContent = s.nom;
+      if (s.langue === "en") { lien.lang = "en"; }
       listeSoeurs.appendChild(lien);
     });
   }
@@ -1074,9 +1092,10 @@
   }
 
   function carteResultatHTML(spec) {
+    var langAttr = spec.langue === "en" ? " lang=\"en\"" : "";
     return "<article class=\"carte carte-spec\">"
       + "<p class=\"filiere-nom\">" + spec.filiereNom + "</p>"
-      + "<h3>" + spec.nom + "</h3>"
+      + "<h3" + langAttr + ">" + spec.nom + "</h3>"
       + "<ul class=\"badges\">"
       + "<li class=\"badge badge-dip\">" + spec.diplomeNom + "</li>"
       + "<li class=\"badge\">" + spec.admission + "</li>"
@@ -1374,6 +1393,7 @@
     donnees.specialites.forEach(function (spec) {
       var option = document.createElement("option");
       option.value = libelleSpec(spec);
+      if (spec.langue === "en") { option.lang = "en"; }
       liste.appendChild(option);
     });
 

@@ -118,7 +118,7 @@ mark{background:var(--or-300);color:var(--encre);padding:.03em .14em;box-decorat
 .menu-deroulant a:hover{background:var(--or-050)}
 .menu-deroulant a[aria-current="page"]{color:var(--vert-700)}
 .entete .btn{padding:.6rem 1rem;font-size:.92rem}
-.bouton-menu{display:none;background:none;border:2px solid var(--vert-700);border-radius:10px;padding:.45rem .55rem;cursor:pointer;color:var(--vert-700);transition:background .15s,border-color .15s}
+.bouton-menu{display:none;align-items:center;justify-content:center;min-height:44px;min-width:44px;background:none;border:2px solid var(--vert-700);border-radius:10px;padding:.45rem .55rem;cursor:pointer;color:var(--vert-700);transition:background .15s,border-color .15s}
 .bouton-menu svg{width:22px;height:22px}
 .icone-menu .ligne{transform-box:fill-box;transform-origin:50% 50%;transition:transform .28s cubic-bezier(.4,0,.2,1),opacity .2s ease}
 .bouton-menu[aria-expanded="true"] .ligne-haut{transform:translateY(5px) rotate(45deg)}
@@ -596,7 +596,7 @@ body[data-page="campus"] .bande-aide{margin-block:clamp(2.75rem,6vw,4.5rem)}
 .carte-spec .actions{margin-top:auto;display:flex;gap:.9rem;align-items:center;justify-content:space-between}
 .carte-spec .actions .details{font-weight:700;text-decoration:none;white-space:nowrap}
 .carte-spec .actions .details::after{content:" →"}
-.btn-wa{padding:.52rem .9rem;font-size:.87rem;border-radius:10px}
+.btn-wa{padding:.52rem .9rem;font-size:.87rem;border-radius:10px;min-height:44px}
 .btn-wa svg{width:16px;height:16px}
 .vide{display:none;margin-top:1.75rem;text-align:center;padding:3rem 1.5rem}
 .vide.visible{display:flex;flex-direction:column;align-items:center;gap:.4rem}

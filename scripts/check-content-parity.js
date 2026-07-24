@@ -52,6 +52,31 @@ function retirerDivParId(corps, id) {
   return corps;
 }
 
+/* Retire toute balise portant la classe "sr-only" et son contenu, quel que
+   soit le nom de la balise (h2, span, label...) - texte réservé aux lecteurs
+   d'écran, absent du rendu visuel et donc hors du périmètre de "texte
+   visible" comparé ici (ex. les h2 de section ajoutés pour corriger des
+   sauts de titres, cf. Lot B de l'audit). */
+function retirerBalisesSrOnly(corps) {
+  var reOuvrante = /<([a-zA-Z][a-zA-Z0-9-]*)\b[^>]*\bclass="[^"]*\bsr-only\b[^"]*"[^>]*>/;
+  var m;
+  while ((m = reOuvrante.exec(corps))) {
+    var tag = m[1].toLowerCase();
+    var debut = m.index;
+    var reBalise = new RegExp("<" + tag + "\\b[^>]*>|</" + tag + "\\s*>", "gi");
+    reBalise.lastIndex = debut;
+    var profondeur = 0;
+    var mm, fin = -1;
+    while ((mm = reBalise.exec(corps))) {
+      profondeur += mm[0].charAt(1) === "/" ? -1 : 1;
+      if (profondeur === 0) { fin = reBalise.lastIndex; break; }
+    }
+    if (fin === -1) { break; }
+    corps = corps.slice(0, debut) + corps.slice(fin);
+  }
+  return corps;
+}
+
 /* Extrait le texte visible : retire <head>, <script>, <style>, commentaires,
    toutes les balises, normalise les espaces. Ne capture pas ce qui est
    injecté par JS au runtime (catalogue, fiche, grilles) puisqu'on compare
@@ -65,6 +90,7 @@ function texteVisible(html, options) {
   var corps = html.replace(/^[\s\S]*?<body[^>]*>/i, "").replace(/<\/body>[\s\S]*$/i, "");
   corps = retirerDivParId(corps, "chargement");
   corps = retirerDivParId(corps, "bandeauDemo");
+  corps = retirerBalisesSrOnly(corps);
   if (options && options.retirerNavPiedDePage) {
     corps = corps.replace(/<header\b[\s\S]*?<\/header>/i, "");
     corps = corps.replace(/<footer\b[\s\S]*?<\/footer>/i, "");
