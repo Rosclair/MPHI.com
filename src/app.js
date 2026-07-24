@@ -1182,3 +1182,17 @@
     } catch (e) {}
   }
 })();
+
+/* Photos de campus : repli élégant si le fichier n'existe pas encore -
+   masque l'image cassée pour laisser voir le fond et la lettre filigrane. */
+(function () {
+  "use strict";
+
+  var photos = Array.prototype.slice.call(document.querySelectorAll(".campus-visuel img"));
+  photos.forEach(function (img) {
+    img.addEventListener("error", function () {
+      var carte = img.closest(".campus-visuel");
+      if (carte) { carte.classList.add("sans-photo"); }
+    }, { once: true });
+  });
+})();
