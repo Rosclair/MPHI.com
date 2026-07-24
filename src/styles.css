@@ -155,10 +155,28 @@ mark{background:var(--or-300);color:var(--encre);padding:.03em .14em;box-decorat
    restent des enfants flex directs de .conteneur, comportement inchangé. */
 .annonce-piste{display:contents}
 
-/* ---------- Bandeau annonce : bloc statique et centré sur mobile ---------- */
+/* ---------- Bandeau annonce : une seule ligne, défilante sur mobile ----------
+   Le texte + le lien ne tiennent pas sur une ligne à l'étroit - plutôt que de
+   les empiler ou les laisser passer à la ligne, .annonce-piste devient une
+   piste horizontale (nowrap) animée en boucle. Défilement coupé pour
+   prefers-reduced-motion : la piste reste alors simplement défilable au
+   doigt (overflow-x), toujours sur une seule ligne. */
 @media (max-width:959px){
-  .annonce-piste{display:flex;flex-direction:column;align-items:center;gap:.35rem}
-  .annonce-piste p{white-space:normal;font-size:.86rem}
+  .annonce{overflow:hidden}
+  .annonce .conteneur{justify-content:flex-start}
+  .annonce-piste{
+    display:inline-flex;flex:none;align-items:center;gap:.35rem 1rem;
+    white-space:nowrap;animation:annonce-defile 16s linear infinite;
+  }
+  .annonce-piste p{white-space:nowrap;font-size:.86rem}
+}
+@keyframes annonce-defile{
+  from{transform:translateX(100%)}
+  to{transform:translateX(-100%)}
+}
+@media (max-width:959px) and (prefers-reduced-motion:reduce){
+  .annonce-piste{animation:none;transform:none}
+  .annonce .conteneur{overflow-x:auto;justify-content:flex-start}
 }
 
 /* ---------- En-tête ---------- */
@@ -206,7 +224,8 @@ mark{background:var(--or-300);color:var(--encre);padding:.03em .14em;box-decorat
   .nav-principale li:last-child{border-bottom:0;padding-top:.85rem}
   .nav-principale a{display:block;padding:.8rem .15rem;font-size:1.05rem}
   .nav-principale a[aria-current="page"]{box-shadow:none;color:var(--vert-600)}
-  .nav-principale .btn{display:inline-flex;width:100%;}
+  .nav-principale .btn{display:inline-flex;width:100%;color:#fff}
+  .nav-principale .btn:hover{color:#fff}
   .nav-dropdown-bouton{display:flex;width:100%;justify-content:space-between;align-items:center;padding:.8rem .15rem;font-size:1.05rem}
   .menu-deroulant{display:none;position:static;border:0;box-shadow:none;background:none;padding:0;margin:0;min-width:0}
   .menu-deroulant.ouverte{display:block}
