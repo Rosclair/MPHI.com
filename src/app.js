@@ -1,5 +1,31 @@
 /* MPHI - comportements partagés (toutes les pages) */
 
+/* Traçage de débogage additionnel (orienteur terminé, mode d'envoi de la
+   préinscription, conversion sur merci.html) - à ne jamais activer en
+   production ; distinct du point de branchement data-lead ci-dessous, qui
+   reste actif partout puisqu'il alimente les futurs outils d'analytics. */
+var MPHI_DEBUG = false;
+
+/* Utilitaires communs à plusieurs pages - un seul point de vérité plutôt
+   que des copies locales par page (recherche insensible aux accents/casse,
+   lien WhatsApp pré-rempli pour une spécialité du catalogue). */
+var MPHI_UTIL = (function () {
+  "use strict";
+
+  var marquesDiacritiques = new RegExp("[" + String.fromCharCode(0x0300) + "-" + String.fromCharCode(0x036f) + "]", "g");
+  function normaliser(texte) {
+    return String(texte).normalize("NFD").replace(marquesDiacritiques, "").toLowerCase();
+  }
+
+  function lienWhatsAppSpecialite(spec) {
+    var message = "Bonjour MPHI, je souhaite des informations sur la spécialité "
+      + spec.nom + " (" + spec.diplomeNom + ", filière " + spec.filiereNom + ").";
+    return "https://wa.me/237655996913?text=" + encodeURIComponent(message);
+  }
+
+  return { normaliser: normaliser, lienWhatsAppSpecialite: lienWhatsAppSpecialite };
+})();
+
 (function () {
   "use strict";
 
@@ -186,11 +212,7 @@
   var questions = Array.prototype.slice.call(document.querySelectorAll(".theme-faq details"));
   var total = questions.length;
   var programmatique = false;
-
-  var marquesDiacritiques = new RegExp("[" + String.fromCharCode(0x0300) + "-" + String.fromCharCode(0x036f) + "]", "g");
-  function normaliser(texte) {
-    return String(texte).normalize("NFD").replace(marquesDiacritiques, "").toLowerCase();
-  }
+  var normaliser = MPHI_UTIL.normaliser;
 
   /* ----- Ancres profondes : #id ouvre et défile ; ouvrir met à jour l'URL ----- */
   function ouvrirDepuisAncre() {
@@ -325,10 +347,7 @@
     var zone = document.getElementById("suggestions404");
     var aucune = document.getElementById("aucune404");
 
-    var marquesDiacritiques404 = new RegExp("[" + String.fromCharCode(0x0300) + "-" + String.fromCharCode(0x036f) + "]", "g");
-    function normaliser(texte) {
-      return String(texte).normalize("NFD").replace(marquesDiacritiques404, "").toLowerCase();
-    }
+    var normaliser = MPHI_UTIL.normaliser;
 
     champ.addEventListener("input", function () {
       var q = normaliser(champ.value.trim());
@@ -500,15 +519,8 @@
   var etat = { q: "", diplome: "tous", filiere: "toutes" };
 
   /* ----- Utilitaires ----- */
-  var marquesDiacritiquesCatalogue = new RegExp("[" + String.fromCharCode(0x0300) + "-" + String.fromCharCode(0x036f) + "]", "g");
-  function normaliser(texte) {
-    return String(texte).normalize("NFD").replace(marquesDiacritiquesCatalogue, "").toLowerCase();
-  }
-  function lienWhatsApp(spec) {
-    var message = "Bonjour MPHI, je souhaite des informations sur la spécialité "
-      + spec.nom + " (" + spec.diplomeNom + ", filière " + spec.filiereNom + ").";
-    return "https://wa.me/237655996913?text=" + encodeURIComponent(message);
-  }
+  var normaliser = MPHI_UTIL.normaliser;
+  var lienWhatsApp = MPHI_UTIL.lienWhatsAppSpecialite;
 
   /* ----- Remplir le sélecteur de filières ----- */
   (function remplirFilieres() {
@@ -765,10 +777,7 @@
   document.getElementById("infoLangue").textContent = langueLabel;
 
   /* ----- Appels à l'action ----- */
-  var messageWhatsApp = "Bonjour MPHI, je souhaite des informations sur la spécialité "
-    + spec.nom + " (" + spec.diplomeNom + ", filière " + spec.filiereNom + ").";
-  document.getElementById("ctaWhatsApp").href =
-    "https://wa.me/237655996913?text=" + encodeURIComponent(messageWhatsApp);
+  document.getElementById("ctaWhatsApp").href = MPHI_UTIL.lienWhatsAppSpecialite(spec);
 
   var lienPreinscription = "preinscription.html?f=" + encodeURIComponent(spec.slug);
   document.getElementById("ctaPreinscription").href = lienPreinscription;
@@ -1085,12 +1094,6 @@
     return { liste: liste, elargi: elargi, diplomeFiltre: diplomeFiltre };
   }
 
-  function lienWhatsAppOrienteur(spec) {
-    var message = "Bonjour MPHI, je souhaite des informations sur la spécialité "
-      + spec.nom + " (" + spec.diplomeNom + ", filière " + spec.filiereNom + ").";
-    return "https://wa.me/237655996913?text=" + encodeURIComponent(message);
-  }
-
   function carteResultatHTML(spec) {
     var langAttr = spec.langue === "en" ? " lang=\"en\"" : "";
     return "<article class=\"carte carte-spec\">"
@@ -1102,7 +1105,7 @@
       + "</ul>"
       + "<p class=\"actions\">"
       + "<a class=\"details\" href=\"fiche.html?f=" + encodeURIComponent(spec.slug) + "\" data-lead=\"orienteur-fiche-" + spec.slug + "\">Voir la fiche</a>"
-      + "<a class=\"btn btn-plein btn-wa\" rel=\"noopener\" data-lead=\"orienteur-wa-" + spec.slug + "\" href=\"" + lienWhatsAppOrienteur(spec) + "\">"
+      + "<a class=\"btn btn-plein btn-wa\" rel=\"noopener\" data-lead=\"orienteur-wa-" + spec.slug + "\" href=\"" + MPHI_UTIL.lienWhatsAppSpecialite(spec) + "\">"
       + "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z\"/></svg>"
       + "WhatsApp</a>"
       + "</p>"
@@ -1140,7 +1143,7 @@
       document.dispatchEvent(new CustomEvent("orienteur-termine", {
         detail: { niveau: etat.n, domaines: etat.dom.slice(), priorite: etat.p, nbResultats: r.liste.length }
       }));
-      console.info("[MPHI lead]", "orienteur-termine", etat.n, etat.dom.join("+"), etat.p);
+      if (MPHI_DEBUG) { console.info("[MPHI lead]", "orienteur-termine", etat.n, etat.dom.join("+"), etat.p); }
     } catch (e) { /* CustomEvent indisponible : silencieux, aucune fonctionnalité perdue */ }
   }
 
@@ -1496,7 +1499,7 @@
 
     if (!modeEndpoint) {
       var fenetre = window.open(lien, "_blank", "noopener");
-      try { console.info("[MPHI lead]", "preinscription-whatsapp", champFormation.value.trim()); } catch (e) {}
+      if (MPHI_DEBUG) { try { console.info("[MPHI lead]", "preinscription-whatsapp", champFormation.value.trim()); } catch (e) {} }
       if (fenetre) {
         memoriserLien(lien);
         window.location.href = cibleMerci("wa");
@@ -1516,7 +1519,7 @@
     }).then(function (reponse) {
       if (!reponse.ok) { throw new Error("HTTP " + reponse.status); }
       memoriserLien(lien);
-      try { console.info("[MPHI lead]", "preinscription-endpoint", champFormation.value.trim()); } catch (e) {}
+      if (MPHI_DEBUG) { try { console.info("[MPHI lead]", "preinscription-endpoint", champFormation.value.trim()); } catch (e) {} }
       window.location.href = cibleMerci("direct");
     }).catch(function () {
       montrerEtat("erreur");
@@ -1583,7 +1586,7 @@
   }
 
   /* ----- Balise de conversion (point de branchement analytics) ----- */
-  if (via === "wa" || via === "direct") {
+  if (MPHI_DEBUG && (via === "wa" || via === "direct")) {
     try {
       console.info("[MPHI conversion]", "preinscription", via, slug || "formation-libre");
     } catch (e) {}

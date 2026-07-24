@@ -72,7 +72,6 @@ var pages = [
     navGroup: "principal",
     navLabel: "Contact",
     navSectionKey: "contact",
-    inHeaderNav: true,
     dataScripts: []
   },
   {
@@ -90,7 +89,6 @@ var pages = [
     navGroup: "admissions",
     navLabel: "Vue d'ensemble",
     navSectionKey: "admissions",
-    inHeaderNav: true,
     dataScripts: []
   },
   {
@@ -123,7 +121,6 @@ var pages = [
     navGroup: "principal",
     navLabel: "Accueil",
     navSectionKey: null,
-    inHeaderNav: false,
     dataScripts: []
   },
   {
@@ -141,7 +138,6 @@ var pages = [
     navGroup: "principal",
     navLabel: "Campus",
     navSectionKey: "campus",
-    inHeaderNav: true,
     dataScripts: []
   },
   {
@@ -179,7 +175,6 @@ var pages = [
     navGroup: "principal",
     navLabel: "L'institut",
     navSectionKey: "institut",
-    inHeaderNav: true,
     dataScripts: []
   },
   {
@@ -212,7 +207,6 @@ var pages = [
     navGroup: "admissions",
     navLabel: "Questions fréquentes",
     navSectionKey: "admissions",
-    inHeaderNav: true,
     dataScripts: []
   },
   {
@@ -226,7 +220,6 @@ var pages = [
     navGroup: null,
     navLabel: null,
     navSectionKey: null,
-    inHeaderNav: false,
     dataScripts: ["formations"]
   },
   {
@@ -247,7 +240,6 @@ var pages = [
     navGroup: "admissions",
     navLabel: "Constitution du dossier",
     navSectionKey: "admissions",
-    inHeaderNav: true,
     dataScripts: []
   },
   {
@@ -265,7 +257,6 @@ var pages = [
     navGroup: "principal",
     navLabel: "Formations",
     navSectionKey: "formations",
-    inHeaderNav: true,
     dataScripts: ["formations"]
   },
   {
@@ -283,7 +274,6 @@ var pages = [
     navGroup: null,
     navLabel: null,
     navSectionKey: "formations",
-    inHeaderNav: false,
     dataScripts: ["formations"]
   },
   {
@@ -301,7 +291,6 @@ var pages = [
     navGroup: null,
     navLabel: null,
     navSectionKey: "formations",
-    inHeaderNav: false,
     dataScripts: ["formations"]
   },
   {
@@ -322,7 +311,6 @@ var pages = [
     navGroup: "admissions",
     navLabel: "Frais et bourses",
     navSectionKey: "admissions",
-    inHeaderNav: true,
     dataScripts: ["frais"]
   },
   {
@@ -343,7 +331,6 @@ var pages = [
     navGroup: "admissions",
     navLabel: "Calendrier",
     navSectionKey: "admissions",
-    inHeaderNav: true,
     dataScripts: ["calendrier"]
   },
   {
@@ -364,7 +351,6 @@ var pages = [
     navGroup: "admissions",
     navLabel: "Préinscription",
     navSectionKey: "admissions",
-    inHeaderNav: true,
     dataScripts: ["formations"]
   },
   {
@@ -378,7 +364,6 @@ var pages = [
     navGroup: null,
     navLabel: null,
     navSectionKey: "admissions",
-    inHeaderNav: false,
     dataScripts: ["formations"]
   },
   {
@@ -392,7 +377,6 @@ var pages = [
     navGroup: null,
     navLabel: "Mentions légales",
     navSectionKey: null,
-    inHeaderNav: false,
     dataScripts: []
   },
   {
@@ -406,7 +390,6 @@ var pages = [
     navGroup: null,
     navLabel: "Confidentialité",
     navSectionKey: null,
-    inHeaderNav: false,
     dataScripts: []
   }
 ];
@@ -425,7 +408,6 @@ if (MODE_DEMO) {
     navGroup: null,
     navLabel: null,
     navSectionKey: null,
-    inHeaderNav: false,
     dataScripts: []
   });
 }

@@ -390,6 +390,14 @@ if (process.argv.indexOf("--watch") !== -1) {
   var rebuild = function () {
     try { build(); } catch (err) { console.error("Erreur de build :", err.message); }
   };
-  fs.watch(SRC, { recursive: true }, rebuild);
-  fs.watch(PAGES_CONFIG_PATH, rebuild);
+  /* Anti-rebond : un enregistrement déclenche souvent plusieurs événements
+     fs.watch coup sur coup (éditeur, sauvegarde atomique...) - une seule
+     reconstruction regroupe tout ce qui arrive dans la même fenêtre de 80ms. */
+  var minuteurRebuild = null;
+  var planifierRebuild = function () {
+    clearTimeout(minuteurRebuild);
+    minuteurRebuild = setTimeout(rebuild, 80);
+  };
+  fs.watch(SRC, { recursive: true }, planifierRebuild);
+  fs.watch(PAGES_CONFIG_PATH, planifierRebuild);
 }

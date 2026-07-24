@@ -35,9 +35,6 @@ build.js              assembleur (lit pages.config.js + src/, écrit dist/)
 pages.config.js        config centrale : une entrée par page (voir plus bas)
 scripts/               scripts de vérification, à lancer sur dist/ (voir plus bas)
 dist/                  sortie du build - À DÉPLOYER (générée, non versionnée dans git)
-_avant/                copie des 18 fichiers de la racine avant restructuration + 4
-                        doublons de téléchargement, gardée pour comparaison rapide
-                        (l'état complet reste aussi dans l'historique git, premier commit)
 TODO-MPHI.md            tout ce qui reste à valider avec MPHI (données, pas du code)
 ```
 
@@ -51,7 +48,7 @@ TODO-MPHI.md            tout ce qui reste à valider avec MPHI (données, pas du
    `navGroup` (`"principal"`, `"admissions"` ou `null` si la page ne doit pas
    apparaître dans la nav - cas de `fiche`, `merci`, `404`), `navLabel`,
    `navSectionKey` (quelle section de nav doit être marquée `aria-current` sur
-   cette page), `inHeaderNav`, `dataScripts` (parmi `"formations"`, `"frais"`,
+   cette page), `dataScripts` (parmi `"formations"`, `"frais"`,
    `"calendrier"`).
 3. `node build.js`.
 
@@ -81,12 +78,16 @@ n'est nécessaire.
 ## Vérifications (`scripts/`, à lancer sur `dist/` après chaque build)
 
 ```bash
-node scripts/check-html-balance.js      # équilibre des balises, 13 pages
+node scripts/check-html-balance.js      # équilibre des balises
 node scripts/check-css-classes.js       # chaque classe utilisée a une règle CSS
 node scripts/check-node-syntax.js       # node --check sur app.js, build.js, data/*.js
 node scripts/check-internal-links.js    # tout lien interne résout vers une page/ancre réelle
-node scripts/check-content-parity.js    # texte visible identique à _avant/ (hors nav)
 ```
+
+`check-content-parity.js` a été retiré une fois la restructuration validée : il
+comparait le texte visible de `dist/` à `_avant/`, un instantané des fichiers
+d'origine gardé le temps de la migration - les deux ont été retirés ensemble
+(l'historique Git conserve `_avant/` si besoin d'y revenir).
 
 ## Invariants à ne pas casser
 
