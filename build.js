@@ -371,6 +371,7 @@ function build() {
   nettoyerAnciensHashes("app", "js");
   fs.writeFileSync(path.join(DIST, stylesHref), cssContenu, "utf8");
   fs.writeFileSync(path.join(DIST, appHref), jsContenu, "utf8");
+  fs.copyFileSync(path.join(SRC, "site.webmanifest"), path.join(DIST, "site.webmanifest"));
   copierAssets();
 
   ["formations", "frais", "calendrier"].forEach(function (name) {
