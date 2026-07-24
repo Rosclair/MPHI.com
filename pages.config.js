@@ -334,6 +334,20 @@ var pages = [
     navSectionKey: null,
     inHeaderNav: false,
     dataScripts: []
+  },
+  {
+    id: "confidentialite",
+    out: "confidentialite.html",
+    title: "Confidentialité - MPHI · Bafoussam",
+    description: "Quelles données le formulaire de préinscription MPHI collecte, ce qui n'est jamais collecté en ligne, et comment demander une suppression.",
+    og: null,
+    robots: null,
+    jsonld: [],
+    navGroup: null,
+    navLabel: "Confidentialité",
+    navSectionKey: null,
+    inHeaderNav: false,
+    dataScripts: []
   }
 ];
 
