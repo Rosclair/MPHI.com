@@ -18,6 +18,32 @@ var PAGES_CONFIG_PATH = path.join(ROOT, "pages.config.js");
 var FOOTER_LE_SITE_IDS = ["index", "formations", "campus", "institut", "contact", "faq"];
 var FOOTER_ADMISSIONS_IDS = ["admissions", "dossier", "frais-et-bourses", "calendrier", "preinscription"];
 
+/* Libellés courts pour le tag "(Depuis : ...)" des liens WhatsApp du header/
+   pied de page - présents sur toutes les pages, donc le message pré-rempli
+   doit indiquer d'où le visiteur écrit, quelle que soit la page cliquée. */
+var WA_LABEL = {
+  index: "Accueil", formations: "Catalogue des formations", fiche: "Fiche formation",
+  campus: "Campus", institut: "L'institut", contact: "Contact",
+  admissions: "Admissions", dossier: "Constitution du dossier",
+  "frais-et-bourses": "Frais et bourses", calendrier: "Calendrier",
+  preinscription: "Préinscription", merci: "Page de confirmation",
+  faq: "Questions fréquentes", "404": "Page introuvable",
+  orienteur: "Test d'orientation", "mentions-legales": "Mentions légales",
+  confidentialite: "Confidentialité", "a-propos-maquette": "À propos de la maquette"
+};
+
+function waHrefEntete(p) {
+  var label = WA_LABEL[p.id] || p.id;
+  var message = "Bonjour MPHI, je souhaite des informations sur vos formations et les inscriptions 2026-2027. (Depuis : " + label + ")";
+  return "https://wa.me/237655996913?text=" + encodeURIComponent(message);
+}
+
+function waHrefPied(p) {
+  var label = WA_LABEL[p.id] || p.id;
+  var message = "Bonjour MPHI, j'ai une question. (Depuis : " + label + ")";
+  return "https://wa.me/237655996913?text=" + encodeURIComponent(message);
+}
+
 function read(p) {
   return fs.readFileSync(p, "utf8");
 }
@@ -205,17 +231,19 @@ function buildHead(p, siteUrl, stylesHref) {
 
 var MESSAGE_WHATSAPP_DEMO = "Bonjour, j'ai consulté la maquette du site MPHI.";
 
-function demoWhatsAppHref(pages) {
+function demoWhatsAppHref(pages, p) {
   if (!pages.NUMERO_WHATSAPP_DEMO) { return null; }
-  return "https://wa.me/" + pages.NUMERO_WHATSAPP_DEMO + "?text=" + encodeURIComponent(MESSAGE_WHATSAPP_DEMO);
+  var label = WA_LABEL[p.id] || p.id;
+  var message = MESSAGE_WHATSAPP_DEMO + " (Depuis : " + label + ")";
+  return "https://wa.me/" + pages.NUMERO_WHATSAPP_DEMO + "?text=" + encodeURIComponent(message);
 }
 
 /* Bandeau fixé en bas de chaque page - "" si MODE_DEMO est faux, retirant
    intégralement le bloc du HTML généré (aucune règle CSS/JS orpheline : le
    JS de fermeture, dans app.js, ne fait rien en l'absence de #bandeauDemo). */
-function buildBandeauDemo(pages) {
+function buildBandeauDemo(pages, p) {
   if (!pages.MODE_DEMO) { return ""; }
-  var href = demoWhatsAppHref(pages);
+  var href = demoWhatsAppHref(pages, p);
   var whatsapp = href
     ? '<a class="btn btn-plein bandeau-demo-wa" href="' + escAttr(href) + '" rel="noopener" data-lead="bandeau-demo-whatsapp">WhatsApp</a>'
     : '<span class="bandeau-demo-wa-manquant" title="À renseigner : NUMERO_WHATSAPP_DEMO dans pages.config.js">Numéro WhatsApp à renseigner</span>';
@@ -226,8 +254,8 @@ function buildBandeauDemo(pages) {
 /* Tokens propres à a-propos-maquette.html (bouton WhatsApp, email optionnel) -
    fusionnés avec les tokens habituels de mainContent ; ne matchent que sur
    cette page puisque les autres n'utilisent pas ces {{jetons}}. */
-function demoTokens(pages) {
-  var href = demoWhatsAppHref(pages);
+function demoTokens(pages, p) {
+  var href = demoWhatsAppHref(pages, p);
   var whatsapp = href
     ? '<a class="btn btn-or" href="' + escAttr(href) + '" rel="noopener" data-lead="a-propos-maquette-whatsapp">WhatsApp</a>'
     : '<span class="bandeau-demo-wa-manquant" title="À renseigner : NUMERO_WHATSAPP_DEMO dans pages.config.js">Numéro WhatsApp à renseigner</span>';
@@ -243,16 +271,20 @@ function buildPage(pages, p, stylesHref, appHref) {
   var annonce = read(path.join(SRC, "partials", "annonce.html"));
   var headerTpl = read(path.join(SRC, "partials", "header.html"));
   var footerTpl = read(path.join(SRC, "partials", "footer.html"));
-  var tokens = fusionnerObjets(comptesFormations(), demoTokens(pages));
+  var tokens = fusionnerObjets(comptesFormations(), demoTokens(pages, p));
   var mainContent = fill(read(path.join(SRC, "pages", p.id + ".html")).trim(), tokens);
 
-  var header = fill(headerTpl, { NAV_ITEMS: buildNavItems(pages, p.id) });
+  var header = fill(headerTpl, {
+    NAV_ITEMS: buildNavItems(pages, p.id),
+    NAV_WHATSAPP_HREF: escAttr(waHrefEntete(p))
+  });
   var footer = fill(footerTpl, {
     FOOTER_LE_SITE: buildFooterLeSite(pages),
-    FOOTER_ADMISSIONS: buildFooterAdmissions(pages)
+    FOOTER_ADMISSIONS: buildFooterAdmissions(pages),
+    PIED_WHATSAPP_HREF: escAttr(waHrefPied(p))
   });
   var head = buildHead(p, pages.SITE_URL, stylesHref);
-  var bandeauDemo = buildBandeauDemo(pages);
+  var bandeauDemo = buildBandeauDemo(pages, p);
   var classeCorps = pages.MODE_DEMO ? ' class="a-bandeau-demo"' : "";
 
   var scripts = (p.dataScripts || [])

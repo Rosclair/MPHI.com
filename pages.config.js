@@ -35,7 +35,7 @@ var MODE_DEMO = true;
 /* Numéro WhatsApp personnel pour la couche démo (jamais un canal MPHI) -
    format attendu : "237XXXXXXXXX" (sans le +). Laissé vide : le bouton
    affiche un repère explicite au lieu d'un lien cassé. */
-var NUMERO_WHATSAPP_DEMO = "";
+var NUMERO_WHATSAPP_DEMO = "237620351305";
 
 /* Email personnel, optionnel - affiché sur a-propos-maquette.html s'il est renseigné. */
 var EMAIL_DEMO = "";
