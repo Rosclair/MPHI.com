@@ -320,6 +320,20 @@ var pages = [
     navSectionKey: "admissions",
     inHeaderNav: false,
     dataScripts: ["formations"]
+  },
+  {
+    id: "mentions-legales",
+    out: "mentions-legales.html",
+    title: "Mentions légales - MPHI · Bafoussam",
+    description: "Éditeur du site MPHI, statut de l'institut autorisé par le MINESUP et informations d'hébergement.",
+    og: null,
+    robots: null,
+    jsonld: [],
+    navGroup: null,
+    navLabel: "Mentions légales",
+    navSectionKey: null,
+    inHeaderNav: false,
+    dataScripts: []
   }
 ];
 
