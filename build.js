@@ -14,7 +14,7 @@ var PAGES_CONFIG_PATH = path.join(ROOT, "pages.config.js");
 
 /* Colonnes fixes du footer (plan du site) : les libellés/hrefs viennent de
    pages.config.js, seul le regroupement en colonnes est figé ici. */
-var FOOTER_LE_SITE_IDS = ["index", "formations", "campus", "contact", "faq"];
+var FOOTER_LE_SITE_IDS = ["index", "formations", "campus", "institut", "contact", "faq"];
 var FOOTER_ADMISSIONS_IDS = ["admissions", "dossier", "frais-et-bourses", "calendrier", "preinscription"];
 
 function read(p) {
@@ -97,6 +97,7 @@ function buildNavItems(pages, activeId) {
   var section = active.navSectionKey;
   var formations = findPage(pages, "formations");
   var campus = findPage(pages, "campus");
+  var institut = findPage(pages, "institut");
   var contact = findPage(pages, "contact");
   var admissionsActive = section === "admissions";
 
@@ -112,7 +113,7 @@ function buildNavItems(pages, activeId) {
     "          </ul>",
     "        </li>",
     '        <li><a href="' + campus.out + '"' + navAttr(section === "campus") + ">Campus</a></li>",
-    '        <li><a href="institut.html">L\'institut</a></li>',
+    '        <li><a href="' + institut.out + '"' + navAttr(section === "institut") + ">" + esc(institut.navLabel) + "</a></li>",
     '        <li><a href="' + contact.out + '"' + navAttr(section === "contact") + ">Contact</a></li>"
   ].join("\n");
 }
@@ -128,9 +129,7 @@ function footerLink(pages, id) {
 }
 
 function buildFooterLeSite(pages) {
-  var links = FOOTER_LE_SITE_IDS.map(function (id) { return footerLink(pages, id); });
-  links.splice(3, 0, '        <li><a href="institut.html">L\'institut</a></li>');
-  return links.join("\n");
+  return FOOTER_LE_SITE_IDS.map(function (id) { return footerLink(pages, id); }).join("\n");
 }
 
 function buildFooterAdmissions(pages) {
