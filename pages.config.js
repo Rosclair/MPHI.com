@@ -10,6 +10,36 @@
    exigent des URLs absolues. À remplacer avant mise en ligne. */
 var SITE_URL = "<URL_A_REMPLACER>";
 
+/* JSON-LD BreadcrumbList pour les pages à fil d'Ariane statique (le fil
+   affiché à l'écran ne remonte qu'à "Admissions", pas à l'accueil - la
+   structured data reprend exactement ce même fil, pas plus). */
+function breadcrumbJsonLd(fil) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: fil.map(function (etape, i) {
+      return { "@type": "ListItem", position: i + 1, name: etape.name, item: SITE_URL + "/" + etape.out };
+    })
+  };
+}
+
+/* Couche de démonstration : bandeau fixé en bas de chaque page + page
+   "a-propos-maquette.html". Visible uniquement sur ce déploiement, tant que
+   MODE_DEMO vaut true - build.js n'injecte le bandeau et ne génère la page
+   que si ce drapeau est vrai (voir buildBandeauDemo() et le push conditionnel
+   plus bas). Le jour où le site devient celui de MPHI : passer cette ligne à
+   false retire intégralement les deux du build, sans reste CSS ni JS actif
+   (les blocs concernés testent la présence de leurs éléments avant d'agir). */
+var MODE_DEMO = true;
+
+/* Numéro WhatsApp personnel pour la couche démo (jamais un canal MPHI) -
+   format attendu : "237XXXXXXXXX" (sans le +). Laissé vide : le bouton
+   affiche un repère explicite au lieu d'un lien cassé. */
+var NUMERO_WHATSAPP_DEMO = "";
+
+/* Email personnel, optionnel - affiché sur a-propos-maquette.html s'il est renseigné. */
+var EMAIL_DEMO = "";
+
 var pages = [
   {
     id: "contact",
@@ -49,7 +79,7 @@ var pages = [
     id: "admissions",
     out: "admissions.html",
     title: "Admissions - MPHI · Bafoussam",
-    description: "Rejoindre MPHI à Bafoussam : DQP dès le BEPC, BTS dès le BAC, HND après le GCE A/L, Licence et Master en poursuite. Conditions, dossier en 7 pièces, bourse jusqu'à −50 %.",
+    description: "Rejoindre MPHI à Bafoussam : DQP dès le BEPC, BTS dès le BAC, HND après le GCE A/L. Conditions par diplôme, dossier en 7 pièces, bourse jusqu'à −50 %.",
     og: {
       title: "Admissions - rejoindre MPHI",
       description: "BEPC ou BAC : vous pouvez vous inscrire. Conditions par diplôme, dossier en 7 pièces, inscription en 4 temps, bourse jusqu'à −50 %.",
@@ -67,7 +97,7 @@ var pages = [
     id: "index",
     out: "index.html",
     title: "MPHI - Monga Polytechnic Higher Institute · Bafoussam",
-    description: "Institut supérieur privé à Bafoussam : DQP, BTS, HND, Licence et Master professionnels. Une centaine de spécialités, 3 campus, inscriptions 2026-2027 ouvertes dès le BEPC ou le BAC.",
+    description: "Institut supérieur privé à Bafoussam : DQP, BTS, HND, Licence et Master professionnels. Une centaine de spécialités, 3 campus. Inscriptions 2026-2027 ouvertes.",
     og: {
       title: "MPHI · Former aujourd'hui, bâtir demain",
       description: "DQP, BTS, HND, Licence et Master professionnels à Bafoussam. Une centaine de spécialités, 3 campus. Inscriptions 2026-2027 ouvertes.",
@@ -203,14 +233,17 @@ var pages = [
     id: "dossier",
     out: "dossier.html",
     title: "Constitution du dossier d'inscription - MPHI · Bafoussam",
-    description: "Les 7 pièces du dossier d'inscription MPHI : demande d'admission, fiche d'inscription, CNI et acte de naissance, diplôme, photos 4×4, reçu, carton. Cochez, imprimez, déposez au campus.",
+    description: "Les 7 pièces du dossier d'inscription MPHI : demande, fiche, CNI, acte de naissance, diplôme, photos 4×4, reçu, carton. Cochez, imprimez, déposez au campus.",
     og: {
       title: "Constituer votre dossier d'inscription - MPHI",
       description: "Sept pièces, aucune surprise. La checklist officielle à cocher et à imprimer avant de déposer votre dossier au campus.",
       image: "assets/og/accueil.jpg"
     },
     robots: null,
-    jsonld: [],
+    jsonld: [breadcrumbJsonLd([
+      { name: "Admissions", out: "admissions.html" },
+      { name: "Constitution du dossier", out: "dossier.html" }
+    ])],
     navGroup: "admissions",
     navLabel: "Constitution du dossier",
     navSectionKey: "admissions",
@@ -221,7 +254,7 @@ var pages = [
     id: "formations",
     out: "formations.html",
     title: "Formations et spécialités - MPHI · Bafoussam",
-    description: "Le catalogue MPHI : une centaine de spécialités en BTS et HND à Bafoussam - génie civil, informatique, santé, gestion, hôtellerie, agriculture… Filtrez par diplôme et par filière.",
+    description: "Le catalogue MPHI : une centaine de spécialités en BTS et HND - génie civil, informatique, santé, gestion, hôtellerie... Filtrez par diplôme et par filière.",
     og: {
       title: "Formations et spécialités - MPHI",
       description: "Une centaine de spécialités en BTS et HND à Bafoussam. Trouvez la vôtre et posez vos questions sur WhatsApp.",
@@ -254,17 +287,38 @@ var pages = [
     dataScripts: ["formations"]
   },
   {
+    id: "orienteur",
+    out: "orienteur.html",
+    title: "Test d'orientation - MPHI · Bafoussam",
+    description: "Trois questions pour découvrir les spécialités MPHI qui correspondent à votre profil : niveau d'études, domaine et priorités. Résultat en une minute, à affiner avec le secrétariat.",
+    og: {
+      title: "Le test d'orientation - MPHI",
+      description: "Niveau d'études, domaine, priorités : trois questions et quelques pistes de spécialités, à affiner avec le secrétariat.",
+      image: "assets/og/accueil.jpg"
+    },
+    robots: null,
+    jsonld: [],
+    navGroup: null,
+    navLabel: null,
+    navSectionKey: "formations",
+    inHeaderNav: false,
+    dataScripts: ["formations"]
+  },
+  {
     id: "frais-et-bourses",
     out: "frais-et-bourses.html",
     title: "Frais et bourse de formation - MPHI · Bafoussam",
-    description: "Frais d'inscription, scolarité en tranches, bourse jusqu'à −50 % et permis de conduire offert dès la première tranche : ce qui est sûr, et comment obtenir votre tarif en un message.",
+    description: "Frais d'inscription, scolarité en tranches, bourse jusqu'à −50 % et permis offert dès la première tranche : ce qui est sûr, et comment obtenir votre tarif.",
     og: {
       title: "Frais et bourse de formation - MPHI",
       description: "Bourse jusqu'à −50 % à l'inscription, permis de conduire dès la première tranche, paiement en tranches. Demandez le tarif de votre formation en un message.",
       image: "assets/og/accueil.jpg"
     },
     robots: null,
-    jsonld: [],
+    jsonld: [breadcrumbJsonLd([
+      { name: "Admissions", out: "admissions.html" },
+      { name: "Frais et bourses", out: "frais-et-bourses.html" }
+    ])],
     navGroup: "admissions",
     navLabel: "Frais et bourses",
     navSectionKey: "admissions",
@@ -282,7 +336,10 @@ var pages = [
       image: "assets/og/accueil.jpg"
     },
     robots: null,
-    jsonld: [],
+    jsonld: [breadcrumbJsonLd([
+      { name: "Admissions", out: "admissions.html" },
+      { name: "Calendrier", out: "calendrier.html" }
+    ])],
     navGroup: "admissions",
     navLabel: "Calendrier",
     navSectionKey: "admissions",
@@ -293,14 +350,17 @@ var pages = [
     id: "preinscription",
     out: "preinscription.html",
     title: "Préinscription 2026-2027 - MPHI · Bafoussam",
-    description: "Préinscrivez-vous chez MPHI en deux minutes : nom, téléphone, formation visée. Aucun document à joindre, aucun paiement en ligne - le secrétariat vous recontacte.",
+    description: "Préinscrivez-vous chez MPHI en deux minutes : nom, téléphone, formation visée. Aucun document ni paiement en ligne - le secrétariat vous recontacte rapidement.",
     og: {
       title: "Préinscription 2026-2027 - MPHI",
       description: "Deux minutes, aucun document : réservez votre place pour la rentrée, le secrétariat vous recontacte.",
       image: "assets/og/accueil.jpg"
     },
     robots: null,
-    jsonld: [],
+    jsonld: [breadcrumbJsonLd([
+      { name: "Admissions", out: "admissions.html" },
+      { name: "Préinscription", out: "preinscription.html" }
+    ])],
     navGroup: "admissions",
     navLabel: "Préinscription",
     navSectionKey: "admissions",
@@ -351,5 +411,27 @@ var pages = [
   }
 ];
 
+/* Page de la couche démo : ajoutée uniquement si MODE_DEMO est vrai, pour
+   que le build ne la génère jamais quand le drapeau repasse à false. */
+if (MODE_DEMO) {
+  pages.push({
+    id: "a-propos-maquette",
+    out: "a-propos-maquette.html",
+    title: "À propos de cette maquette - MPHI",
+    description: "Ce que contient cette maquette du site MPHI, ce qui a été volontairement laissé vide, cinq points relevés dans la brochure, et ce qu'ajouterait la version complète.",
+    og: null,
+    robots: "noindex",
+    jsonld: [],
+    navGroup: null,
+    navLabel: null,
+    navSectionKey: null,
+    inHeaderNav: false,
+    dataScripts: []
+  });
+}
+
 pages.SITE_URL = SITE_URL;
+pages.MODE_DEMO = MODE_DEMO;
+pages.NUMERO_WHATSAPP_DEMO = NUMERO_WHATSAPP_DEMO;
+pages.EMAIL_DEMO = EMAIL_DEMO;
 module.exports = pages;

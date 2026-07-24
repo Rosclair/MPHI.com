@@ -102,4 +102,4 @@ node scripts/check-content-parity.js    # texte visible identique à _avant/ (ho
 - Styles d'impression de `dossier.html` : scopés sous `body[data-page="dossier"]`
   dans `styles.css` pour ne pas affecter l'impression des autres pages.
 - 404 intelligente : `PAGES_PREVUES` dans `app.js` (bloc `404.html`), liste
-  actuelle : `orienteur`, `institut`, `mentions-legales`, `confidentialite`.
+  actuelle : `institut`, `mentions-legales`, `confidentialite`.

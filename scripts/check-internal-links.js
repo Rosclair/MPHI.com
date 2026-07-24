@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 /* Vérifie que tout lien interne de dist/*.html résout vers un fichier
-   réel de dist/ (ancre/paramètres facultatifs) ou vers la page
-   volontairement 404 (orienteur). Vérifie aussi que les ancres #id
-   ciblent un id existant dans la page de destination. */
+   réel de dist/ (ancre/paramètres facultatifs) ou vers une page encore
+   volontairement 404. Vérifie aussi que les ancres #id ciblent un id
+   existant dans la page de destination. */
 "use strict";
 
 var fs = require("fs");
 var path = require("path");
 
 var DIST = path.join(__dirname, "..", "dist");
-var PAGES_404_PREVUES = ["orienteur.html"];
+var PAGES_404_PREVUES = [];
 
 function listerPages() {
   return fs.readdirSync(DIST).filter(function (f) { return f.endsWith(".html"); });
@@ -73,7 +73,8 @@ function main() {
   });
 
   if (anomalies.length === 0) {
-    console.log("OK - liens internes de " + pages.length + " page(s) tous résolus (pages prévues 404 : " + PAGES_404_PREVUES.join(", ") + ").");
+    var suffixe = PAGES_404_PREVUES.length ? " (pages prévues 404 : " + PAGES_404_PREVUES.join(", ") + ")" : "";
+    console.log("OK - liens internes de " + pages.length + " page(s) tous résolus" + suffixe + ".");
     process.exit(0);
   } else {
     console.error(anomalies.length + " anomalie(s) :");

@@ -1,0 +1,136 @@
+<main id="contenu">
+
+  <div class="entete-page">
+    <div class="conteneur">
+      <p class="sur-titre">S'orienter</p>
+      <h1>Quelles formations vous correspondent&nbsp;?</h1>
+      <p class="intro">Trois questions, une minute&nbsp;: on croise vos réponses avec les {{NB_SPECIALITES}} spécialités du catalogue MPHI et on vous propose quelques pistes concrètes - à affiner avec le secrétariat.</p>
+    </div>
+  </div>
+
+  <div class="conteneur orienteur-corps">
+
+    <div class="orienteur-progression-bloc" id="orienteurProgressionBloc">
+      <p class="orienteur-progression" id="orienteurProgression" aria-live="polite">Question 1 sur 3</p>
+      <div class="jauge" aria-hidden="true"><i id="orienteurJaugeBarre"></i></div>
+    </div>
+
+    <form id="formulaireOrienteur" novalidate>
+
+      <fieldset class="orienteur-etape" id="etape1" data-etape="1">
+        <legend tabindex="-1">Quel est votre niveau d'études&nbsp;?</legend>
+        <div class="orienteur-options">
+          <label class="orienteur-option">
+            <input type="radio" name="niveau" value="bepc">
+            <span class="texte"><b>BEPC</b><small>Ouvre le parcours DQP, combinable en «&nbsp;DQP&nbsp;+&nbsp;BTS en 2&nbsp;ans&nbsp;».</small></span>
+          </label>
+          <label class="orienteur-option">
+            <input type="radio" name="niveau" value="bac">
+            <span class="texte"><b>BAC</b><small>Ouvre le parcours BTS, en deux ans.</small></span>
+          </label>
+          <label class="orienteur-option">
+            <input type="radio" name="niveau" value="gce">
+            <span class="texte"><b>GCE A/L (English)</b><small>Ouvre le parcours HND - after A/L or BAC.</small></span>
+          </label>
+          <label class="orienteur-option">
+            <input type="radio" name="niveau" value="superieur">
+            <span class="texte"><b>BTS ou HND déjà obtenu</b><small>Pour poursuivre en Licence ou Master professionnels.</small></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="orienteur-etape" id="etape2" data-etape="2" hidden>
+        <legend tabindex="-1">Quel domaine vous attire&nbsp;? <small class="legend-note">Trois choix maximum.</small></legend>
+        <div class="orienteur-options orienteur-options-domaines">
+          <label class="orienteur-option">
+            <input type="checkbox" name="domaine" value="genie-civil">
+            <span class="texte"><b>Génie civil</b><small>Bâtiment, travaux publics, topographie…</small></span>
+          </label>
+          <label class="orienteur-option">
+            <input type="checkbox" name="domaine" value="genie-informatique">
+            <span class="texte"><b>Génie informatique</b><small>Génie logiciel, réseaux, e-commerce…</small></span>
+          </label>
+          <label class="orienteur-option">
+            <input type="checkbox" name="domaine" value="medico-sanitaire">
+            <span class="texte"><b>Médico-sanitaire</b><small>Sciences infirmières, sage-femme, kiné…</small></span>
+          </label>
+          <label class="orienteur-option">
+            <input type="checkbox" name="domaine" value="gestion">
+            <span class="texte"><b>Gestion &amp; finance</b><small>Comptabilité, banque, ressources humaines…</small></span>
+          </label>
+          <label class="orienteur-option">
+            <input type="checkbox" name="domaine" value="hotellerie-tourisme">
+            <span class="texte"><b>Hôtellerie &amp; tourisme</b><small>Génie culinaire, management hôtelier…</small></span>
+          </label>
+          <label class="orienteur-option">
+            <input type="checkbox" name="domaine" value="genie-electrique">
+            <span class="texte"><b>Génie électrique</b><small>Électrotechnique, maintenance biomédicale…</small></span>
+          </label>
+          <label class="orienteur-option">
+            <input type="checkbox" name="domaine" value="agriculture-elevage">
+            <span class="texte"><b>Agriculture &amp; élevage</b><small>Production animale, conseil agropastoral…</small></span>
+          </label>
+          <label class="orienteur-option">
+            <input type="checkbox" name="domaine" value="arts-culture">
+            <span class="texte"><b>Arts &amp; culture</b><small>Design de mode, infographie &amp; web design…</small></span>
+          </label>
+        </div>
+        <p class="orienteur-erreur" id="erreurDomaine" role="alert" hidden></p>
+      </fieldset>
+
+      <fieldset class="orienteur-etape" id="etape3" data-etape="3" hidden>
+        <legend tabindex="-1">Qu'est-ce qui compte le plus pour vous&nbsp;?</legend>
+        <div class="orienteur-options">
+          <label class="orienteur-option">
+            <input type="radio" name="priorite" value="manuel">
+            <span class="texte"><b>Un métier manuel et technique</b></span>
+          </label>
+          <label class="orienteur-option">
+            <input type="radio" name="priorite" value="contact">
+            <span class="texte"><b>Le contact avec les gens</b></span>
+          </label>
+          <label class="orienteur-option">
+            <input type="radio" name="priorite" value="chiffres">
+            <span class="texte"><b>Les chiffres et la gestion</b></span>
+          </label>
+          <label class="orienteur-option">
+            <input type="radio" name="priorite" value="sante">
+            <span class="texte"><b>La santé et le soin</b></span>
+          </label>
+          <label class="orienteur-option">
+            <input type="radio" name="priorite" value="creation">
+            <span class="texte"><b>La création et l'image</b></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="orienteur-nav">
+        <button type="button" class="btn btn-contour" id="orienteurPrecedent" hidden>Précédent</button>
+        <button type="submit" class="btn btn-plein" id="orienteurSuivant">Suivant</button>
+      </div>
+    </form>
+
+    <section class="orienteur-resultats" id="orienteurResultats" aria-labelledby="titreResultats" hidden>
+      <p class="sur-titre">Vos pistes</p>
+      <h2 id="titreResultats" tabindex="-1">Ces pistes correspondent à vos réponses</h2>
+      <p class="intro">Le secrétariat affine avec vous - rien n'est figé, ces suggestions partent de vos réponses et du catalogue MPHI.</p>
+      <div class="avis" id="orienteurAvis"></div>
+
+      <div class="grille-specs" id="orienteurGrille"></div>
+
+      <div class="orienteur-resultats-actions">
+        <a class="btn btn-plein" id="orienteurVoirToutes" href="formations.html" data-lead="orienteur-voir-toutes">Voir toutes les spécialités</a>
+        <button type="button" class="btn btn-contour" id="orienteurRecommencer" data-lead="orienteur-recommencer">Recommencer</button>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="section" aria-hidden="true"></div>
+</main>
+
+<noscript>
+  <div class="conteneur" style="padding-block:2rem">
+    <p>Le test d'orientation nécessite JavaScript. En attendant, parcourez <a href="formations.html">le catalogue filtrable</a> par diplôme et par filière, ou écrivez-nous sur WhatsApp au 655 99 69 13.</p>
+  </div>
+</noscript>

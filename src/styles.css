@@ -778,3 +778,98 @@ body[data-page="merci"] .pastille-ok svg{width:32px;height:32px}
   box-shadow:0 12px 28px rgba(14,59,33,.10);
 }
 .autorisation-tampon .tampon{position:static;top:auto;right:auto;width:170px;height:170px;transform:none;opacity:1}
+
+/* ---------- orienteur ---------- */
+body[data-page="orienteur"] .orienteur-corps{padding-block:clamp(2rem,5vw,3rem) 0}
+body[data-page="orienteur"] .orienteur-progression-bloc{max-width:420px;margin-bottom:clamp(2rem,5vw,3rem)}
+body[data-page="orienteur"] .orienteur-progression{margin:0 0 .6rem;font-weight:700;font-size:.9rem;color:var(--vert-600);text-transform:uppercase;letter-spacing:.06em}
+
+body[data-page="orienteur"] .orienteur-etape,
+body[data-page="orienteur"] .orienteur-resultats{
+  border:0;padding:0;margin:0;min-width:0;
+  transition:opacity .35s ease,transform .35s ease;
+}
+body[data-page="orienteur"] .orienteur-etape.orienteur-transition-entree,
+body[data-page="orienteur"] .orienteur-resultats.orienteur-transition-entree{opacity:0;transform:translateY(16px)}
+@media (prefers-reduced-motion:reduce){
+  body[data-page="orienteur"] .orienteur-etape,
+  body[data-page="orienteur"] .orienteur-resultats{transition:none}
+}
+
+body[data-page="orienteur"] .orienteur-etape legend{
+  font-family:var(--f-display);font-weight:800;text-transform:uppercase;letter-spacing:.01em;
+  font-size:clamp(1.7rem,4.6vw,2.7rem);line-height:1.04;padding:0;margin:0 0 1.6rem;color:var(--encre);
+}
+body[data-page="orienteur"] .orienteur-etape legend .legend-note{
+  display:block;font-family:var(--f-texte);text-transform:none;font-weight:600;
+  letter-spacing:normal;font-size:.98rem;color:var(--encre-2);margin-top:.4rem;
+}
+
+body[data-page="orienteur"] .orienteur-options{display:grid;gap:.85rem}
+@media (min-width:640px){
+  body[data-page="orienteur"] .orienteur-options{grid-template-columns:1fr 1fr}
+  body[data-page="orienteur"] .orienteur-options-domaines{grid-template-columns:1fr 1fr 1fr}
+}
+@media (min-width:900px){body[data-page="orienteur"] .orienteur-options-domaines{grid-template-columns:1fr 1fr 1fr 1fr}}
+
+body[data-page="orienteur"] .orienteur-option{
+  display:flex;align-items:flex-start;gap:.8rem;cursor:pointer;
+  background:var(--carte);border:1px solid var(--ligne);border-radius:var(--rayon);
+  padding:1rem 1.1rem;transition:border-color .18s,background .18s,box-shadow .18s;
+}
+body[data-page="orienteur"] .orienteur-option:hover{border-color:var(--vert-600)}
+body[data-page="orienteur"] .orienteur-option.selectionnee{
+  border-color:var(--vert-700);background:rgba(20,83,45,.06);box-shadow:0 0 0 1px var(--vert-700) inset;
+}
+body[data-page="orienteur"] .orienteur-option input{width:22px;height:22px;flex:none;margin-top:.1rem;accent-color:var(--vert-700)}
+body[data-page="orienteur"] .orienteur-option .texte{display:flex;flex-direction:column;gap:.2rem}
+body[data-page="orienteur"] .orienteur-option .texte b{font-size:1.02rem;line-height:1.3}
+body[data-page="orienteur"] .orienteur-option .texte small{color:var(--encre-2);font-size:.86rem}
+
+body[data-page="orienteur"] .orienteur-erreur{margin:1rem 0 0;font-size:.9rem;font-weight:600;color:#B4231F}
+
+body[data-page="orienteur"] .orienteur-nav{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2.2rem}
+
+body[data-page="orienteur"] .orienteur-resultats .avis{margin-top:1.4rem}
+body[data-page="orienteur"] .orienteur-resultats .grille-specs{margin-top:1.8rem}
+
+/* ---------- Bandeau de démonstration ----------
+   Couche ajoutée par build.js uniquement si pages.MODE_DEMO est vrai
+   (voir pages.config.js) - distincte du bandeau d'annonce, fixée en bas
+   d'écran plutôt qu'en haut du contenu. Volontairement sans transition
+   ni animation d'entrée. */
+body.a-bandeau-demo{padding-bottom:4.75rem}
+.bandeau-demo{
+  position:fixed;left:0;right:0;bottom:0;z-index:70;
+  background:var(--vert-900);color:#EDEAE0;font-size:.92rem;
+  border-top:1px solid rgba(255,255,255,.14);
+}
+.bandeau-demo-piste{display:flex;flex-wrap:wrap;gap:.5rem 1.2rem;align-items:center;justify-content:space-between;padding-block:.7rem}
+.bandeau-demo-texte{margin:0}
+.bandeau-demo-texte a{color:#fff;font-weight:700;text-decoration-color:var(--or-500);text-underline-offset:3px}
+.bandeau-demo-actions{display:flex;align-items:center;gap:.7rem;flex:none}
+.bandeau-demo-wa{padding:.55rem 1rem;font-size:.88rem}
+.bandeau-demo-wa-manquant{
+  display:inline-flex;align-items:center;font-size:.85rem;font-weight:700;
+  color:var(--or-300);border:1.5px dashed var(--or-300);border-radius:10px;padding:.55rem .9rem;
+}
+.bandeau-demo-fermer{
+  background:none;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;
+  width:34px;height:34px;flex:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.bandeau-demo-fermer:hover{background:rgba(255,255,255,.14)}
+.bandeau-demo-fermer svg{width:16px;height:16px}
+@media (max-width:679px){
+  body.a-bandeau-demo{padding-bottom:8rem}
+  .bandeau-demo-piste{flex-direction:column;align-items:stretch;text-align:center;padding-block:.85rem}
+  .bandeau-demo-actions{justify-content:center}
+}
+@media print{
+  .bandeau-demo{display:none !important}
+  body.a-bandeau-demo{padding-bottom:0}
+}
+
+/* ---------- a-propos-maquette ---------- */
+.a-propos-email{margin-top:.6rem}
+.a-propos-email a{font-weight:700}
+body[data-page="orienteur"] .orienteur-resultats-actions{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2rem;align-items:center}

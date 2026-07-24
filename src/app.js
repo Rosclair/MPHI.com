@@ -102,6 +102,38 @@
   if (annee) { annee.textContent = String(new Date().getFullYear()); }
 })();
 
+/* Bandeau de démonstration - fermeture mémorisée pour la session en cours.
+   N'existe (donc n'agit) que si MODE_DEMO est vrai côté build.js : sans
+   #bandeauDemo dans la page, ce bloc ne fait rien. */
+(function () {
+  "use strict";
+
+  var CLE_STOCKAGE = "mphi_demo_bandeau_ferme";
+  var bandeau = document.getElementById("bandeauDemo");
+  var boutonFermer = document.getElementById("bandeauDemoFermer");
+  if (!bandeau || !boutonFermer) { return; }
+
+  function estFerme() {
+    try { return window.sessionStorage.getItem(CLE_STOCKAGE) === "1"; }
+    catch (e) { return false; }
+  }
+  function memoriserFermeture() {
+    try { window.sessionStorage.setItem(CLE_STOCKAGE, "1"); }
+    catch (e) { /* stockage indisponible : le bandeau reste fonctionnel, juste non mémorisé */ }
+  }
+
+  if (estFerme()) {
+    bandeau.hidden = true;
+    document.body.classList.remove("a-bandeau-demo");
+  }
+
+  boutonFermer.addEventListener("click", function () {
+    bandeau.hidden = true;
+    document.body.classList.remove("a-bandeau-demo");
+    memoriserFermeture();
+  });
+})();
+
 /* campus.html - cartes Google Maps à la demande */
 (function () {
   "use strict";
@@ -236,11 +268,6 @@
 
   /* ----- Pages prévues (Lots 2-3) : retirer chaque entrée à sa livraison ----- */
   var PAGES_PREVUES = {
-    "orienteur": {
-      titre: "Le test d'orientation arrive",
-      texte: "En attendant, parcourez le catalogue : filtres par diplôme, par filière et recherche par nom.",
-      cta: { texte: "Explorer le catalogue", href: "formations.html" }
-    },
     "institut": {
       titre: "La présentation de l'institut arrive",
       texte: "Autorisation MINESUP, campus, chiffres clés : l'essentiel est déjà sur la page d'accueil.",
@@ -665,6 +692,37 @@
   filFiliere.href = lienFilCatalogue;
   document.getElementById("filNom").textContent = spec.nom;
 
+  /* ----- JSON-LD (Course + fil d'Ariane) : page rendue côté client depuis
+     ?f=<slug>, donc générée ici plutôt qu'au build (à la différence des
+     autres pages, statiques) - reprend les mêmes champs que le <head>. */
+  (function injecterJsonLd() {
+    var origine = window.location.origin + window.location.pathname.replace(/\/[^/]*$/, "/");
+    var course = {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      name: spec.nom,
+      description: spec.nom + " (" + spec.diplomeNom + ", filière " + spec.filiereNom + ") chez MPHI à Bafoussam.",
+      provider: { "@type": "EducationalOrganization", name: "Monga Polytechnic Higher Institute", url: origine + "index.html" },
+      educationalCredentialAwarded: spec.diplomeNom,
+      inLanguage: spec.langue
+    };
+    var fil = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Formations", item: origine + "formations.html" },
+        { "@type": "ListItem", position: 2, name: spec.filiereNom, item: origine + lienFilCatalogue },
+        { "@type": "ListItem", position: 3, name: spec.nom, item: window.location.href }
+      ]
+    };
+    [course, fil].forEach(function (objet) {
+      var script = document.createElement("script");
+      script.type = "application/ld+json";
+      script.textContent = JSON.stringify(objet);
+      document.head.appendChild(script);
+    });
+  })();
+
   document.getElementById("surTitre").textContent = spec.filiereNom;
   document.getElementById("titreFiche").textContent = spec.nom;
   document.getElementById("introFiche").textContent =
@@ -759,6 +817,335 @@
       confirmerCopie(ok);
     } catch (e) { confirmerCopie(false); }
   });
+})();
+
+/* orienteur.html - questionnaire d'orientation en 3 questions, 100% client.
+   Aucune donnée nouvelle : tout part de window.MPHI_FORMATIONS (26 filières,
+   106 spécialités). Les seules constructions propres à cette page sont :
+   - le regroupement des 26 filières en 8 "domaines" (mêmes intitulés que
+     les cartes de la page d'accueil - aucun intitulé inventé) ;
+   - une table de pondération d'affichage pour la question 3 (booste
+     l'ordre des résultats, ne filtre jamais).
+
+   Événement "orienteur-termine" : à chaque fois qu'un résultat est calculé
+   (fin du questionnaire ou lien partagé ouvert directement), on émet un
+   événement DOM avec le niveau, les domaines et la priorité choisis.
+   Pourquoi : c'est aujourd'hui le seul point du site où un visiteur exprime
+   explicitement "ce qui l'intéresse" avant même de contacter le secrétariat -
+   contrairement aux clics WhatsApp (qui ne remontent qu'un intérêt déjà
+   décidé), ce signal permet à MPHI de savoir quels domaines attirent le plus
+   de monde AVANT l'inscription, utile pour prioriser une campagne, renforcer
+   une filière ou dimensionner un campus. Point de branchement volontairement
+   simple (CustomEvent + console.info, comme le reste du site) pour un futur
+   outil d'analytics, sans dépendance ajoutée aujourd'hui. */
+(function () {
+  "use strict";
+
+  var donnees = window.MPHI_FORMATIONS;
+  var formulaire = document.getElementById("formulaireOrienteur");
+  var resultats = document.getElementById("orienteurResultats");
+  if (!donnees || !formulaire || !resultats) { return; }
+
+  var reduireMouvementOrienteur = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ----- Filière -> domaine (8 domaines identiques à la page d'accueil) ----- */
+  var DOMAINE_PAR_FILIERE = {
+    "genie-civil": "genie-civil", "eau": "genie-civil",
+    "genie-informatique": "genie-informatique", "reseaux-telecom": "genie-informatique", "computer-en": "genie-informatique",
+    "medico-sanitaire": "medico-sanitaire", "genie-biologique": "medico-sanitaire", "biomedical": "medico-sanitaire", "genie-chimie": "medico-sanitaire", "medical-en": "medico-sanitaire",
+    "gestion": "gestion", "staps": "gestion", "commerce-vente": "gestion", "economie-sociale": "gestion", "management-en": "gestion", "business-finance-en": "gestion",
+    "hotellerie-tourisme": "hotellerie-tourisme", "home-economics-en": "hotellerie-tourisme", "tourism-en": "hotellerie-tourisme",
+    "genie-electrique": "genie-electrique", "genie-mecanique": "genie-electrique", "electrical-en": "genie-electrique", "mechanical-en": "genie-electrique",
+    "agriculture-elevage": "agriculture-elevage", "agric-food-en": "agriculture-elevage",
+    "arts-culture": "arts-culture"
+  };
+  var DOMAINES_VALIDES = ["genie-civil", "genie-informatique", "medico-sanitaire", "gestion",
+    "hotellerie-tourisme", "genie-electrique", "agriculture-elevage", "arts-culture"];
+
+  /* ----- Question 3 : pondération d'affichage uniquement (jamais un filtre) ----- */
+  var FILIERES_PAR_PRIORITE = {
+    manuel: ["genie-civil", "eau", "genie-electrique", "genie-mecanique", "reseaux-telecom", "genie-chimie", "agriculture-elevage", "electrical-en", "mechanical-en", "agric-food-en"],
+    contact: ["hotellerie-tourisme", "commerce-vente", "medico-sanitaire", "staps", "economie-sociale", "home-economics-en", "tourism-en", "medical-en"],
+    chiffres: ["gestion", "commerce-vente", "economie-sociale", "management-en", "business-finance-en"],
+    sante: ["medico-sanitaire", "biomedical", "genie-biologique", "genie-chimie", "medical-en"],
+    creation: ["arts-culture", "genie-informatique", "computer-en"]
+  };
+
+  var DIPLOME_PAR_NIVEAU = { bepc: "dqp", bac: "bts", gce: "hnd", superieur: "licence-master" };
+
+  var AVIS_PAR_DIPLOME = {
+    dqp: "Le parcours DQP - accessible dès le BEPC - suit les mêmes filières que le BTS ci-dessous, et se combine en « DQP + BTS en 2 ans ». La liste exacte des spécialités DQP est confirmée au secrétariat.",
+    "licence-master": "Licence et Master professionnels : ils prolongent les BTS et HND ci-dessous. Programme détaillé et conditions d'accès au secrétariat."
+  };
+
+  var TITRES_ETAPES = ["Niveau d'études", "Domaine qui vous attire", "Ce qui compte le plus"];
+  var TEXTE_ERREUR_DOMAINE_VIDE = "Choisissez au moins un domaine (trois maximum).";
+  var TEXTE_ERREUR_DOMAINE_MAX = "Trois domaines maximum - décochez-en un pour en choisir un autre.";
+
+  var etapes = Array.prototype.slice.call(document.querySelectorAll(".orienteur-etape"));
+  var boutonPrecedent = document.getElementById("orienteurPrecedent");
+  var progression = document.getElementById("orienteurProgression");
+  var jaugeBarre = document.getElementById("orienteurJaugeBarre");
+  var erreurDomaine = document.getElementById("erreurDomaine");
+  var grille = document.getElementById("orienteurGrille");
+  var avis = document.getElementById("orienteurAvis");
+  var titreResultats = document.getElementById("titreResultats");
+  var boutonVoirToutes = document.getElementById("orienteurVoirToutes");
+  var boutonRecommencer = document.getElementById("orienteurRecommencer");
+
+  var etat = { n: null, dom: [], p: null };
+  var etapeCourante = 1;
+
+  /* ----- État <-> URL (?n=&dom=&p=) : un résultat reste partageable tel quel ----- */
+  function litURL() {
+    var params = new URLSearchParams(window.location.search);
+    var n = params.get("n");
+    var dom = params.get("dom");
+    var p = params.get("p");
+    if (n && DIPLOME_PAR_NIVEAU[n]) { etat.n = n; }
+    if (dom) {
+      etat.dom = dom.split(",").filter(function (d) { return DOMAINES_VALIDES.indexOf(d) !== -1; }).slice(0, 3);
+    }
+    if (p && FILIERES_PAR_PRIORITE[p]) { etat.p = p; }
+  }
+
+  function ecritURL() {
+    var params = new URLSearchParams();
+    if (etat.n) { params.set("n", etat.n); }
+    if (etat.dom.length) { params.set("dom", etat.dom.join(",")); }
+    if (etat.p) { params.set("p", etat.p); }
+    var chaine = params.toString();
+    window.history.replaceState(null, "", window.location.pathname + (chaine ? "?" + chaine : ""));
+  }
+
+  function synchroniserChamps() {
+    formulaire.querySelectorAll('input[name="niveau"]').forEach(function (i) {
+      i.checked = i.value === etat.n;
+      i.closest(".orienteur-option").classList.toggle("selectionnee", i.checked);
+    });
+    formulaire.querySelectorAll('input[name="domaine"]').forEach(function (i) {
+      i.checked = etat.dom.indexOf(i.value) !== -1;
+      i.closest(".orienteur-option").classList.toggle("selectionnee", i.checked);
+    });
+    formulaire.querySelectorAll('input[name="priorite"]').forEach(function (i) {
+      i.checked = i.value === etat.p;
+      i.closest(".orienteur-option").classList.toggle("selectionnee", i.checked);
+    });
+  }
+
+  /* ----- Sélection visuelle + limite à 3 domaines ----- */
+  formulaire.querySelectorAll('input[name="niveau"], input[name="priorite"]').forEach(function (radio) {
+    radio.addEventListener("change", function () {
+      radio.closest(".orienteur-etape").querySelectorAll(".orienteur-option").forEach(function (opt) {
+        opt.classList.remove("selectionnee");
+      });
+      radio.closest(".orienteur-option").classList.add("selectionnee");
+    });
+  });
+  formulaire.querySelectorAll('input[name="domaine"]').forEach(function (case_) {
+    case_.addEventListener("change", function () {
+      var coches = formulaire.querySelectorAll('input[name="domaine"]:checked').length;
+      if (coches > 3) {
+        case_.checked = false;
+        erreurDomaine.textContent = TEXTE_ERREUR_DOMAINE_MAX;
+        erreurDomaine.hidden = false;
+        return;
+      }
+      case_.closest(".orienteur-option").classList.toggle("selectionnee", case_.checked);
+      erreurDomaine.hidden = true;
+    });
+  });
+
+  function domainesCoches() {
+    return Array.prototype.slice.call(formulaire.querySelectorAll('input[name="domaine"]:checked')).map(function (i) { return i.value; });
+  }
+
+  function validerEtape(num) {
+    if (num === 1) { return !!formulaire.querySelector('input[name="niveau"]:checked'); }
+    if (num === 2) { return domainesCoches().length > 0; }
+    return !!formulaire.querySelector('input[name="priorite"]:checked');
+  }
+
+  function jouerTransition(element) {
+    if (reduireMouvementOrienteur) { return; }
+    element.classList.add("orienteur-transition-entree");
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () { element.classList.remove("orienteur-transition-entree"); });
+    });
+  }
+
+  /* ----- Navigation entre questions ----- */
+  function afficherEtape(num, deplacerFocus) {
+    etapeCourante = num;
+    resultats.hidden = true;
+    formulaire.hidden = false;
+    etapes.forEach(function (fieldset) {
+      fieldset.hidden = Number(fieldset.getAttribute("data-etape")) !== num;
+    });
+
+    boutonPrecedent.hidden = num === 1;
+    document.getElementById("orienteurSuivant").textContent = num === 3 ? "Voir mes pistes" : "Suivant";
+
+    progression.textContent = "Question " + num + " sur 3 : " + TITRES_ETAPES[num - 1];
+    jaugeBarre.style.width = (num / 3 * 100) + "%";
+
+    var etape = etapes[num - 1];
+    jouerTransition(etape);
+    if (deplacerFocus) {
+      var legende = etape.querySelector("legend");
+      if (legende) { legende.focus(); }
+    }
+  }
+
+  formulaire.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!validerEtape(etapeCourante)) {
+      if (etapeCourante === 2) {
+        erreurDomaine.textContent = TEXTE_ERREUR_DOMAINE_VIDE;
+        erreurDomaine.hidden = false;
+        formulaire.querySelector('input[name="domaine"]').focus();
+      }
+      return;
+    }
+    if (etapeCourante === 1) {
+      etat.n = formulaire.querySelector('input[name="niveau"]:checked').value;
+      ecritURL();
+      afficherEtape(2, true);
+    } else if (etapeCourante === 2) {
+      etat.dom = domainesCoches();
+      ecritURL();
+      afficherEtape(3, true);
+    } else {
+      etat.p = formulaire.querySelector('input[name="priorite"]:checked').value;
+      ecritURL();
+      montrerResultats(true);
+    }
+  });
+
+  boutonPrecedent.addEventListener("click", function () {
+    afficherEtape(Math.max(1, etapeCourante - 1), true);
+  });
+
+  /* ----- Calcul des résultats -----
+     1) filtre par diplôme déduit du niveau (mêmes règles que le catalogue :
+        DQP suit les filières BTS, Licence/Master ne restreint pas) ;
+     2) trie par domaines choisis, puis par pondération de la question 3 ;
+     3) si moins de 4 pistes dans les domaines choisis, complète avec le
+        reste du catalogue (même diplôme) plutôt que de renvoyer une liste
+        trop courte - toujours annoncé, jamais silencieux. */
+  function correspondDiplome(spec, diplomeFiltre) {
+    if (diplomeFiltre === "bts" || diplomeFiltre === "dqp") { return spec.diplome === "bts"; }
+    if (diplomeFiltre === "hnd") { return spec.diplome === "hnd"; }
+    return true; /* licence-master : prolonge BTS et HND, pas de restriction */
+  }
+
+  function trierParPriorite(liste, priorite) {
+    var favoris = FILIERES_PAR_PRIORITE[priorite] || [];
+    return liste.slice().sort(function (a, b) {
+      var scoreA = favoris.indexOf(a.filiere) !== -1 ? 1 : 0;
+      var scoreB = favoris.indexOf(b.filiere) !== -1 ? 1 : 0;
+      return scoreB - scoreA;
+    });
+  }
+
+  function calculerResultats() {
+    var diplomeFiltre = DIPLOME_PAR_NIVEAU[etat.n];
+    var pool = donnees.specialites.filter(function (s) { return correspondDiplome(s, diplomeFiltre); });
+    var parDomaine = trierParPriorite(pool.filter(function (s) {
+      return etat.dom.indexOf(DOMAINE_PAR_FILIERE[s.filiere]) !== -1;
+    }), etat.p);
+
+    var liste = parDomaine.slice(0, 6);
+    var elargi = liste.length < 4;
+    if (elargi) {
+      var dejaPris = {};
+      liste.forEach(function (s) { dejaPris[s.slug] = true; });
+      var reste = trierParPriorite(pool.filter(function (s) { return !dejaPris[s.slug]; }), etat.p);
+      var i = 0;
+      while (liste.length < 4 && i < reste.length) { liste.push(reste[i]); i += 1; }
+    }
+    return { liste: liste, elargi: elargi, diplomeFiltre: diplomeFiltre };
+  }
+
+  function lienWhatsAppOrienteur(spec) {
+    var message = "Bonjour MPHI, je souhaite des informations sur la spécialité "
+      + spec.nom + " (" + spec.diplomeNom + ", filière " + spec.filiereNom + ").";
+    return "https://wa.me/237655996913?text=" + encodeURIComponent(message);
+  }
+
+  function carteResultatHTML(spec) {
+    return "<article class=\"carte carte-spec\">"
+      + "<p class=\"filiere-nom\">" + spec.filiereNom + "</p>"
+      + "<h3>" + spec.nom + "</h3>"
+      + "<ul class=\"badges\">"
+      + "<li class=\"badge badge-dip\">" + spec.diplomeNom + "</li>"
+      + "<li class=\"badge\">" + spec.admission + "</li>"
+      + "</ul>"
+      + "<p class=\"actions\">"
+      + "<a class=\"details\" href=\"fiche.html?f=" + encodeURIComponent(spec.slug) + "\" data-lead=\"orienteur-fiche-" + spec.slug + "\">Voir la fiche</a>"
+      + "<a class=\"btn btn-plein btn-wa\" rel=\"noopener\" data-lead=\"orienteur-wa-" + spec.slug + "\" href=\"" + lienWhatsAppOrienteur(spec) + "\">"
+      + "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z\"/></svg>"
+      + "WhatsApp</a>"
+      + "</p>"
+      + "</article>";
+  }
+
+  function montrerResultats(deplacerFocus) {
+    var r = calculerResultats();
+    grille.innerHTML = r.liste.map(carteResultatHTML).join("");
+
+    var messages = [];
+    if (AVIS_PAR_DIPLOME[r.diplomeFiltre]) { messages.push(AVIS_PAR_DIPLOME[r.diplomeFiltre]); }
+    if (r.elargi) { messages.push("Peu de spécialités correspondaient exactement aux domaines choisis : la sélection ci-dessous est élargie pour vous proposer plusieurs pistes."); }
+    if (messages.length) {
+      avis.innerHTML = messages.map(function (m) { return "<p>" + m + "</p>"; }).join("");
+      avis.classList.add("visible");
+    } else {
+      avis.innerHTML = "";
+      avis.classList.remove("visible");
+    }
+
+    boutonVoirToutes.href = "formations.html?diplome=" + encodeURIComponent(r.diplomeFiltre);
+
+    etapes.forEach(function (f) { f.hidden = true; });
+    formulaire.hidden = true;
+    resultats.hidden = false;
+    jouerTransition(resultats);
+
+    progression.textContent = "Résultat : " + r.liste.length + " spécialité" + (r.liste.length > 1 ? "s" : "") + " proposée" + (r.liste.length > 1 ? "s" : "") + ".";
+    jaugeBarre.style.width = "100%";
+
+    if (deplacerFocus && titreResultats) { titreResultats.focus(); }
+
+    try {
+      document.dispatchEvent(new CustomEvent("orienteur-termine", {
+        detail: { niveau: etat.n, domaines: etat.dom.slice(), priorite: etat.p, nbResultats: r.liste.length }
+      }));
+      console.info("[MPHI lead]", "orienteur-termine", etat.n, etat.dom.join("+"), etat.p);
+    } catch (e) { /* CustomEvent indisponible : silencieux, aucune fonctionnalité perdue */ }
+  }
+
+  boutonRecommencer.addEventListener("click", function () {
+    etat = { n: null, dom: [], p: null };
+    formulaire.reset();
+    formulaire.querySelectorAll(".orienteur-option").forEach(function (opt) { opt.classList.remove("selectionnee"); });
+    erreurDomaine.hidden = true;
+    window.history.replaceState(null, "", window.location.pathname);
+    afficherEtape(1, true);
+  });
+
+  /* ----- Démarrage : reprend l'état depuis l'URL (résultat partagé, ou étape en cours) ----- */
+  litURL();
+  synchroniserChamps();
+  if (etat.n && etat.dom.length && etat.p) {
+    montrerResultats(false);
+  } else if (etat.n && etat.dom.length) {
+    afficherEtape(3, false);
+  } else if (etat.n) {
+    afficherEtape(2, false);
+  } else {
+    afficherEtape(1, false);
+  }
 })();
 
 /* frais-et-bourses.html - rendu automatique dès que data/frais.js est rempli */

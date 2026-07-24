@@ -58,10 +58,13 @@ function retirerDivParId(corps, id) {
    du HTML statique des deux côtés - c'est cohérent, ces deux zones sont
    vides dans le HTML brut avant comme après. Retire aussi l'écran de
    chargement (chrome ajouté après la migration, absent de "avant" par
-   construction, comme le sont déjà nav/footer restructurés). */
+   construction, comme le sont déjà nav/footer restructurés) et le bandeau
+   de démonstration (couche ajoutée par pages.MODE_DEMO, absente de "avant"
+   par construction et destinée à disparaître avec le drapeau). */
 function texteVisible(html, options) {
   var corps = html.replace(/^[\s\S]*?<body[^>]*>/i, "").replace(/<\/body>[\s\S]*$/i, "");
   corps = retirerDivParId(corps, "chargement");
+  corps = retirerDivParId(corps, "bandeauDemo");
   if (options && options.retirerNavPiedDePage) {
     corps = corps.replace(/<header\b[\s\S]*?<\/header>/i, "");
     corps = corps.replace(/<footer\b[\s\S]*?<\/footer>/i, "");

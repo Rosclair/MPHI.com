@@ -38,6 +38,13 @@ function fill(template, tokens) {
   });
 }
 
+function fusionnerObjets(a, b) {
+  var r = {};
+  Object.keys(a).forEach(function (k) { r[k] = a[k]; });
+  Object.keys(b).forEach(function (k) { r[k] = b[k]; });
+  return r;
+}
+
 function loadPages() {
   delete require.cache[require.resolve(PAGES_CONFIG_PATH)];
   return require(PAGES_CONFIG_PATH);
@@ -143,6 +150,7 @@ function absolutiser(siteUrl, chemin) {
 }
 
 function buildHead(p, siteUrl) {
+  var canonical = '<link rel="canonical" href="' + escAttr(absolutiser(siteUrl, p.out)) + '">';
   var robots = p.robots ? '<meta name="robots" content="' + escAttr(p.robots) + '">' : "";
 
   var og = "";
@@ -173,10 +181,51 @@ function buildHead(p, siteUrl) {
   return fill(headMetaTpl, {
     TITLE: esc(p.title),
     DESCRIPTION: escAttr(p.description),
+    CANONICAL: canonical,
     ROBOTS: robots,
     OG_BLOCK: og,
     JSONLD_BLOCK: jsonld
   });
+}
+
+/* ---- Couche de démonstration (bandeau bas de page + page dédiée) -----
+   Existe uniquement tant que pages.MODE_DEMO est vrai (voir pages.config.js).
+   Le numéro WhatsApp démo est personnel, distinct des numéros MPHI utilisés
+   partout ailleurs sur le site - tant qu'il n'est pas renseigné, un repère
+   explicite s'affiche à sa place plutôt qu'un lien cassé. */
+
+var MESSAGE_WHATSAPP_DEMO = "Bonjour, j'ai consulté la maquette du site MPHI.";
+
+function demoWhatsAppHref(pages) {
+  if (!pages.NUMERO_WHATSAPP_DEMO) { return null; }
+  return "https://wa.me/" + pages.NUMERO_WHATSAPP_DEMO + "?text=" + encodeURIComponent(MESSAGE_WHATSAPP_DEMO);
+}
+
+/* Bandeau fixé en bas de chaque page - "" si MODE_DEMO est faux, retirant
+   intégralement le bloc du HTML généré (aucune règle CSS/JS orpheline : le
+   JS de fermeture, dans app.js, ne fait rien en l'absence de #bandeauDemo). */
+function buildBandeauDemo(pages) {
+  if (!pages.MODE_DEMO) { return ""; }
+  var href = demoWhatsAppHref(pages);
+  var whatsapp = href
+    ? '<a class="btn btn-plein bandeau-demo-wa" href="' + escAttr(href) + '" rel="noopener" data-lead="bandeau-demo-whatsapp">WhatsApp</a>'
+    : '<span class="bandeau-demo-wa-manquant" title="À renseigner : NUMERO_WHATSAPP_DEMO dans pages.config.js">Numéro WhatsApp à renseigner</span>';
+  var tpl = read(path.join(SRC, "partials", "bandeau-demo.html"));
+  return fill(tpl, { BANDEAU_DEMO_WHATSAPP: whatsapp });
+}
+
+/* Tokens propres à a-propos-maquette.html (bouton WhatsApp, email optionnel) -
+   fusionnés avec les tokens habituels de mainContent ; ne matchent que sur
+   cette page puisque les autres n'utilisent pas ces {{jetons}}. */
+function demoTokens(pages) {
+  var href = demoWhatsAppHref(pages);
+  var whatsapp = href
+    ? '<a class="btn btn-or" href="' + escAttr(href) + '" rel="noopener" data-lead="a-propos-maquette-whatsapp">WhatsApp</a>'
+    : '<span class="bandeau-demo-wa-manquant" title="À renseigner : NUMERO_WHATSAPP_DEMO dans pages.config.js">Numéro WhatsApp à renseigner</span>';
+  var email = pages.EMAIL_DEMO
+    ? '<p class="a-propos-email">Ou par email : <a href="mailto:' + escAttr(pages.EMAIL_DEMO) + '">' + esc(pages.EMAIL_DEMO) + "</a></p>"
+    : "";
+  return { DEMO_WHATSAPP_BOUTON: whatsapp, DEMO_EMAIL_BLOC: email };
 }
 
 /* ---- Page complète -------------------------------------------------- */
@@ -185,7 +234,8 @@ function buildPage(pages, p) {
   var annonce = read(path.join(SRC, "partials", "annonce.html"));
   var headerTpl = read(path.join(SRC, "partials", "header.html"));
   var footerTpl = read(path.join(SRC, "partials", "footer.html"));
-  var mainContent = fill(read(path.join(SRC, "pages", p.id + ".html")).trim(), comptesFormations());
+  var tokens = fusionnerObjets(comptesFormations(), demoTokens(pages));
+  var mainContent = fill(read(path.join(SRC, "pages", p.id + ".html")).trim(), tokens);
 
   var header = fill(headerTpl, { NAV_ITEMS: buildNavItems(pages, p.id) });
   var footer = fill(footerTpl, {
@@ -193,6 +243,8 @@ function buildPage(pages, p) {
     FOOTER_ADMISSIONS: buildFooterAdmissions(pages)
   });
   var head = buildHead(p, pages.SITE_URL);
+  var bandeauDemo = buildBandeauDemo(pages);
+  var classeCorps = pages.MODE_DEMO ? ' class="a-bandeau-demo"' : "";
 
   var scripts = (p.dataScripts || [])
     .map(function (s) { return '<script src="data/' + s + '.js"></script>'; })
@@ -205,7 +257,7 @@ function buildPage(pages, p) {
     "<head>",
     head,
     "</head>",
-    '<body data-page="' + p.id + '">',
+    '<body data-page="' + p.id + '"' + classeCorps + '>',
     annonce,
     "",
     header,
@@ -213,6 +265,7 @@ function buildPage(pages, p) {
     mainContent,
     "",
     footer,
+    bandeauDemo ? "\n" + bandeauDemo : "",
     "",
     scripts,
     "</body>",
